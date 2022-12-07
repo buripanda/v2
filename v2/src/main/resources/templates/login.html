@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript" />
+	<meta name="auther" content="v2.com" />
+	<meta name="copyright" content="Copyright (C) v2.com All Rights Reserved." />
+	<title>ログイン</title>
+	<link th:href="@{/css/root.css}" rel="stylesheet">
+	<link th:href="@{/css/login.css}" rel="stylesheet">
+	<script>
+		function backFunc() {
+
+			const form = document.createElement('form');
+			form.method = 'post';
+			form.action = '/index';
+			document.body.appendChild(form);
+			form.submit();
+			
+			//const hiddenField = document.createElement('input');
+			//hiddenField.type = 'hidden';
+			//hiddenField.name = 'partnerId';
+			//hiddenField.value = id;
+			//form.appendChild(hiddenField);
+
+			//document.body.appendChild(form);
+
+			//document.location="view/" + id
+		}
+	</script>
+</head>
+
+<body>
+	<form method="post" name="form1" enctype="multipart/form-data" action="login">
+		<div class="login">
+			<div class="login_01">
+				<span class="round_btn" onclick="javascript:backFunc()"></span>
+				<div class="login_title">ログイン</div>
+				<div class="login_input pushdown">
+					<input type="text" name="email" placeholder="E-Mailアドレス" size="40" th:value="${user.email}">
+				</div>
+				<div class="login_input pushdown">
+					<input type="text" name="password" placeholder="パスワード" size="40" th:value="${user.password}">
+				</div>
+				<div class="check01">
+      				<label class="CheckboxInput">
+      				<input class="CheckboxInput-Input" type="checkbox" name="agree">
+      				<span class="CheckboxInput-DummyInput"></span>
+      				<span class="CheckboxInput-LabelText">利用規約に同意する</span>
+      				</label>
+    			</div>
+				<br><br>
+				<div>
+					<a href="javascript:form1.submit()" class="login_button login_pushdown"><span>ログインする</span></a>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+
+</html>

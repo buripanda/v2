@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE logback>
+<configuration>
+
+  <!-- local環境 -->
+  <springProfile name="local">
+      <!-- logs.*は起動batに指定されるため、開発環境のみ指定 -->
+      <property name="LOG_PATTERN" value="default" />
+      <property name="LOG_LEVEL" value="DEBUG" />
+  </springProfile>
+
+  <!-- 開発環境 -->
+  <springProfile name="dev">
+      <!-- logs.*は起動batに指定されるため、開発環境のみ指定 -->
+      <property name="LOG_PATTERN" value="default" />
+      <property name="LOG_LEVEL" value="DEBUG" />
+  </springProfile>
+
+  <!-- STG環境 -->
+  <springProfile name="stg">
+      <property name="LOG_PATTERN" value="default" />
+      <property name="LOG_LEVEL" value="INFO" />
+  </springProfile>
+
+  <!-- 商用環境 -->
+  <springProfile name="prd">
+      <property name="LOG_PATTERN" value="default" />
+      <property name="LOG_LEVEL" value="INFO" />
+  </springProfile>
+
+  <logger name="com.example.demo" level="INFO"/>
+
+  <!-- コンソールログ -->
+  <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{ISO8601}:PID[%-6X{PROGRAM_ID}]:%t %-5p %c{2} - %m%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- トレースログ -->
+  <appender name="TraceLog" class="ch.qos.logback.core.FileAppender">
+    <file>${logs.trace}</file>
+    <prudent>false</prudent>
+    <append>true</append>
+    <encoder>
+      <pattern>%d{ISO8601}:PID[%-6X{PROGRAM_ID}]:%t %-5p %c{2} - %m%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- エラーログ -->
+  <appender name="ErrorLog" class="ch.qos.logback.core.FileAppender">
+    <file>${logs.error}</file>
+    <prudent>false</prudent>
+    <append>true</append>
+    <encoder>
+      <pattern>%d{ISO8601}:PID[%-6X{PROGRAM_ID}]:%t %-5p %c{2} - %m%n</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="Console" />
+    <appender-ref ref="TraceLog" />
+    <appender-ref ref="ErrorLog" />
+  </root>
+
+</configuration>

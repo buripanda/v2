@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta name="auther" content="株式会社BURIPANDA" />
+<meta name="copyright" content="Copyright &copy; BURIPANDA CO., LTD. " />
+<title>プロフィール</title>
+<link th:href="@{/css/root.css}" rel="stylesheet">
+<link th:href="@{/css/profile.css}" rel="stylesheet">
+<link th:href="@{/css/sidemenu.css}" rel="stylesheet">
+<script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
+<script>
+function previewImage(obj)
+{
+	var fileReader = new FileReader();
+	fileReader.onload = (function() {
+		document.getElementById('preview').src = fileReader.result;
+	});
+	fileReader.readAsDataURL(obj.files[0]);
+}
+function submitFunc(action) {
+
+	const form = document.createElement('form');
+	form.method = 'post';
+	form.action = '/' + action;
+	document.body.appendChild(form);
+	form.submit();
+
+	//document.location="view/" + id
+}
+</script>
+</head>
+<body>
+<header class="cp_sidebarmenu">
+	<nav class="cp_sidenav">
+	<ul class="menu">
+		<li><a href="/"><i class="fa fa-home fa-fw"></i><span>ホーム</span></a></li>
+		<th:block class="login_div" th:if="${session.v2bean != null}">
+			<li><a href="/profile"><i class="fa-solid fa-camera-retro"></i><span>プロフィール</span></a></li>
+			<li><a href="/shop"><i class="fa-solid fa-store"></i><span>出品</span></a></li>
+			<li><a href="/"><i class="fa-solid fa-children"></i><span>フォロー</span></a></li>
+			<li><a href="/"><i class="fa-solid fa-comments"></i><span>チャット</span></a></li>
+			<li><a href="/"><i class="fa-solid fa-bullhorn"></i><span>募集</span></a></li>
+		</th:block>
+		<li><a href="/"><i class="fa-solid fa-tower-cell"></i><span>イベント</span></a></li>
+		<li><a href="/"><i class="fa-solid fa-ranking-star"></i><span>ランキング</span></a></li>
+		<li><a href="/"><i class="fa-solid fa-envelopes-bulk"></i><span>お問い合わせ</span></a></li>
+	</ul>
+	</nav>
+</header>
+<div class="contents">
+	<form method="post" name="form1" enctype="multipart/form-data" action="profile">
+		<table>
+			<tr>
+				<td rowspan="2" class="profile_table01">
+				<div class="profile_left_div01">
+					<div class="profile_left_div01_inner">
+						<label class="image_select">
+								<!--<img src="http://localhost:8383/images/thumbnail/icon_user_1.png" width="250" id="preview">-->
+								<img th:src="@{./getImgDefault?id=__${user.id}__&name=__${user.imageFile}__}" width="250" id="preview">
+								<input type="file" name="image_file" onchange="previewImage(this);" />
+						</label>
+						<div class="username">[[${user.userName}]]</div>
+						<div class="title">[[${user.title}]]</div>				
+						<a href="javascript:submitFunc('view')" class="login_button login_pushdown"><span>公開プロフィールを見る</span></a>
+					</div>
+				</div>
+				</td>
+				<td class="profile_table02">
+					<div class="profile_right01">
+						<div class="profile_right01_dev01">プロフィール</div>
+						<div class="profile_right01_dev02">
+						<a href="javascript:submitFunc('profile_edit')" class="login_button login_pushdown"><span>プロフィールを編集</span></a>
+						</div>
+					</div>
+					<div class="profile_right02">
+					登録日：[[${user.registDateYMD}]]
+					</div>
+					<hr class="style_100">
+					<div class="profile_right01_dev01">自己紹介</div>
+					<div class="profile_message">
+					<th:block th:if="${user.message}">
+						<th:block th:each="line: ${user.message.split('\r\n|\r|\n', -1)}">
+							<th:block th:text="${line}" />
+							<br />
+						</th:block>
+					</th:block>
+					</div>
+					<div class="profile_right01_dev01">バッジ</div>
+					<div class="profile_badge">
+						<div class="profile_badge_img"><i class="fa-regular fa-gem"></i></div>
+						<div class="profile_badge_txt01">ダイヤ</div>
+						<div class="profile_badge_txt02">購入回数10回以上達成</div>
+					</div>
+					<div class="profile_right01_dev01">概要</div>
+					<div class="profile_message">
+					<div class="profile_right01_dev01">ファンバッチ</div>
+					<div class="profile_message">
+					<hr class="style_100">
+					<div class="profile_media">
+						<div class="icon"><i class="fa-brands fa-youtube"></i>　Youtube</div>
+						<div class="icon"><i class="fa-brands fa-twitter"></i>　未公開</div>
+						<div class="icon"><i class="fa-brands fa-tiktok"></i>　未公開</div>
+						<div class="icon"><i class="fa-brands fa-instagram"></i>　未公開</div>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+</body>
+</html>

@@ -1,0 +1,343 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript" />
+	<meta name="auther" content="v2.com" />
+	<meta name="copyright" content="Copyright (C) v2.com All Rights Reserved." />
+	<title>ホーム</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link th:href="@{/css/root.css}" rel="stylesheet">
+	<link th:href="@{/css/index.css}" rel="stylesheet">
+	<link th:href="@{/css/login.css}" rel="stylesheet">
+	<link th:href="@{/css/modal.css}" rel="stylesheet">
+	<link th:href="@{/css/sidemenu.css}" rel="stylesheet">
+	<link th:href="@{/css/slider.css}" rel="stylesheet">
+	<link type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" rel="stylesheet" >
+	<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+	<script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
+	<script src="https://apis.google.com/js/platform.js"></script>
+	<script>
+
+		function testFunc(id) {
+
+			const form = document.createElement('form');
+			form.method = 'post';
+			form.action = '/view';
+	
+			const hiddenField = document.createElement('input');
+			hiddenField.type = 'hidden';
+			hiddenField.name = 'partnerId';
+			hiddenField.value = id;
+			form.appendChild(hiddenField);
+	
+			document.body.appendChild(form);
+			form.submit();
+	
+			//document.location="view/" + id
+		}
+		function mes(event){
+		  $.post( '/leave', '' );
+		}
+		window.onbeforeunload  = mes;
+		
+		// ログイン処理
+		function restLogin(){
+
+			var email = document.getElementById('email').value;
+			var password = document.getElementById('password').value;
+
+			$.post(
+				"/rest_login", 
+				{email: email, password: password},
+				function(data){
+					document.getElementById('login_error').style.backgroundColor = "#f08080";
+					document.getElementById('login_error').style.display = "block";
+					document.getElementById('login_error').innerHTML = data;
+					if (data == "ok") {
+						document.getElementById('login_01').style.display = "none";
+						document.getElementById('login_02').style.display = "none";
+						document.getElementById('login_03').style.display = "flex";
+						document.getElementById('menu01').style.display = "block";
+						document.getElementById('menu02').style.display = "block";
+						document.getElementById('menu03').style.display = "block";
+						document.getElementById('menu04').style.display = "block";
+						document.getElementById('menu05').style.display = "block";
+					    //リクエストが成功した際に実行する関数
+					    $('#overlay, .modal-window').fadeOut(100);
+					} else {
+					}
+				});
+			
+			//alert($("#cboxContent inline-content"));
+			//var email = document.getElementById('email').value;
+			//var password = document.getElementById('password').value;
+			//alert(email);
+			//alert(password);
+	        //$("#login_error").load(
+			//	"/rest_login",
+			//	{email: email, password: password},
+			//	function(){});
+    	}
+    	
+		$(function () {
+		  $('.js-open').click(function () {
+		    $('#overlay, .modal-window').fadeIn(200);
+		  });
+		  $('.js-close, #overlay').click(function () {
+		    $('#overlay, .modal-window').fadeOut(100);
+			document.getElementById('login_error').style.display = "hidden";
+			document.getElementById('login_error').style.backgroundColor = "#FFFFFF";
+			document.getElementById('login_error').innerHTML = "";
+		  });
+		});
+
+	</script>
+</head>
+
+<body>
+<th:block th:replace="sidemenu::sidemenu"></th:block>
+<div class="contents">
+	<div class="header">
+		<img src="/image/logo.jpg" class="logo_img">
+		<div class="logo_text">ぶいつー！</div>
+		<div  class="login_div" th:classappend="${session.v2bean == null} ? display_block : display_none" id="login_01">
+			<span class="js-open button-open login_a">
+			<i class="fa-solid fa-circle-user"></i><span class="login_text">ログイン</span>
+			</span>
+		</div>
+		<!--
+		<div  class="login_div" th:if="${session.v2bean != null}">
+			<div class="login_text">ログイン中</div>
+		</div>
+		-->
+		<div class="shinki_div" th:classappend="${session.v2bean == null} ? display_block : display_none" id="login_02">
+			<a href="/signup" class="shinki_a">新規登録</a>
+		</div>
+		<div  class="login_div" th:classappend="${session.v2bean == null} ? display_none : display_block" id="login_03">
+			<a href="/logout" class="login_a">ログアウト</a>
+		</div>
+	</div>
+	<div class="banner">
+		<p class="banner_font_big">Vtuberと交流、支援</p>
+		<p class="banner_font_small">活動を応援したいリスナーと、<br>より幅広く活動するVtuberのために。</p>
+	<!--
+		<img src="/image/banaer2.jpg">-->
+		<video src="/video/banner.mp4" autoplay loop muted playsinlin></video>
+	</div>
+	<ul class="slider">
+		<li>
+			<div class="slider_div">
+			<!--<div class="sild_img01" id="sild_img01"><img src="/getImgCommon?name=neko1.jpg"></div>-->
+			<iframe width="545" height="305" src="https://www.youtube.com/embed/7M5yHLKwdng?rel=0&autoplay=1&mute=1&loop=1&playlist=7M5yHLKwdng&controls=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</div>
+			<div class="slider_text">PICK UP</div>
+		</li>
+		<li>
+			<div class="slider_div">
+			<!--<div class="sild_img02" id="sild_img02"><img src="/getImgCommon?name=neko2.jpg"></div>-->
+			<iframe width="545" height="305" src="https://www.youtube.com/embed/qda5RRVhmS8?rel=0&autoplay=1&mute=1&loop=1&playlist=qda5RRVhmS8&controls=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</div>
+			<div class="slider_text">PICK UP</div>
+		</li>
+		<li>
+			<div class="slider_div">
+			<!--<div class="sild_img03" id="sild_img03"><img src="/getImgCommon?name=neko3.jpg"></div>-->
+			<iframe width="545" height="305" src="https://www.youtube.com/embed/vqmh-8qU5Wg?rel=0&autoplay=1&mute=1&loop=1&playlist=vqmh-8qU5Wg&controls=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</div>
+			<div class="slider_text">PICK UP</div>
+		</li>		
+		<li>
+			<div class="slider_div">
+			<iframe width="545" height="305" src="https://www.youtube.com/embed/tlLo7jypqDI?rel=0&autoplay=1&mute=1&loop=1&playlist=tlLo7jypqDI&controls=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+			</div>
+			<div class="slider_text">PICK UP</div>
+		</li>
+	</ul>
+	<div class="midashi_01">Vtuber一覧</div>
+	<div class="profile">
+	<th:block th:with="size=${#lists.size(userList)}">
+		<th:block th:each="user: ${userList}">
+			<div class="profile_01" th:onclick="|testFunc(__${user.id}__)|">
+				<article class="card_01">
+					<div class="card_header_01">
+						<figure class="card_thumbnail_01">
+							<!--
+									<img th:src="@{http://localhost:8383/images/thumbnail/__${userList[i].imageFile}__}"
+										th:alt="${userList[i].userName + ' サムネイル'}"
+										class="card__image_02 img1">
+									-->
+							<img th:src="@{./getImgDefault?id=__${user.id}__&name=__${user.imageFile}__}" class="img1">
+						</figure>
+					</div>
+					<div class="card_footer">
+						<div class="card_title" th:text="${user.title}" />
+						<div class="card_name" th:text="${user.userName}" />
+						<div class="card_tanka" th:text="${user.tanka + 'Very'}" />
+						<div class="icons">
+							<th:block th:if="${user.youtube != null}">
+								<!--<img src="/image/youtube.png" alt="" class="icon">-->
+								<i class="fa-brands fa-youtube icon1"></i>
+							</th:block>
+							<th:block th:if="${user.twitter != null}">
+								<!--<div><img src="/image/twitter.png" alt="" class="icon"></div>-->
+								<i class="fa-brands fa-twitter icon2"></i>
+							</th:block>
+							<th:block th:if="${user.tiktok != null}">
+								<!--<div><img src="/image/tiktok.png" alt="" class="icon"></div>-->
+								<i class="fa-brands fa-tiktok icon3"></i>
+							</th:block>
+							<th:block th:if="${user.insta != null}">
+								<!--<div><img src="/image/insta.png" alt="" class="icon"></div>-->
+								<i class="fa-brands fa-instagram icon4"></i>
+							</th:block>
+						</div>
+					</div>
+				</article>
+			</div>
+		</th:block>
+	</th:block>
+	</div>
+	<div class="midashi_03">新人Vtuber</div>
+	<div class="profile">
+	<th:block th:with="size=${#lists.size(newUserList)}">
+		<th:block th:each="newUser: ${newUserList}">
+			<div class="profile_01" th:onclick="|testFunc(__${newUser.id}__)|">
+				<article class="card_01">
+					<div class="card_header_01">
+						<figure class="card_thumbnail_01">
+							<!--
+									<img th:src="@{http://localhost:8383/images/thumbnail/__${userList[i].imageFile}__}"
+										th:alt="${userList[i].userName + ' サムネイル'}"
+										class="card__image_02 img1">
+									-->
+							<img th:src="@{./getImgDefault?id=__${newUser.id}__&name=__${newUser.imageFile}__}" class="img1">
+						</figure>
+					</div>
+					<div class="card_footer">
+						<div class="card_title" th:text="${newUser.title}" />
+						<div class="card_name" th:text="${newUser.userName}" />
+						<div class="card_tanka" th:text="${newUser.tanka + 'Very'}" />
+						<div class="icons">
+							<th:block th:if="${newUser.youtube != null}">
+								<!--<img src="/image/youtube.png" alt="" class="icon">-->
+								<i class="fa-brands fa-youtube icon1"></i>
+							</th:block>
+							<th:block th:if="${newUser.twitter != null}">
+								<!--<div><img src="/image/twitter.png" alt="" class="icon"></div>-->
+								<i class="fa-brands fa-twitter icon2"></i>
+							</th:block>
+							<th:block th:if="${newUser.tiktok != null}">
+								<!--<div><img src="/image/tiktok.png" alt="" class="icon"></div>-->
+								<i class="fa-brands fa-tiktok icon3"></i>
+							</th:block>
+							<th:block th:if="${newUser.insta != null}">
+								<!--<div><img src="/image/insta.png" alt="" class="icon"></div>-->
+								<i class="fa-brands fa-instagram icon4"></i>
+							</th:block>
+						</div>
+					</div>
+				</article>
+			</div>
+		</th:block>
+	</th:block>
+	</div>
+	<div class="midashi_03">人気急上昇Vtuberランキング</div>
+	<th:block th:each="order: ${orderSumList}">
+		<hr class="style1">
+		<div class="order">
+			<div class="order_div"><img th:src="@{./getImgDefault?id=__${order.id}__&name=__${order.imageFile}__}" class="order_img"></div>
+			<div>
+				<p class="name_02" th:text="${order.userName}" />
+				<p class="message_01" th:text="${order.message}" />
+			</div>
+			<div class="chat_01">
+				<p>15分</p>
+				<p th:text="${order.tanka + 'Very'}" />
+			</div>
+			<div class="chat_01">
+				<a herf="" class="chat_text_01">チャットをする</a>
+			</div>
+		</div>
+		<div class="ranking_footer">
+			<div class="blank"></div>
+			<th:block th:if="${order.twitter != null}">
+				<a th:href="@{https://twitter.com/intent/follow?screen_name=__${order.twitter}__}" target="_blank">
+					<div class="twitter_button">
+						<img src="/image/twitter_toka.png" class="twitter_img">
+						<div class="twitter_text">フォローする</div>
+					</div>
+				</a>
+			</th:block>
+			<th:block th:if="${order.youtube != null}">
+				<div class="g-ytsubscribe youtube_button" th:data-channel="${order.youtube}" data-layout="default"
+					data-count="default">
+				</div>
+			</th:block>
+		</div>
+	</th:block>
+	<hr class="style1">
+
+	<div class="footer">
+		<hr class="style1">
+		<div class="footer_div">
+			<div class="footer_div_02">
+				<div class="footer_header_01">お問い合わせ</div>
+				<div>info@xxxx.co.jp</div>
+				<div>TEL: 12-3456-7890</div>
+				<div>東京都新宿区西新宿0-0-0</div>
+			</div>
+			<div class="footer_div_02">
+				<div class="footer_header_01">ナビゲーション</div>
+				<div>お問い合わせ</div>
+				<div>プライバシーポリシー</div>
+				<div>Cookie（クッキー）ポリシー</div>
+				<div>利用規約</div>
+			</div>
+			<div class="footer_div_02">
+				<div class="footer_header_01">ソーシャル</div>
+				<div>Discord</div>
+				<div>Twitch</div>
+				<div>Facebook</div>
+				<div>Youtube</div>
+				<div>Twitter</div>
+				<div>LinkedIn</div>
+			</div>
+			<div class="footer_div_02">
+				<div class="footer_header_01">ダウンロードはこちら</div>
+			</div>
+		</div>
+		<hr class="style1">
+		<div class="copyright">Copyright (C) v2.com All Rights Reserved.</div>
+	</div>
+	<div class="modal-window">
+		<div class="login_01">
+			<span class="round_btn js-close"></span>
+			<div class="login_title">ログイン</div>
+			<div class="error_message" id="login_error"></div>
+			<div class="login_input pushdown">
+				<input type="text" name="email" placeholder="E-Mailアドレス" size="40" id="email">
+			</div>
+			<div class="login_input pushdown">
+				<input type="text" name="password" placeholder="パスワード" size="40" id="password">
+			</div>
+			<div class="check01">
+				<label class="CheckboxInput">
+				<input class="CheckboxInput-Input" type="checkbox" name="agree" id="agree">
+				<span class="CheckboxInput-DummyInput"></span>
+				<span class="CheckboxInput-LabelText">利用規約に同意する</span>
+				</label>
+			</div>
+			<br><br>
+			<div>
+				<a href="javascript:restLogin()" class="login_button login_pushdown"><span>ログインする</span></a>
+			</div>
+		</div>
+	</div>
+	<div id="overlay" class="overlay"></div>
+</div>
+<script src="/js/slider.js"></script>
+</body >
+</html >

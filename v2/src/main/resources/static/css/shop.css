@@ -1,0 +1,222 @@
+/*-------------------------------------
+プレースフォルダ色
+-------------------------------------*/
+::placeholder {
+  color: #CCCCCC;
+}
+/*-------------------------------------
+オートコンプリート候補表示に色が変わるのを抑制
+-------------------------------------*/
+input:-webkit-autofill {
+    box-shadow: 0 0 0 1000px #FFFFFF inset;
+    -webkit-text-fill-color: var(--font-coler);
+}
+
+/*-------------------------------------
+プロフィール画面　左側
+-------------------------------------*/
+.profile_table01 {
+	padding: 10px;
+	vertical-align: top;
+}
+.profile_left_div01 {
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,.2);
+  inset: 0;
+  text-align:center;
+  width: 350px;
+  height: 500px;
+  padding: 10px 10px 10px 10px;
+}
+.upload_txt {
+  font-size: 1.5rem;
+  margin: 20px;
+}
+
+/*--------------------------------------
+ 画像は中央でトリミング
+--------------------------------------*/
+img {
+	width: 250px;
+	height: 250px;
+	object-fit: cover;
+}
+/*-------------------------------------
+プロフィール画面　右側
+-------------------------------------*/
+.profile_table02 {
+	padding: 10px;
+	vertical-align: top;
+	width: 800px;
+}
+.profile_right01 {
+  display: flex;
+}
+.profile_right01_dev01 {
+  font-size: 1.5rem;
+  margin: 0 0 15px 0;
+}
+/* 区切り線 */
+.style_100 {
+  width: 100%;
+  border-top: 1px solid  var(--shadow-color);
+  margin: 20px 0px;;
+}
+/* 名前入力欄 */
+.input_username {
+  font-size: 1.0rem;
+  margin: 20px 0;
+  padding: 5px;
+  border: 1px solid var(--font-coler);
+  border-radius: 5px;
+  color:var(--font-coler);
+  width: 100%;
+  height: 30px;  
+}
+/* 名前入力欄（入力中） */
+.input_username:focus {
+  border: 1px solid var(--font-coler);
+  outline: 0;
+}
+
+/* 紹介文入力欄 */
+.input_message {
+  font-size: 1.0rem;
+  margin: 20px 0;
+  padding: 5px;
+  border: 1px solid var(--font-coler);
+  border-radius: 5px;
+  color:var(--font-coler);
+  width: 100%;
+  height: 200px;  	
+}
+
+/* 紹介文入力欄（入力中） */
+.input_message:focus {
+  border: 1px solid var(--font-coler);
+  outline: 0;
+}
+.profile_media {
+  display:flex;
+  flex-flow: column;
+}
+.icon {
+  display: flex;
+  margin: 5px;
+  font-size: 1.5rem;
+  align-items: center;
+  
+}
+/* メディア入力欄 */
+.input_media {
+  font-size: 1.0rem;
+  padding: 5px;
+  border: 1px solid var(--font-coler);
+  border-radius: 5px;
+  color:var(--font-coler);
+  width: 60%;
+  height: 30px;
+  margin-left: auto;
+}
+/* メディア入力欄（入力中） */
+.input_media:focus {
+  border: 1px solid var(--font-coler);
+  outline: 0;
+}
+
+.add_div3 {
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,.2);
+  inset: 0;
+  text-align:center;
+  width: 500px;
+  height: 300px;
+  padding: 5px 10px 10px 10px;
+}
+
+/*--------------------------------
+画像選択ボタン
+---------------------------------*/
+.image_select {
+    cursor: pointer;
+}
+
+.image_select:active {
+     background: url(/images/icon_user_1.png) center center / contain no-repeat;
+}
+
+.image_select input{
+    display: none;
+}
+
+/*--------------------------------
+タイトル
+---------------------------------*/
+.title {
+	margin: 30px;
+}
+
+/*--------------------------------
+登録するボタン
+---------------------------------*/
+.regist_div {
+  margin: 30px 0;
+}
+.regist_button {
+  /*影の基点とするためrelativeを指定*/
+  position: relative;
+  /*ボタンの形状*/
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  border-radius: 10px;
+  /*border: solid 1px #333;*/
+  outline: none;
+  /*アニメーションの指定*/
+  transition: all 0.1s ease;
+  background-color: #ffffff;
+  width: 200px;
+}
+
+/*hoverをした後のボタンの形状*/
+.regist_button:hover{
+  /*border-color:transparent;*/ 
+}
+
+/*ボタンの中のテキスト*/
+.regist_button span {
+  position: relative;
+  z-index: 2;/*z-indexの数値をあげて文字を背景よりも手前に表示*/
+  /*テキストの形状*/
+  display: block;
+  padding: 10px 30px;
+  background: var(--shadow-color);
+  border-radius: 10px;
+  color:#ffffff;
+  /*アニメーションの指定*/
+  transition: all 0.1s ease;
+}
+
+/*影の設定*/
+.regist_pushdown:before {
+  content:"";
+  /*絶対配置で影の位置を決める*/
+  position: absolute;
+  z-index: -1;
+  top:4px;
+  left:0;
+  /*影の形状*/
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: #ffe4e1;
+}
+
+/*hoverの際にY軸に4pxずらす*/
+.regist_pushdown:hover span {
+  background-color: var(--shadow-color);
+  color: #ffffff;
+  transform: translateY(4px);
+}

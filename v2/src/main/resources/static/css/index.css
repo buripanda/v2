@@ -1,0 +1,398 @@
+/*--------------------------------------
+ 状態によって要素を表示・非表示にするCSS
+--------------------------------------*/
+.display_block {
+	display:flex;
+}
+.display_none {
+	display: none;	
+}
+
+/*--------------------------------------
+ ヘッダー
+--------------------------------------*/
+.header {
+  display:flex;
+  width: 100%;
+}
+
+.logo_img {
+  width: 60px;
+  height: 60px;
+  margin: 5px 10px 15px 5px;	
+}
+
+.logo_text {
+  width: 300px;
+  font-size: 40px;
+  font-weight: 400;
+  position: relative;
+  top: 15px;
+  letter-spacing: 0.2em;
+  text-shadow: 5px 5px 1px #cccccc;
+  color: #E69AAB;
+}
+.login_div {
+  margin-left: auto;
+  padding: 15px 10px 15px 10px;
+}
+
+.login_a {
+  border: 1px solid var(--font-coler);
+  border-radius: 10px;
+  position: relative;
+  padding: 14px 12px;
+  cursor: pointer;
+  transition: all 0.1s;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  font-size: 18px;
+  width: 100px;
+  color: var(--font-coler);
+}
+/*
+.login_a:hover {
+  color: #ffffff;
+  background-color: var(--font-coler);
+}
+*/
+/*
+.login_img {
+  width: 40px;
+  height: 40px;
+  margin: 0px 10px 10px auto;
+  position: relative;
+  top: 14px;
+}
+
+.login_text {
+  position: relative;
+  margin: 0px 0px 0px 10px;
+}
+*/
+
+.shinki_div {
+  padding: 15px 10px 15px 10px;
+}
+.shinki_a {
+  border: 1px solid var(--font-coler);
+  border-radius: 10px;
+  position: relative;
+  padding: 14px 12px;
+  cursor: pointer;
+  transition: all 0.1s;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  font-size: 18px;
+  width: 100px;
+  background-color:var(--font-coler);
+  color: #ffffff;
+}
+/*
+.shinki_a:hover {
+  color: var(--font-coler);
+  background-color:#ffffff
+}
+*/
+/*--------------------------------------
+ バナー
+--------------------------------------*/
+
+.banner {
+  position: relative;
+  margin-right: calc(50% - 50vw);
+  margin-left: calc(50% - 50vw);
+  object-fit: cover;
+}
+
+.banner img{
+  display: block;
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}
+
+.banner_font_big{
+  /*font-family: '游明朝';*/
+  font-weight: 400;
+  font-size: 80px;
+  position: absolute;
+  top: 20px;
+  left: 115px;
+  color: #333333;
+}
+
+.banner_font_small{
+  font-weight: 400;
+  font-size: 25px;
+  position: absolute;
+  top: 170px;
+  left: 120px;
+  color: #333333;
+}
+
+/*--------------------------------------
+ プロフィール一覧 （登録Vtuber一覧）
+--------------------------------------*/
+.midashi_01 {
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin-right: auto;
+  margin-left: auto;
+  width: 90%;
+}
+.profile {
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 10px;
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.profile_01 {
+  width: 300px;
+  height: 420px;
+  cursor : pointer;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 1px 1px 10px  #DDDDDD;
+  margin: 5px;
+}
+
+.card_01 {
+  background-color: #ffffff;
+  /*
+  box-shadow: 0 0 0px rgba(0, 0, 0, .16);
+  color: #212121;*/
+  text-decoration: none;
+}
+
+.card_header_01 {
+  display: flex;
+}
+.img1 {
+  width: 300px;
+  height:300px;
+  object-fit: cover;
+  transition:1s all;
+}
+.img1:hover {
+  transform:scale(1.2,1.2);
+  transition:0.5s all;
+}
+.card_thumbnail_01 {
+  margin: 0;
+  order: 0;
+  overflow:hidden;
+}
+.card_footer {
+  position: relative;
+  top: -42px;
+}
+
+.card_title {
+  font-size: 1.4rem;
+  order: 1;
+  font-weight: 400;
+  color:#FFFFFF;
+  padding: 10px 10px;
+  background: linear-gradient(rgba(85,85,85,0),rgba(85,85,85,0.4));
+}
+
+.card_name {
+  margin: 5px 10px;
+  font-size: 1.4rem;
+  order: 2;
+  font-weight: 400;
+}
+.card_tanka {
+  padding: 0 10px;
+  font-size: 1.2rem;
+}
+.icons {
+	display: flex;
+	/*justify-content: space-between;*/
+}
+.icon1 {
+  font-size: 35px;
+  margin: 10px 20px;
+  color: var(--youtube-color);
+}
+.icon2 {
+  font-size: 35px;
+  margin: 10px 20px;
+  color: var(--twitter-color);
+}
+.icon3 {
+  font-size: 35px;
+  margin: 10px 20px;
+  color: var(--tiktok-color);
+}
+.icon4 {
+  font-size: 35px;
+  margin: 10px 20px;
+  color: var(--instagram-color);
+}
+
+
+/*--------------------------------------
+ ランキング一覧
+--------------------------------------*/
+.midashi_03 {
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 100px;
+  width: 90%;
+
+}
+
+.order {
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 10px;
+  width: 90%;
+  display: flex;
+  cursor : pointer;
+}
+
+
+.order_div {
+  width: 100px;
+  height: 100px;
+  cursor : pointer;
+  overflow: hidden;
+  border-radius: 5px;
+  margin: 20px 20px 5px 20px ;
+}
+
+.order_img {
+  width: 100px;
+  height:100px;
+  object-fit: cover;
+  transition:0.5s all;
+
+}
+
+.order_img:hover {
+  transform:scale(1.2,1.2);
+  transition:1s all;
+}
+
+hr.style1{
+  width: 90%;
+  border-top: 1px solid  var(--shadow-color);
+}
+
+.name_02 {
+  margin: 10px 10px 10px 10px;
+  font-size: 1.3rem;
+}
+.message_01 {
+  margin: 10px 10px 10px 10px;
+  font-size: 1.0rem;
+}
+.chat_01 {
+  position: relative;
+  margin-left: auto;
+  margin-right: 10px;  
+}
+
+.chat_text_01 {
+  position: relative;
+  top: 50px;                    /* 親要素の半分下にずらす */
+  width: 9rem;
+  padding: 1em 1em;
+  color: #ffffff;
+  font-size: 1.2rem;
+  font-weight: 400;
+  background-color:  var(--shadow-color);
+  border-radius: 10px;
+}
+
+.ranking_footer {
+  margin-right: auto;
+  margin-left: auto;
+  width: 90%;
+  display: flex;
+}
+
+.blank {
+  width: 20px;
+}
+.ranking_footer a {
+  text-decoration: none;
+}
+/* Twitterリンク */
+.twitter_button {
+	display: flex;	
+	background-color: #00acee;
+	height: 18px;
+	width: 90px;
+	padding: 3px 6px;
+	border-radius: 2px;
+	margin: 0px 10px 0px 0px;
+}
+.twitter_img {
+  width: 12px;
+  height: 12px;
+  margin: 2px 0px 4px 0px;
+}
+
+.twitter_text {
+  font-size: 11px;;
+  color: #ffffff;
+  position: relative;
+  top: 3px;
+  left: 5px;
+  /*
+  transform: translateY(-40%);
+  */
+}
+
+.youtube_button {
+	display: flex;	
+  	left: 50px;
+}
+/*--------------------------------------
+ フッター
+--------------------------------------*/
+.footer {
+  background-color:  var(--shadow-color);
+  margin: 50px 0px;
+  padding: 100px 0px;
+  margin-right: calc(50% - 50vw);
+  margin-left: calc(50% - 50vw);
+  color: #FFFFFF;
+  line-height: 1.5rem;
+}
+.footer_div {
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 10px;
+  width: 90%;
+  display: flex;
+}
+.footer_div_02 {
+  width: 25%;
+  height: 300px;
+  cursor : pointer;
+  overflow: hidden;
+  border-radius: 5px;
+  margin: 20px;
+}
+.footer_header_01 {
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin:0 0 5px 0px;
+}
+.copyright {
+	margin: 50px 0px 0px 0px;
+	text-align: center;;
+}

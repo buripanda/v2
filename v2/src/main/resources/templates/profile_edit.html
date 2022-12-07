@@ -1,0 +1,107 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta name="auther" content="株式会社BURIPANDA" />
+<meta name="copyright" content="Copyright &copy; BURIPANDA CO., LTD. " />
+<title>プロフィール編集</title>
+<link th:href="@{/css/root.css}" rel="stylesheet">
+<link th:href="@{/css/profile_edit.css}" rel="stylesheet">
+<link th:href="@{/css/sidemenu.css}" rel="stylesheet">
+<script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
+<script>
+function previewImage(obj)
+{
+	var fileReader = new FileReader();
+	fileReader.onload = (function() {
+		document.getElementById('preview').src = fileReader.result;
+	});
+	fileReader.readAsDataURL(obj.files[0]);
+}
+function submitFunc(action) {
+
+	const form = document.createElement('form');
+	form.method = 'post';
+	form.action = '/' + action;
+	document.body.appendChild(form);
+	form.submit();
+
+	//document.location="view/" + id
+}
+</script>
+</head>
+<body>
+<header class="cp_sidebarmenu">
+	<nav class="cp_sidenav">
+	<ul class="menu">
+		<li><a href="/"><i class="fa fa-home fa-fw"></i><span>ホーム</span></a></li>
+		<th:block class="login_div" th:if="${session.v2bean != null}">
+			<li><a href="/profile"><i class="fa-solid fa-camera-retro"></i><span>プロフィール</span></a></li>
+			<li><a href="/shop"><i class="fa-solid fa-store"></i><span>出品</span></a></li>
+			<li><a href="/"><i class="fa-solid fa-children"></i><span>フォロー</span></a></li>
+			<li><a href="/"><i class="fa-solid fa-comments"></i><span>チャット</span></a></li>
+			<li><a href="/"><i class="fa-solid fa-bullhorn"></i><span>募集</span></a></li>
+		</th:block>
+		<li><a href="/"><i class="fa-solid fa-tower-cell"></i><span>イベント</span></a></li>
+		<li><a href="/"><i class="fa-solid fa-ranking-star"></i><span>ランキング</span></a></li>
+		<li><a href="/"><i class="fa-solid fa-envelopes-bulk"></i><span>お問い合わせ</span></a></li>
+	</ul>
+	</nav>
+</header>
+<div class="contents">
+	<form method="post" name="form1" enctype="multipart/form-data" action="profile_edit_regist">
+		<table>
+			<tr>
+				<td rowspan="2" class="profile_table01">
+				<div class="profile_left_div01">
+					<div>
+					<label class="image_select">
+							<!--<img src="http://localhost:8383/images/thumbnail/icon_user_1.png" width="250" id="preview">-->
+							<img th:src="@{./getImgDefault?id=__${user.id}__&name=__${user.imageFile}__}" id="preview">
+							<input type="file" name="image_file" onchange="previewImage(this);" />
+					</label>
+					</div>
+					<div class="upload_txt">アップロード</div>
+				</div>
+				</td>
+				<td class="profile_table02">
+					<div class="profile_right01">
+						<div class="profile_right01_dev01">プロフィール編集</div>
+					</div>
+					<div class="profile_right02">
+					登録日：[[${user.registDateYMD}]]
+					</div>
+					<hr class="style_100">
+					<div>
+						<input type="text" name="user_name" placeholder="名前" size="40" th:value="${user.userName}" class="input_username">
+					</div>
+					<div>
+						<textarea name="message" cols="50" rows="10" placeholder="自己紹介をしてください" class="input_message">[[${user.message}]]</textarea>
+					</div>
+					<hr class="style_100">
+					<div class="profile_media">
+						<div class="icon">
+							<i class="fa-brands fa-youtube"></i>　Youtube Channel-ID　<input type="text" name="youtube" placeholder="Youtube Channel-ID" size="40" th:value="${user.youtube}" class="input_media">
+						</div>
+						<div class="icon">
+							<i class="fa-brands fa-twitter"></i>　Twitter-ID　<input type="text" name="twitter" placeholder="Twitter-ID" size="40" th:value="${user.twitter}" class="input_media">
+						</div>
+						<div class="icon">
+							<i class="fa-brands fa-tiktok"></i>　Tiktok-ID　<input type="text" name="tiktok" placeholder="Tiktok-ID" size="40" th:value="${user.tiktok}" class="input_media">
+						</div>
+						<div class="icon">
+							<i class="fa-brands fa-instagram"></i>　Instagram-ID　<input type="text" name="instagram" placeholder="Instagram-ID" size="40" th:value="${user.insta}" class="input_media">
+						</div>
+					</div>
+					<div class="regist_div">
+					<a href="javascript:document.form1.submit()" class="regist_button regist_pushdown"><span>登録する</span></a>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+</body>
+</html>

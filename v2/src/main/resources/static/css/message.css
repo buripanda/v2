@@ -1,0 +1,191 @@
+
+/*-------------------------------------
+メッセージ一覧全体
+-------------------------------------*/
+.message {
+  display: flex;
+  width: 1000px;
+  height: 700px;
+  position: relative;
+  top: 50px;
+  margin-right: auto;
+  margin-left: auto;
+  border: 1px solid #999999;
+}
+/*-------------------------------------
+メッセージ一覧左
+-------------------------------------*/
+.left_content {
+  display: flex;
+  flex-flow: column;
+  width: 300px;
+  height: 700px;
+  border-width: 0 1px 0 0;
+  border-color:#999999;
+  border-style: solid;
+}
+.title {
+  font-weight: 700;
+  height: 50px;
+  border-width: 0 0 1px 0;
+  border-color:#999999;
+  border-style: solid;
+  margin: 0;
+  padding: 10px 10px 0 10px;;
+}
+.partner_list {
+  height: 640px;
+  overflow: hidden scroll ;
+  display:flex;
+  flex-flow: column;
+  margin :0;
+}
+
+.partner {
+  height: 60px;
+  border-width: 0 0 1px 0;
+  border-color:#999999;
+  border-style: solid;
+  display: flex;
+  position: relative;
+  padding: 5px 10px;
+}
+.img_mini {
+  width:50px;
+  height:50px;
+  object-fit: cover;
+  border-radius: 50%;
+  /* 縦中央にし、その半分戻す */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.partner_name {
+  font-weight: 700;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left:70px;	
+}
+.left_footer {
+	height: 100vh;
+}
+/*-------------------------------------
+メッセージ一覧右
+-------------------------------------*/
+.right_content {
+	width: 700px;
+	display: flex;
+	flex-flow: column;
+}
+.right_title {
+  font-weight: 700;
+  height: 50px;
+  border-width: 0 0 1px 0;
+  border-color:#999999;
+  border-style: solid;
+  margin: 0;
+  padding: 10px 10px 0 10px;;
+}
+/*-------------------------------------
+メッセージ部分
+-------------------------------------*/
+.right_chat {
+  padding: 20px 10px;
+  width: 680px;
+  height: 70vh;
+  /*margin: 15px auto;*/
+  text-align: right;
+  overflow: hidden scroll ;
+  display:flex;
+  flex-flow: column;
+
+}
+
+/*-------------------------------------
+相手部分
+-------------------------------------*/
+.partner_chat {
+  width: 100%;
+  margin: 10px 0;
+  overflow: hidden;
+}
+
+.partner_chat .partner_img {
+  float: left;
+  margin-right: -50px;
+  margin-top: 5px;
+  width: 35px;
+}
+
+.partner_chat .partner_img img{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.partner_chat .chatting {
+  width: 100%;
+  text-align: left;
+}
+.says {
+  display: inline-block;
+  position: relative; 
+  margin: 0 0 3px 50px;
+  padding: 10px;
+  max-width: 250px;
+  border-radius: 12px 12px 12px 0;
+  background: #edf1ee;
+}
+.says div {
+  text-align:left
+}
+.partner_time {
+	color: #778899;
+	width: 100%;
+  	text-align: left;
+}
+/*-------------------------------------
+自分部分
+-------------------------------------*/
+.mycomment {
+  display: inline-block;
+  margin: 5px 0 5px auto;
+  padding: 10px;
+  border-radius: 15px 15px 0 15px;
+  background: var(--shadow-color);
+  color: #FFFFFF;
+}
+.mycomment div {
+  text-align:left
+}
+.my_time {
+	color: #778899;
+  	margin: 0 10px 0 0;
+}
+/*-------------------------------------
+メッセージ送信
+-------------------------------------*/
+.right_buttom {
+  margin-top:auto;
+  border-width: 1px 0 0 0;
+  border-color:#999999;
+  border-style: solid;
+
+}
+textarea {
+  margin: 8px 0;
+  padding: 8px;
+  font-size: 14px;
+}
+
+.soshin {
+  font-size: 1.2rem;
+  font-weight: 400;
+  padding: 5px 5px;
+  cursor: pointer;
+  text-align: right;
+  vertical-align: top;
+  border: none;
+  background: transparent;
+}
+

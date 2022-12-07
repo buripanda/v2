@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/root.css}" rel="stylesheet">
+    <link th:href="@{/css/purchase.css}" rel="stylesheet">
+    <link th:href="@{/css/jquery.datetimepicker.min.css}" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- jQuery-datetimepicker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw==" crossorigin="anonymous"></script>
+    <!-- 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" integrity="sha512-bYPO5jmStZ9WI2602V2zaivdAnbAhtfzmxnEGh9RwtlI00I9s8ulGe4oBa5XxiC6tCITJH/QG70jswBhbLkxPw==" crossorigin="anonymous" />
+     -->
+    <script type="text/javascript">
+    $(function() {
+    	$.datetimepicker.setLocale('ja');
+    	$('#target').datetimepicker({
+    		step: 15,
+    	});
+    });
+    </script>
+  </head>
+  <body>
+    日時を選択してください。
+    <input type="text" id="target" class="input_01">
+  </body>
+</html>

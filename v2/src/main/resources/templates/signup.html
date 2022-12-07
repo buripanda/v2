@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript" />
+	<meta name="auther" content="v2.com" />
+	<meta name="copyright" content="Copyright (C) v2.com All Rights Reserved." />
+	<title>新規登録</title>
+	<link th:href="@{/css/root.css}" rel="stylesheet">
+	<link th:href="@{/css/signup.css}" rel="stylesheet">
+	<script>
+		function backFunc() {
+
+			const form = document.createElement('form');
+			form.method = 'post';
+			form.action = '/index';
+			document.body.appendChild(form);
+			form.submit();
+			
+			//const hiddenField = document.createElement('input');
+			//hiddenField.type = 'hidden';
+			//hiddenField.name = 'partnerId';
+			//hiddenField.value = id;
+			//form.appendChild(hiddenField);
+
+			//document.body.appendChild(form);
+
+			//document.location="view/" + id
+		}
+	</script>
+
+</head>
+
+<body>
+	<form method="post" name="form1" enctype="multipart/form-data" action="signup">
+		<div class="login">
+			<div class="login_01">
+				<span class="round_btn" onclick="javascript:backFunc()"></span>
+				<div class="login_title">新規登録</div>
+				<div class="login_input pushdown">
+					<input type="text" name="userName" placeholder="ユーザーネーム" size="40" th:value="${user.userName}">
+				</div>
+				<div class="login_input pushdown">
+					<input type="text" name="password" placeholder="パスワード" size="40" th:value="${user.password}">
+				</div>
+				<div class="login_input pushdown">
+					<input type="text" name="email" placeholder="E-Mailアドレス" size="40" th:value="${user.email}">
+				</div>
+				<div class="radio01">
+				<input name="sex" id="select1" value="1" th:checked="${user.sexChecked == 1}"  type="radio"><label for="select1">女性</label>
+				<input name="sex" id="select2" value="2" th:checked="${user.sexChecked == 2}" type="radio"><label for="select2">男性</label>
+				</div>
+				<div class="check01">
+      				<label class="CheckboxInput">
+      				<input class="CheckboxInput-Input" type="checkbox" name="agree">
+      				<span class="CheckboxInput-DummyInput"></span>
+      				<span class="CheckboxInput-LabelText">利用規約に同意する</span>
+      				</label>
+    			</div>
+				<div class="account_login">
+					アカウントをお持ちの方はログイン
+				</div>
+				<div>
+					<a href="javascript:form1.submit()" class="login_button login_pushdown"><span>登録する</span></a>
+				</div>
+			</div>
+		</div>
+	</form>
+</body>
+</html>

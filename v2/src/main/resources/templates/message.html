@@ -1,0 +1,147 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript" />
+	<meta name="auther" content="株式会社BURIPANDA" />
+	<meta name="copyright" content="Copyright &copy; BURIPANDA CO., LTD. " />
+	<title>メッセージ一覧画面</title>
+	<link th:href="@{/css/root.css}" rel="stylesheet">
+	<link th:href="@{/css/sidemenu.css}" rel="stylesheet">
+	<link th:href="@{/css/message.css}" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script>
+	$(function(){
+	  $('#textarea')
+	  .on('input', function(){
+	    if ($(this).outerHeight() > this.scrollHeight){
+	      $(this).height(1)
+	    }
+	    while ($(this).outerHeight() < this.scrollHeight){
+	      $(this).height($(this).height() + 1)
+	    }
+	  });
+	});
+	function selectFunc(id) {
+
+		const form = document.createElement('form');
+		form.method = 'post';
+		form.action = '/message_selectPartner';
+
+		const hiddenField = document.createElement('input');
+		hiddenField.type = 'hidden';
+		hiddenField.name = 'partnerId';
+		hiddenField.value = id;
+		form.appendChild(hiddenField);
+
+		document.body.appendChild(form);
+		form.submit();
+
+		//document.location="view/" + id
+	}
+	function loadPage(id){
+        $("#content-frame").load(
+			"/getPartnerData",
+			{partnerId: id},
+			function(){});
+    }
+	</script>
+</head>
+
+<body>
+<header class="cp_sidebarmenu">
+	<nav class="cp_sidenav">
+	<ul class="menu">
+		<li><a href="/"><i class="fa fa-home fa-fw"></i><span>ホーム</span></a></li>
+		<th:block class="login_div" th:if="${session.v2bean != null}">
+			<li><a href="/profile"><i class="fa-solid fa-camera-retro"></i><span>プロフィール</span></a></li>
+			<li><a href="/shop"><i class="fa-solid fa-store"></i><span>出品</span></a></li>
+			<li><a href="/"><i class="fa-solid fa-children"></i><span>フォロー</span></a></li>
+			<li><a href="/message_partnerList"><i class="fa-solid fa-comments"></i><span>チャット</span></a></li>
+			<li><a href="/"><i class="fa-solid fa-bullhorn"></i><span>募集</span></a></li>
+		</th:block>
+		<li><a href="/"><i class="fa-solid fa-tower-cell"></i><span>イベント</span></a></li>
+		<li><a href="/"><i class="fa-solid fa-ranking-star"></i><span>ランキング</span></a></li>
+		<li><a href="/"><i class="fa-solid fa-envelopes-bulk"></i><span>お問い合わせ</span></a></li>
+	</ul>
+	</nav>
+</header>
+<div class="contents">
+<form method="post" name="form1" enctype="multipart/form-data" action="/chat/soshin">
+<div class="message">
+	<div class="left_content">
+		<div class="title">メッセージ一覧画面</div>
+		<div class="partner_list">
+			<th:blcok th:each="partner, partnerStat : ${partnerList}">
+			<div class="partner" th:onclick="|loadPage(__${partner.id}__)|">
+				<img th:src="@{./getImgMini?id=__${partner.id}__&name=__${partner.imageFile}__}" class="img_mini">
+				<div class="partner_name">[[${partner.userName}]]</div>
+			</div>
+			</th:blcok>
+			<div class="left_footer"></div>
+		</div>
+	</div>
+	<div class="right_content">	
+		<div class="right_title"></div>
+		<div class="right_chat" id="content-frame">
+		<!--
+	        <div class="mycomment">
+	        	<div>テストテスト<BR>あああ。<BR>いいい</div>
+	        </div>
+        	<div class="my_time">12/05 22:39</div>
+	        <div class="partner_chat">
+	        	<div class="partner_img">
+	        	<img src="/getImgMini?id=12&name=panda.jpg">
+	        	</div>
+	        	<div class="chatting">
+	        		<div class="says">
+	        			<div>テストテスト。てすと</div>
+	        		</div>
+	        	</div>
+	        	<div class="partner_time">12/05 22:40</div>
+	        </div>
+	        -->
+	        <!--
+			<th:block th:each="chat, chattStat : ${chatList}">
+				<th:block th:if="${chat.sendId != chat.loginId}">
+					<div class="partner_chat">
+						<div class="partner_img">
+							<img th:src="@{./getImgMini?id=__${chat.sendId}__&name=__${chat.sendImagePath}__}"
+								id="preview">
+						</div>
+						<div class="chatting">
+							<div class="says">
+								<th:block th:each="line, stat: ${chat.message.split('\r\n|\r|\n', -1)}">
+									<p th:text="${line}" />
+								</th:block>
+
+							</div>
+						</div>
+						<div class="partner_time" th:text="${chat.registDate}" />
+					</div>
+				</th:block>
+				<th:block th:if="${chat.sendId == chat.loginId}">
+					<div class="mycomment">
+						<th:block th:each="line, stat: ${chat.message.split('\r\n|\r|\n', -1)}">
+							<p th:text="${line}" />
+						</th:block>
+					</div>
+					<div class="my_time"  th:text="${chat.registDate}" />
+				</th:block>
+			</th:block>
+			-->
+			</div>
+			<div class="right_buttom">
+				<textarea name="message" rows="1" cols="50" placeholder="メッセージを入力" id="textarea"></textarea>
+				<input type="submit" class="soshin" />
+			</div>
+	</div>
+</div>
+</div>
+</form>
+</body>
+
+</html>

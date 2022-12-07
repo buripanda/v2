@@ -1,0 +1,52 @@
+
+/*-----------------------------------
+　基本設定変数
+------------------------------------*/
+:root {
+  --font-coler: #DE7890; /* 基本文字色 */
+/*  --input-coler: #ffe4e1;*/ /* 基本入力欄の色 */
+  --input-coler: #ffcccc; /* 基本入力欄の色 */
+  --shadow-color: #f08080; /* 基本の影色 */
+  --font-family: "07LogoTypeGothic7", "komorebi-gothic","游ゴシック体", YuGothic, "游ゴシック", "Yu Gothic", sans-serif; /* 基本フォント種類 */
+  --background-color: #fefefe; /* 基本背景色 */
+  --youtube-color:#DA1725; /* Youtube色 */
+  --twitter-color:#1DA1F2; /* Twitter色 */
+  --tiktok-color:#00acee; /* TikTok色 */
+  --instagram-color:#CF2E92; /* Instagram色 */
+}
+/*-----------------------------------
+　HTML　BODY部　基本設定
+------------------------------------*/
+body {
+  font-family: var(--font-family);
+  color: var(--font-coler);
+  background-color: var(--background-color);
+}
+/*--------------------------------------
+ フォント読み込み
+--------------------------------------*/
+@font-face {
+  font-family: '07LogoTypeGothic7';
+  src: url(/font/07LogoTypeGothic7.ttf);
+}
+/*--------------------------------------
+ サイドメニューの文字
+--------------------------------------*/
+.sidefont {
+	font-size: 1.2rem;
+}
+/*-------------------------------------
+入力欄オートコンプリート候補表示に色が変わるのを抑制
+-------------------------------------*/
+input:-webkit-autofill {
+    box-shadow: 0 0 0 1000px #FFFFFF inset;
+    -webkit-text-fill-color: var(--font-coler);
+}
+/*-------------------------------------
+入力欄プレースフォルダ色
+-------------------------------------*/
+::placeholder {
+  color: var(--shadow-color);
+}
+
+
