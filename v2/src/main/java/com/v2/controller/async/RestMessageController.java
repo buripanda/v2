@@ -54,7 +54,7 @@ public class RestMessageController extends AbstractController {
 	 * @return
 	 */
 	@GetMapping("/getPartnerData")
-	public String getPartnerData(@RequestParam("partnerId") int partnerId) {
+	public String getPartnerData(@RequestParam("pid") int pid) {
 		
 		// セッションからログインID取得
 		//if (!super.isLogin())
@@ -73,30 +73,28 @@ public class RestMessageController extends AbstractController {
 	 * @param modelMap
 	 * @return
 	 */
-	@PostMapping("/getPartnerData")
-	public String getPartnerDataPost(@RequestParam("partnerId") int partnerId) {
+	@PostMapping("/getMessageData")
+	public String getPartnerDataPost(@RequestParam("pid") int pid) {
 		
 		// セッションからログインID取得
-		/*
 		if (!super.isLogin())
-			return "redirect:/login";
+			return "redirect:/";
 		
 		super.getSessionBean();
 		int id = super.getSessionBean().id;
-		*/
+
 		// チャットリスト取得
 		List<Chat> chatList = new ArrayList<>();
 		String ret = null;
 		try {
-			chatList = messageService.doView(8, 12, jdbcTemplate);
-			ret = htmlService.getChatList(8, chatList);
+			chatList = messageService.getMessageList(id, pid, jdbcTemplate);
+			ret = htmlService.getChatList(id, chatList);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
 		}
 		
 		logger.info(ret);
-		System.out.println(ret);
 		return ret;
 		
 	}

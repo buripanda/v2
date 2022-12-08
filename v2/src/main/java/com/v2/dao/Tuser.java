@@ -159,7 +159,7 @@ public class Tuser {
   }
 
   /**
-   * プロフィールを更新する
+   * プロフィールを更新する（画像含む）
    * @param emal
    * @param password
    * @param jdbcTemplate
@@ -177,6 +177,29 @@ public class Tuser {
 						"USER_NAME=?, IMAGE_PATH=?, MESSAGE=?, YOUTUBE_URL=?, TWITTER_URL=?, TIKTOK_URL=?, INSTA_URL=?, UPDATE_DATE=current_timestamp " +
 						"WHERE  ID=?",
 						user.userName, user.imageFile, messageRep, user.youtube, user.twitter, user.tiktok, user.insta,  user.id);
+  	return cnt;
+  
+  }
+
+  /**
+   * プロフィールを更新する（画像含まない）
+   * @param emal
+   * @param password
+   * @param jdbcTemplate
+   * @return
+   */
+  public int updateProfileDetailNoImage(User user, JdbcTemplate jdbcTemplate) throws Exception {
+  	
+		String messageRep = null;
+		// 改行コードを置換
+		if (StringUtils.hasLength(user.message))
+			messageRep = user.message.replaceAll("\r\n|\r|\n", "\n");
+
+		int cnt = jdbcTemplate.update(
+				"UPDATE T_USER SET " +
+						"USER_NAME=?, MESSAGE=?, YOUTUBE_URL=?, TWITTER_URL=?, TIKTOK_URL=?, INSTA_URL=?, UPDATE_DATE=current_timestamp " +
+						"WHERE  ID=?",
+						user.userName, messageRep, user.youtube, user.twitter, user.tiktok, user.insta,  user.id);
   	return cnt;
   
   }

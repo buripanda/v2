@@ -9,12 +9,12 @@
 .profile_left_div01 {
   overflow: hidden;
   border-radius: 8px;
-  filter: drop-shadow(0px 0px 5px rgba(255,228,196,.5));
+  filter: drop-shadow(0px 0px 10px rgba(0,0,0,.5));
   inset: 0;
   text-align:center;
   width: 350px;
   height: 500px;
-  padding: 2px;
+  padding: 4px;
   background: linear-gradient(135deg, #fc00ff 0, #00dbde 100%);
 }
 .profile_left_div01_inner {
@@ -23,6 +23,7 @@
   background-color: #FFFFFF;
   border-radius: 8px;
   padding: 8px;
+  height: 482px;
 }
 .username {
   font-size: 1.2rem;
@@ -105,100 +106,11 @@ img {
 }
 
 /*--------------------------------
-画像選択ボタン
----------------------------------*/
-.image_select {
-    cursor: pointer;
-}
-
-.image_select:active {
-     background: url(/images/icon_user_1.png) center center / contain no-repeat;
-}
-
-.image_select input{
-    display: none;
-}
-
-/*--------------------------------
 タイトル
 ---------------------------------*/
 .title {
 	margin: 30px;
 }
-
-/*--------------------------------
-入力欄
----------------------------------*/
-.login_input {
-    /*影の基点とするためrelativeを指定*/
-    position: relative;
-    /*ボタンの形状*/
-	text-decoration: none;
-	display: inline-block;
-    text-align: center;
-	border-radius: 10px;
-	/*border: solid 1px #ffc0cb;*/
-    outline: none;
-    /*アニメーションの指定*/
-    transition: all 0.1s ease;
-    margin: 20px auto;
-    background-color: #ffffff;
-    
-}
-
-/*入力欄の中のテキスト*/
-.login_input input {
-	border: none;
-	position: relative;
-	z-index: 2;/*z-indexの数値をあげて文字を背景よりも手前に表示*/
-    /*テキストの形状*/
-	display: block;
-    padding: 10px 10px;
-	background: var(--input-coler);
-	border-radius: 10px;
-	color:var(--font-coler);
-    /*アニメーションの指定*/
-    transition: all 0.1s ease;
-    text-decoration: none;
-    outline: none;
-}
-
-/*== 下に押し込まれる（立体が平面に） */
-/*影の設定*/
-.pushdown:before {
-    content:"";
-    /*絶対配置で影の位置を決める*/
-    position: absolute;
-	z-index: -1;
-    top:4px;
-    left:0;
-    /*影の形状*/
-    width: 100%;
-    height: 100%;
-	border-radius: 10px;
-    background-color: var(--shadow-color);
-}
-
-/*hoverの際にY軸に4pxずらす*/
-.pushdown:hover input {
-	background-color: var(--input-coler);
-	color:  var(--font-color);
-	transform: translateY(4px);
-	outline: none;
-}
-
-.pushdown:active input {
-	background-color: var(--input-coler);
-	color: var(--font-color);
-	transform: translateY(4px);
-	outline: none;
-}
-
-/* オートコンプリート候補表示に色が変わるのを抑制 */
-input:-webkit-autofill {
-    box-shadow: 0 0 0 1000px var(--input-coler) inset;
-}
-
 
 /*--------------------------------
 公開プロフィールボタン

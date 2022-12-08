@@ -78,11 +78,14 @@ public class ProfileService {
 	 */
 	public void doProfileModify(User user, MultipartFile imageFile, JdbcTemplate jdbcTemplate) throws Exception {
 		
-		// 画像保存
-		imageService.saveImageFile(user, imageFile);
-		
-		// プロフィール更新
-		tUser.updateProfileDetail(user, jdbcTemplate);
+		// 画像が変更された場合は画像保存
+		if (!imageFile.isEmpty()) {
+			imageService.saveImageFile(user, imageFile);
+			tUser.updateProfileDetail(user, jdbcTemplate);				
+		// 画像がない場合は画像に関して何もしない
+		} else {
+			tUser.updateProfileDetailNoImage(user, jdbcTemplate);
+		}
 		
 	}
 }

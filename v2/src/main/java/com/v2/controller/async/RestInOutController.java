@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,8 +53,8 @@ public class RestInOutController extends AbstractController {
 	 * ログイン処理
 	 * @return
 	 */
-	@PostMapping("/rest_login")
-	public String loginPost(@RequestParam("email") String email, 
+	@PostMapping("/restLogin")
+	public String restLogin(@RequestParam("email") String email, 
 			@RequestParam("password") String password,
 			@CookieValue(value="uid", required=false) String uid,
 			HttpServletResponse response) {
@@ -93,6 +94,34 @@ public class RestInOutController extends AbstractController {
 		// Cookieを埋め込む
 		Cookie cookie = new Cookie("uid", uid);
 		response.addCookie(cookie);
+		
+		return "ok";
+	
+	}
+	/**
+	 * ログアウト処理
+	 * @return
+	 */
+	@PostMapping("/restLogout")
+	public String restLogout(ModelMap modelMap) {
+		
+		// セッションからログインID取得
+		if (!super.isLogin())
+			return "ok";
+		
+		// ユーザid取得
+		int id = super.getSessionBean().id;
+		
+		//セッションを破棄する
+		super.removeSession();
+		
+		try {
+			// ログアウト処理
+			loginService.doLogout(id, jdbcTemplate);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "ok";
+		}
 		
 		return "ok";
 	

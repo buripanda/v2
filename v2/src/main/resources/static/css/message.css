@@ -26,7 +26,7 @@
 }
 .title {
   font-weight: 700;
-  height: 50px;
+  height: 70px;
   border-width: 0 0 1px 0;
   border-color:#999999;
   border-style: solid;
@@ -42,14 +42,21 @@
 }
 
 .partner {
-  height: 60px;
   border-width: 0 0 1px 0;
   border-color:#999999;
   border-style: solid;
   display: flex;
   position: relative;
-  padding: 5px 10px;
+  padding: 5px 0;
 }
+.partner_inner {
+  height: 60px;
+  display: flex;
+  position: relative;
+  padding: 5px 10px;
+
+}
+
 .img_mini {
   width:50px;
   height:50px;
@@ -80,12 +87,12 @@
 }
 .right_title {
   font-weight: 700;
-  height: 50px;
+  height: 68px;
   border-width: 0 0 1px 0;
   border-color:#999999;
   border-style: solid;
   margin: 0;
-  padding: 10px 10px 0 10px;;
+  padding: 5px;
 }
 /*-------------------------------------
 メッセージ部分

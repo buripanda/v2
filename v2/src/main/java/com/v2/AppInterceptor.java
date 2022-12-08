@@ -38,19 +38,21 @@ public class AppInterceptor implements HandlerInterceptor {
 		Object obj = request.getSession().getAttribute("v2bean");
 		// セッションBeanがない場合はCookieチェック
 		if (obj == null) {
-			for (Cookie cookie : request.getCookies()) {
-					//CookieにuidがあればDB検索
-					if ("uid".equals(cookie.getName())) {
-						System.out.println("リクエスト中のCookie：" + cookie.getValue());
-						User user = tUser.selectUserCookie(cookie.getValue(), jdbcTemplate);
-						// CookieがDBにあればセッション作成
-						if (user.id > 0) {
-							SessionBean bean = new SessionBean();
-							bean.id = user.id;
-							request.getSession().setAttribute("v2bean", bean);
-							
-						}
-					}
+			if (request.getCookies() != null) {
+  			for (Cookie cookie : request.getCookies()) {
+  					//CookieにuidがあればDB検索
+  					if ("uid".equals(cookie.getName())) {
+  						System.out.println("リクエスト中のCookie：" + cookie.getValue());
+  						User user = tUser.selectUserCookie(cookie.getValue(), jdbcTemplate);
+  						// CookieがDBにあればセッション作成
+  						if (user.id > 0) {
+  							SessionBean bean = new SessionBean();
+  							bean.id = user.id;
+  							request.getSession().setAttribute("v2bean", bean);
+  							
+  						}
+  					}
+  			}
 			}
 		}
 		return true;

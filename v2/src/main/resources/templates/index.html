@@ -16,83 +16,78 @@
 	<link th:href="@{/css/sidemenu.css}" rel="stylesheet">
 	<link th:href="@{/css/slider.css}" rel="stylesheet">
 	<link type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" rel="stylesheet" >
+	<script src="/js/common.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
 	<script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
 	<script src="https://apis.google.com/js/platform.js"></script>
 	<script>
 
-		function testFunc(id) {
+	function mes(event){
+	  $.post( '/leave', '' );
+	}
+	window.onbeforeunload  = mes;
+	
+	// ログイン処理
+	function restLogin(){
 
-			const form = document.createElement('form');
-			form.method = 'post';
-			form.action = '/view';
-	
-			const hiddenField = document.createElement('input');
-			hiddenField.type = 'hidden';
-			hiddenField.name = 'partnerId';
-			hiddenField.value = id;
-			form.appendChild(hiddenField);
-	
-			document.body.appendChild(form);
-			form.submit();
-	
-			//document.location="view/" + id
-		}
-		function mes(event){
-		  $.post( '/leave', '' );
-		}
-		window.onbeforeunload  = mes;
+		var email = document.getElementById('email').value;
+		var password = document.getElementById('password').value;
+
+		$.post(
+			"/restLogin", 
+			{email: email, password: password},
+			function(data){
+				document.getElementById('login_error').style.backgroundColor = "#f08080";
+				document.getElementById('login_error').style.display = "block";
+				document.getElementById('login_error').innerHTML = data;
+				if (data == "ok") {
+					document.getElementById('login_01').style.display = "none";
+					document.getElementById('login_02').style.display = "none";
+					document.getElementById('login_03').style.display = "flex";
+					document.getElementById('menu01').style.display = "block";
+					document.getElementById('menu02').style.display = "block";
+					document.getElementById('menu03').style.display = "block";
+					document.getElementById('menu04').style.display = "block";
+					document.getElementById('menu05').style.display = "block";
+				    //リクエストが成功した際に実行する関数
+				    $('#overlay, .modal-window').fadeOut(100);
+				} else {
+				}
+			});
 		
-		// ログイン処理
-		function restLogin(){
+	}
 
-			var email = document.getElementById('email').value;
-			var password = document.getElementById('password').value;
+	// ログアウト処理
+	function restLogout(){
 
-			$.post(
-				"/rest_login", 
-				{email: email, password: password},
-				function(data){
-					document.getElementById('login_error').style.backgroundColor = "#f08080";
-					document.getElementById('login_error').style.display = "block";
-					document.getElementById('login_error').innerHTML = data;
-					if (data == "ok") {
-						document.getElementById('login_01').style.display = "none";
-						document.getElementById('login_02').style.display = "none";
-						document.getElementById('login_03').style.display = "flex";
-						document.getElementById('menu01').style.display = "block";
-						document.getElementById('menu02').style.display = "block";
-						document.getElementById('menu03').style.display = "block";
-						document.getElementById('menu04').style.display = "block";
-						document.getElementById('menu05').style.display = "block";
-					    //リクエストが成功した際に実行する関数
-					    $('#overlay, .modal-window').fadeOut(100);
-					} else {
-					}
-				});
-			
-			//alert($("#cboxContent inline-content"));
-			//var email = document.getElementById('email').value;
-			//var password = document.getElementById('password').value;
-			//alert(email);
-			//alert(password);
-	        //$("#login_error").load(
-			//	"/rest_login",
-			//	{email: email, password: password},
-			//	function(){});
-    	}
-    	
-		$(function () {
-		  $('.js-open').click(function () {
-		    $('#overlay, .modal-window').fadeIn(200);
-		  });
-		  $('.js-close, #overlay').click(function () {
-		    $('#overlay, .modal-window').fadeOut(100);
-			document.getElementById('login_error').style.display = "hidden";
-			document.getElementById('login_error').style.backgroundColor = "#FFFFFF";
-			document.getElementById('login_error').innerHTML = "";
-		  });
-		});
+		$.post(
+			"/restLogout", 
+			{},
+			function(data){
+				document.getElementById('login_01').style.display = "flex";
+				document.getElementById('login_02').style.display = "flex";
+				document.getElementById('login_03').style.display = "none";
+				document.getElementById('menu01').style.display = "none";
+				document.getElementById('menu02').style.display = "none";
+				document.getElementById('menu03').style.display = "none";
+				document.getElementById('menu04').style.display = "none";
+				document.getElementById('menu05').style.display = "none";
+			});
+		
+	}
+	
+	// ログインモーダルオープン
+	$(function () {
+	  $('.js-open').click(function () {
+	    $('#overlay, .modal-window').fadeIn(200);
+	  });
+	  $('.js-close, #overlay').click(function () {
+	    $('#overlay, .modal-window').fadeOut(100);
+		document.getElementById('login_error').style.display = "hidden";
+		document.getElementById('login_error').style.backgroundColor = "#FFFFFF";
+		document.getElementById('login_error').innerHTML = "";
+	  });
+	});
 
 	</script>
 </head>
@@ -117,7 +112,7 @@
 			<a href="/signup" class="shinki_a">新規登録</a>
 		</div>
 		<div  class="login_div" th:classappend="${session.v2bean == null} ? display_none : display_block" id="login_03">
-			<a href="/logout" class="login_a">ログアウト</a>
+			<a href="javascript:restLogout()" class="login_a">ログアウト</a>
 		</div>
 	</div>
 	<div class="banner">
@@ -160,7 +155,7 @@
 	<div class="profile">
 	<th:block th:with="size=${#lists.size(userList)}">
 		<th:block th:each="user: ${userList}">
-			<div class="profile_01" th:onclick="|testFunc(__${user.id}__)|">
+			<div class="profile_01" th:onclick="|javascript:postSelectId(__${user.id}__, 'profileView')|">
 				<article class="card_01">
 					<div class="card_header_01">
 						<figure class="card_thumbnail_01">
@@ -204,7 +199,7 @@
 	<div class="profile">
 	<th:block th:with="size=${#lists.size(newUserList)}">
 		<th:block th:each="newUser: ${newUserList}">
-			<div class="profile_01" th:onclick="|testFunc(__${newUser.id}__)|">
+			<div class="profile_01" th:onclick="|javascript:postSelectId(__${newUser.id}__, 'profileView')|">
 				<article class="card_01">
 					<div class="card_header_01">
 						<figure class="card_thumbnail_01">
@@ -257,8 +252,8 @@
 				<p>15分</p>
 				<p th:text="${order.tanka + 'Very'}" />
 			</div>
-			<div class="chat_01">
-				<a herf="" class="chat_text_01">チャットをする</a>
+			<div class="chat_01" th:onclick="|javascript:postSelectId(__${order.id}__, 'messagePartnerList')|">
+				<dev herf="" class="chat_text_01">チャットをする</dev>
 			</div>
 		</div>
 		<div class="ranking_footer">

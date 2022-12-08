@@ -11,6 +11,7 @@
 	<link th:href="@{/css/root.css}" rel="stylesheet">
 	<link th:href="@{/css/sidemenu.css}" rel="stylesheet">
 	<link th:href="@{/css/message.css}" rel="stylesheet">
+	<script src="/js/common.js"></script>
 	<script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script>
@@ -33,7 +34,7 @@
 
 		const hiddenField = document.createElement('input');
 		hiddenField.type = 'hidden';
-		hiddenField.name = 'partnerId';
+		hiddenField.name = 'pid';
 		hiddenField.value = id;
 		form.appendChild(hiddenField);
 
@@ -44,48 +45,46 @@
 	}
 	function loadPage(id){
         $("#content-frame").load(
-			"/getPartnerData",
-			{partnerId: id},
+			"/getMessageData",
+			{pid: id},
 			function(){});
     }
+    function viewMessage(id) {
+		
+		var user_content = document.getElementById("pid"+id);
+		var clone_element = user_content.cloneNode(true);
+		clone_element.id = "content1";
+		
+		var select_user_content = document.getElementById("select_user");
+		select_user_content.append(clone_element);
+			// メッセージ一覧取得
+		loadPage(id);
+
+	}
 	</script>
 </head>
 
 <body>
-<header class="cp_sidebarmenu">
-	<nav class="cp_sidenav">
-	<ul class="menu">
-		<li><a href="/"><i class="fa fa-home fa-fw"></i><span>ホーム</span></a></li>
-		<th:block class="login_div" th:if="${session.v2bean != null}">
-			<li><a href="/profile"><i class="fa-solid fa-camera-retro"></i><span>プロフィール</span></a></li>
-			<li><a href="/shop"><i class="fa-solid fa-store"></i><span>出品</span></a></li>
-			<li><a href="/"><i class="fa-solid fa-children"></i><span>フォロー</span></a></li>
-			<li><a href="/message_partnerList"><i class="fa-solid fa-comments"></i><span>チャット</span></a></li>
-			<li><a href="/"><i class="fa-solid fa-bullhorn"></i><span>募集</span></a></li>
-		</th:block>
-		<li><a href="/"><i class="fa-solid fa-tower-cell"></i><span>イベント</span></a></li>
-		<li><a href="/"><i class="fa-solid fa-ranking-star"></i><span>ランキング</span></a></li>
-		<li><a href="/"><i class="fa-solid fa-envelopes-bulk"></i><span>お問い合わせ</span></a></li>
-	</ul>
-	</nav>
-</header>
+<th:block th:replace="sidemenu::sidemenu"></th:block>
 <div class="contents">
 <form method="post" name="form1" enctype="multipart/form-data" action="/chat/soshin">
 <div class="message">
 	<div class="left_content">
-		<div class="title">メッセージ一覧画面</div>
+		<div class="title">メッセージ一覧</div>
 		<div class="partner_list">
 			<th:blcok th:each="partner, partnerStat : ${partnerList}">
-			<div class="partner" th:onclick="|loadPage(__${partner.id}__)|">
+			<div class="partner" th:onclick="|javascript:viewMessage(__${partner.id}__)|">
+			<div class="partner_inner" th:id="|pid__${partner.id}__|">
 				<img th:src="@{./getImgMini?id=__${partner.id}__&name=__${partner.imageFile}__}" class="img_mini">
 				<div class="partner_name">[[${partner.userName}]]</div>
+			</div>
 			</div>
 			</th:blcok>
 			<div class="left_footer"></div>
 		</div>
 	</div>
 	<div class="right_content">	
-		<div class="right_title"></div>
+		<div class="right_title" id="select_user"></div>
 		<div class="right_chat" id="content-frame">
 		<!--
 	        <div class="mycomment">

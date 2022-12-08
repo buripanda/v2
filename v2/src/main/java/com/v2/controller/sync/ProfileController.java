@@ -38,41 +38,66 @@ public class ProfileController extends AbstractController {
 		return "purchase";
 		
 	}
-	
+
 	/**
-	 *  プロフィール画面(表示)
+	 *  プロフィール画面表示（Get)
 	 */
-	@GetMapping("/profile")
-	public String profileGet(ModelMap modelMap) {
+	@GetMapping("/profileView")
+	public String profileViewG(ModelMap modelMap) {
+
+		// セッションからログインID取得
+		if (!super.isLogin())
+			return "redirect:/";
+		
+		// pidを渡して画面表示
+		SessionBean bean = super.getSessionBean();
+		return this.profileView(bean.pid, modelMap);
+		
+	}
+	/**
+	 *  プロフィール画面表示
+	 */
+	@PostMapping("/profileView")
+	public String profileView(@RequestParam(name="pid", defaultValue = "0") int pid, ModelMap modelMap) {
 		
 		// セッションからログインID取得
 		if (!super.isLogin())
-			return "redirect:/login";
+			return "redirect:/";
 		
-		super.getSessionBean();
-		int id = super.getSessionBean().id;
+		SessionBean bean = super.getSessionBean();
+		int searchId = bean.id;
+		if (pid > 0) 
+			searchId = pid;
 		
 		// プロフィール取得
 		User user = new User();
 		try {
-			user = profileService.getProfile(id, jdbcTemplate);
+			user = profileService.getProfile(searchId, jdbcTemplate);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
 		}
+		
+		// 相手IDを保存しておく
+		bean.pid = pid;
+		// pidが0なら自分のIDをセット
+		if (pid == 0)
+			bean.pid = bean.id;		
+		super.setSessionBean(bean);
 		modelMap.addAttribute("user", user);
 		return "profile";
 		
 	}
+
 	/**
 	 *  プロフィール変更画面(表示)
 	 */
-	@PostMapping("/profile_edit")
-	public String profileEditPost(ModelMap modelMap) {
+	@PostMapping("/profileEdit")
+	public String profileEdit(ModelMap modelMap) {
 		
 		// セッションを取得
 		if (!super.isLogin())
-			return "redirect:/login";
+			return "redirect:/";
 		
 		int id = super.getSessionBean().id;
 		User user = new User();
@@ -90,8 +115,8 @@ public class ProfileController extends AbstractController {
 	/**
 	 *  プロフィール変更画面(変更処理)
 	 */
-	@PostMapping("/profile_edit_regist")
-	public String profileEditRegistPost(@RequestParam("user_name") String userName,
+	@PostMapping("/profileEditRegist")
+	public String profileEditRegist(@RequestParam("user_name") String userName,
 			@RequestParam("image_file") MultipartFile imageFile,
 			@RequestParam("message") String message,
 			@RequestParam("youtube") String youtube,
@@ -106,7 +131,7 @@ public class ProfileController extends AbstractController {
 			
   		// ログイン中か確認
   		if (!super.isLogin())
-  			return "redirect:/login";
+  			return "redirect:/";
   		
   		//セッションからユーザID取得
   		super.getSessionBean();
@@ -123,7 +148,7 @@ public class ProfileController extends AbstractController {
   		// パラメタチェック
   		if (!profileService.isProfileEdit(user)) {
   			modelMap.addAttribute("user", user);
-  			return "forward:profile_edit";
+  			return "forward:profileEdit";
   		}
   		// プロフィール情報更新
   		profileService.doProfileModify(user, imageFile, jdbcTemplate);
@@ -143,7 +168,7 @@ public class ProfileController extends AbstractController {
 	 * @return
 	 */
 	@GetMapping("/view/{id}")
-	public String viewGet(@PathVariable("id") int partnerId, ModelMap modelMap) {
+	public String viewGet(@PathVariable("id") int pid, ModelMap modelMap) {
 		
 		SessionBean bean = null;		
 		// ログイン中か確認
@@ -154,12 +179,12 @@ public class ProfileController extends AbstractController {
 		}
 		
 		// 参照先IDを保持
-		bean.partnerId = partnerId;
+		bean.pid = pid;
 		
 		// 参照先のプロフィール取得
 		User user = new User();
 		try {
-			user = profileService.getProfile(partnerId, jdbcTemplate);
+			user = profileService.getProfile(pid, jdbcTemplate);
   	} catch (Exception e) {
   		e.printStackTrace();
   		return "error";
@@ -177,7 +202,7 @@ public class ProfileController extends AbstractController {
 	 * @return
 	 */
 	@PostMapping("/view")
-	public String viewPost(@RequestParam("partnerId") int partnerId , ModelMap modelMap) {
+	public String viewPost(@RequestParam("pid") int pid , ModelMap modelMap) {
 		
 		SessionBean bean = null;		
 		// ログイン中か確認
@@ -188,12 +213,12 @@ public class ProfileController extends AbstractController {
 		}
 		
 		// 参照先IDを保持
-		bean.partnerId = partnerId;
+		bean.pid = pid;
 		
 		// 参照先のプロフィール取得
 		User user = new User();
 		try {
-			user = profileService.getProfile(partnerId, jdbcTemplate);
+			user = profileService.getProfile(pid, jdbcTemplate);
   	} catch (Exception e) {
   		e.printStackTrace();
   		return "error";

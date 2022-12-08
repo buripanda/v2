@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -41,22 +40,26 @@ public class MessageController extends AbstractController {
 	 * @param modelMap
 	 * @return
 	 */
-	@GetMapping("/message_partnerList")
-	public String messagePartnerListGet(ModelMap modelMap) {
+	@PostMapping("/messagePartnerList")
+	public String messagePartnerList(@RequestParam(name="pid", defaultValue = "0") int pid, ModelMap modelMap) {
 		
 		// セッションからログインID取得
-		//if (!super.isLogin())
-		//	return "redirect:/login";		
-		//super.getSessionBean();
-		//int id = super.getSessionBean().id;
+		if (!super.isLogin())
+			return "redirect:/";		
+		super.getSessionBean();
+		int id = super.getSessionBean().id;
 		
-		// パートナー一覧検索
 		List<User> partnerList = new ArrayList<>();
 		try {
-			partnerList = messageService.getPartnerList(8, jdbcTemplate);
+			//pidがある場合はパートナー履歴に追加（チャットするから来た）
+			if (pid != 0)
+				messageService.registPartner(id, pid, jdbcTemplate);
+		
+			// パートナー一覧検索
+			partnerList = messageService.getPartnerList(id, jdbcTemplate);
 			modelMap.addAttribute("partnerList", partnerList);
 			
-			List<Chat> chatList = messageService.doView(8, 12, jdbcTemplate);
+			List<Chat> chatList = messageService.getMessageList(id, pid, jdbcTemplate);
 			modelMap.addAttribute("chatList", chatList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -88,8 +91,8 @@ public class MessageController extends AbstractController {
 		// パートナー一覧検索
 		List<Chat> chatList = new ArrayList<>();
 		try {
-			messageService.doChat(bean.id, bean.partnerId, message, jdbcTemplate);
-			chatList = messageService.doView(bean.id, bean.partnerId, jdbcTemplate);
+			messageService.doChat(bean.id, bean.pid, message, jdbcTemplate);
+			chatList = messageService.getMessageList(bean.id, bean.pid, jdbcTemplate);
 			modelMap.addAttribute("chatList", chatList);
 		} catch (Exception e) {
 			e.printStackTrace();

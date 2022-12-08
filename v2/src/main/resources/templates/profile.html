@@ -4,12 +4,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
-<meta name="auther" content="株式会社BURIPANDA" />
-<meta name="copyright" content="Copyright &copy; BURIPANDA CO., LTD. " />
+<meta name="auther" content="v2.com" />
+<meta name="copyright" content="Copyright (C) v2.com All Rights Reserved." />
 <title>プロフィール</title>
 <link th:href="@{/css/root.css}" rel="stylesheet">
 <link th:href="@{/css/profile.css}" rel="stylesheet">
 <link th:href="@{/css/sidemenu.css}" rel="stylesheet">
+<script src="/js/common.js"></script>
 <script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
 <script>
 function previewImage(obj)
@@ -20,36 +21,10 @@ function previewImage(obj)
 	});
 	fileReader.readAsDataURL(obj.files[0]);
 }
-function submitFunc(action) {
-
-	const form = document.createElement('form');
-	form.method = 'post';
-	form.action = '/' + action;
-	document.body.appendChild(form);
-	form.submit();
-
-	//document.location="view/" + id
-}
 </script>
 </head>
 <body>
-<header class="cp_sidebarmenu">
-	<nav class="cp_sidenav">
-	<ul class="menu">
-		<li><a href="/"><i class="fa fa-home fa-fw"></i><span>ホーム</span></a></li>
-		<th:block class="login_div" th:if="${session.v2bean != null}">
-			<li><a href="/profile"><i class="fa-solid fa-camera-retro"></i><span>プロフィール</span></a></li>
-			<li><a href="/shop"><i class="fa-solid fa-store"></i><span>出品</span></a></li>
-			<li><a href="/"><i class="fa-solid fa-children"></i><span>フォロー</span></a></li>
-			<li><a href="/"><i class="fa-solid fa-comments"></i><span>チャット</span></a></li>
-			<li><a href="/"><i class="fa-solid fa-bullhorn"></i><span>募集</span></a></li>
-		</th:block>
-		<li><a href="/"><i class="fa-solid fa-tower-cell"></i><span>イベント</span></a></li>
-		<li><a href="/"><i class="fa-solid fa-ranking-star"></i><span>ランキング</span></a></li>
-		<li><a href="/"><i class="fa-solid fa-envelopes-bulk"></i><span>お問い合わせ</span></a></li>
-	</ul>
-	</nav>
-</header>
+<th:block th:replace="sidemenu::sidemenu"></th:block>
 <div class="contents">
 	<form method="post" name="form1" enctype="multipart/form-data" action="profile">
 		<table>
@@ -59,21 +34,21 @@ function submitFunc(action) {
 					<div class="profile_left_div01_inner">
 						<label class="image_select">
 								<!--<img src="http://localhost:8383/images/thumbnail/icon_user_1.png" width="250" id="preview">-->
-								<img th:src="@{./getImgDefault?id=__${user.id}__&name=__${user.imageFile}__}" width="250" id="preview">
-								<input type="file" name="image_file" onchange="previewImage(this);" />
+								<img th:src="@{./getImgDefault?id=__${user.id}__&name=__${user.imageFile}__}" width="300">
 						</label>
 						<div class="username">[[${user.userName}]]</div>
-						<div class="title">[[${user.title}]]</div>				
-						<a href="javascript:submitFunc('view')" class="login_button login_pushdown"><span>公開プロフィールを見る</span></a>
+						<div class="title">[[${user.title}]]</div>
 					</div>
 				</div>
 				</td>
 				<td class="profile_table02">
 					<div class="profile_right01">
 						<div class="profile_right01_dev01">プロフィール</div>
+						<th:block th:if="${session.v2bean.id == session.v2bean.pid}">
 						<div class="profile_right01_dev02">
-						<a href="javascript:submitFunc('profile_edit')" class="login_button login_pushdown"><span>プロフィールを編集</span></a>
+						<a href="javascript:postSelectAc('profileEdit')" class="login_button login_pushdown"><span>プロフィールを編集</span></a>
 						</div>
+						</th:block>
 					</div>
 					<div class="profile_right02">
 					登録日：[[${user.registDateYMD}]]

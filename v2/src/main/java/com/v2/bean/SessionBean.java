@@ -7,7 +7,7 @@ public class SessionBean {
     /** 自分のID */
     public int id;
     /** 相手のID　 */
-    public int partnerId;
+    public int pid;
     /** 相手の名前 */
-    public String partnerName;
+    public String pname;
 }
