@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.v2.bean.User;
 import com.v2.controller.AbstractController;
-import com.v2.dao.Tuser;
+import com.v2.dao.UserDao;
 import com.v2.service.ShopService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ public class ShopController extends AbstractController {
 	}
 	
 	@Autowired
-	Tuser tUser;
+	UserDao tUser;
 	
 	@Autowired
 	ShopService shopService;

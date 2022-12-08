@@ -8,6 +8,8 @@ public class SessionBean {
     public int id;
     /** 相手のID　 */
     public int pid;
+    /** チャット画面の相手のID　 */
+    public int cpid;
     /** 相手の名前 */
     public String pname;
 }

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.v2.bean.User;
-import com.v2.dao.Tuser;
+import com.v2.dao.UserDao;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,7 +23,7 @@ public class IndexService {
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	@Autowired
-	Tuser tUser;
+	UserDao tUser;
 	
 	/**
 	 * プロフィール一覧取得（古い順）

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -33,6 +34,22 @@ public class MessageController extends AbstractController {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 
+	/**
+	 * メッセージ画面（パートナー一覧）
+	 * @param id
+	 * @param modelMap
+	 * @return
+	 */
+	@GetMapping("/messagePartnerList")
+	public String messagePartnerListG(ModelMap modelMap) {
+		
+		// セッションからログインID取得
+		if (!super.isLogin())
+			return "redirect:/";		
+		SessionBean bean = super.getSessionBean();		
+		return messagePartnerList(bean.cpid, modelMap);
+	
+	}
 	
 	/**
 	 * メッセージ画面（パートナー一覧）
@@ -41,66 +58,36 @@ public class MessageController extends AbstractController {
 	 * @return
 	 */
 	@PostMapping("/messagePartnerList")
-	public String messagePartnerList(@RequestParam(name="pid", defaultValue = "0") int pid, ModelMap modelMap) {
+	public String messagePartnerList(@RequestParam(name="pid", defaultValue = "0") int cpid, ModelMap modelMap) {
 		
 		// セッションからログインID取得
 		if (!super.isLogin())
 			return "redirect:/";		
-		super.getSessionBean();
-		int id = super.getSessionBean().id;
+		SessionBean bean = super.getSessionBean();
+		int id = bean.id;
 		
 		List<User> partnerList = new ArrayList<>();
 		try {
 			//pidがある場合はパートナー履歴に追加（チャットするから来た）
-			if (pid != 0)
-				messageService.registPartner(id, pid, jdbcTemplate);
+			if (cpid != 0)
+				messageService.registPartner(id, cpid, jdbcTemplate);
 		
 			// パートナー一覧検索
 			partnerList = messageService.getPartnerList(id, jdbcTemplate);
 			modelMap.addAttribute("partnerList", partnerList);
 			
-			List<Chat> chatList = messageService.getMessageList(id, pid, jdbcTemplate);
+			List<Chat> chatList = messageService.getMessageList(id, cpid, jdbcTemplate);
 			modelMap.addAttribute("chatList", chatList);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
 		}
+		
+		// 選択したチャット画面の相手のpidを保持
+		bean.cpid = cpid;
+		super.setSessionBean(bean);
+		
 		return "message";
 		
 	}
-
-
-
-	/**
-	 * チャット画面（送信）
-	 * @param id
-	 * @param modelMap
-	 * @return
-	 */
-	@PostMapping("/chat/soshin")
-	public String signupPost(@RequestParam("message") String message,
-			ModelMap modelMap) {
-		
-		// ログインしてない場合はトップ画面へ
-		if (!this.isLogin())
-			return "redirect:/";
-
-		// セッションからidを取得
-		SessionBean bean = this.getSessionBean();
-
-		// パートナー一覧検索
-		List<Chat> chatList = new ArrayList<>();
-		try {
-			messageService.doChat(bean.id, bean.pid, message, jdbcTemplate);
-			chatList = messageService.getMessageList(bean.id, bean.pid, jdbcTemplate);
-			modelMap.addAttribute("chatList", chatList);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
-
-		return "chat";
-	}
-
-
 }

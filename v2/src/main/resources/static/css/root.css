@@ -13,6 +13,8 @@
   --twitter-color:#1DA1F2; /* Twitter色 */
   --tiktok-color:#00acee; /* TikTok色 */
   --instagram-color:#CF2E92; /* Instagram色 */
+  --placefolder-color: #EBAEBC; /*プレースフォルダ色*/
+  --input-border-color: #EBAEBC; /* 入力欄の淵の色 */
 }
 /*-----------------------------------
 　HTML　BODY部　基本設定
@@ -46,7 +48,7 @@ input:-webkit-autofill {
 入力欄プレースフォルダ色
 -------------------------------------*/
 ::placeholder {
-  color: var(--shadow-color);
+  color: var(--placefolder-color);
 }
 
 

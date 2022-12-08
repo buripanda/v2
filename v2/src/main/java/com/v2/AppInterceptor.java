@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.v2.bean.SessionBean;
 import com.v2.bean.User;
-import com.v2.dao.Tuser;
+import com.v2.dao.UserDao;
 
 /**
  * アプリケーションイベントハンドラー
@@ -21,7 +21,7 @@ import com.v2.dao.Tuser;
 public class AppInterceptor implements HandlerInterceptor {
 	
 	@Autowired
-	Tuser tUser;
+	UserDao tUser;
 	
 	private final JdbcTemplate jdbcTemplate;
 

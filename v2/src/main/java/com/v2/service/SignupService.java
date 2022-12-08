@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.v2.bean.User;
-import com.v2.dao.Tuser;
+import com.v2.dao.UserDao;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SignupService {
 	
 	@Autowired
-	Tuser tUser;
+	UserDao tUser;
 	
 	@Autowired
 	ImageService imageService;

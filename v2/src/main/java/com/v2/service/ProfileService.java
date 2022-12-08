@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.v2.bean.PropartyConfig;
 import com.v2.bean.User;
-import com.v2.dao.Tuser;
+import com.v2.dao.UserDao;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,7 +37,7 @@ public class ProfileService {
 	ImageService imageService;
 	
 	@Autowired
-	Tuser tUser;
+	UserDao tUser;
 	
 	/**
 	 * プロフィール情報取得

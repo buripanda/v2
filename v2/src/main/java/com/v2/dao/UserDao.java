@@ -13,7 +13,7 @@ import org.springframework.util.StringUtils;
 import com.v2.bean.User;
 
 @Component
-public class Tuser {
+public class UserDao {
 	
 	/**
 	 * プロフィール一覧取得（古い順）

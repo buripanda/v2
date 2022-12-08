@@ -8,7 +8,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.v2.bean.User;
-import com.v2.dao.Tuser;
+import com.v2.dao.UserDao;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,7 +21,7 @@ public class ShopService {
 	ImageService imageService;
 	
 	@Autowired
-	Tuser tUser;
+	UserDao tUser;
 	
 	/**
 	 * パラメータチェック

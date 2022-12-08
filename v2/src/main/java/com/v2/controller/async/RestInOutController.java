@@ -1,6 +1,7 @@
 package com.v2.controller.async;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
@@ -103,7 +104,10 @@ public class RestInOutController extends AbstractController {
 	 * @return
 	 */
 	@PostMapping("/restLogout")
-	public String restLogout(ModelMap modelMap) {
+	public String restLogout(
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			ModelMap modelMap) {
 		
 		// セッションからログインID取得
 		if (!super.isLogin())
@@ -122,6 +126,15 @@ public class RestInOutController extends AbstractController {
 			e.printStackTrace();
 			return "ok";
 		}
+		
+		// Cookie削除
+	  Cookie[] cookies = request.getCookies();
+    for (Cookie cookie : cookies) {
+        if ("uid".equals(cookie.getName())) {
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+        }
+    }
 		
 		return "ok";
 	

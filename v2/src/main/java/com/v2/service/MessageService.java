@@ -11,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.v2.bean.Chat;
 import com.v2.bean.User;
-import com.v2.dao.TmessageUser;
+import com.v2.dao.MessageHistDao;
+import com.v2.dao.MessageUserDao;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -23,7 +24,10 @@ public class MessageService {
 	private static final String DATE_PATTERN ="MM/dd HH:mm";
 	
 	@Autowired
-	TmessageUser tMessageUser;
+	MessageUserDao messageUserDao;
+	
+	@Autowired
+	MessageHistDao messageHistDao;
 	
 	/**
 	 * パートナーリストを取得する
@@ -34,7 +38,7 @@ public class MessageService {
 	 */
 	public List<User> getPartnerList(int id, JdbcTemplate jdbcTemplate) throws Exception {
 		
-		return tMessageUser.selectPartnerList(id, jdbcTemplate);
+		return messageUserDao.selectPartnerList(id, jdbcTemplate);
 	
 	}
 
@@ -48,18 +52,30 @@ public class MessageService {
 	 */
 	public List<Chat> getMessageList(int id, int pid, JdbcTemplate jdbcTemplate) throws Exception {
 		
-		return tMessageUser.selectMessageList(id, pid, jdbcTemplate);
+		return messageUserDao.selectMessageList(id, pid, jdbcTemplate);
 
 	}
 	
-	public void doChat(int id, int pid, String message, JdbcTemplate jdbcTemplate) throws Exception {
+	/**
+	 * メッセージを登録して、リストを返す
+	 * @param id
+	 * @param pid
+	 * @param message
+	 * @param jdbcTemplate
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Chat> registMessage(int id, int pid, String message, JdbcTemplate jdbcTemplate) throws Exception {
 		
-		String messageRep = message.replaceAll("\r\n|\r|\n", "\n");
+		// メッセージを登録
+		messageHistDao.insertMessage(id, pid, message, jdbcTemplate);
+
+		// 最新メッセージを登録
+		messageUserDao.updateMessage(id, pid, message, jdbcTemplate);
 		
-		// データベースに保存
-		jdbcTemplate.update(
-				"INSERT INTO T_CHAT_HIST VALUES (?, ?, ?, ?, current_timestamp, current_timestamp)",
-						id, pid, id, messageRep);
+		// メッセージリストを取得する
+		List<Chat> chatList = messageUserDao.selectMessageList(id, pid, jdbcTemplate);
+		return chatList;
 
 	}
 	
@@ -73,10 +89,10 @@ public class MessageService {
 	public void registPartner(int id, int pid, JdbcTemplate jdbcTemplate) throws Exception {
 		
 		// メッセージユーザを検索する
-		User user = tMessageUser.selectPartner(id, pid, jdbcTemplate);
+		User user = messageUserDao.selectPartner(id, pid, jdbcTemplate);
 		// いない場合だけ登録する
 		if (user.id == 0)
-			tMessageUser.insertPartner(id, pid, jdbcTemplate);
+			messageUserDao.insertPartner(id, pid, jdbcTemplate);
 		
 	}
 

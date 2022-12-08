@@ -13,7 +13,7 @@ import com.v2.bean.Chat;
 import com.v2.bean.User;
 
 @Component
-public class TmessageUser {
+public class MessageUserDao {
 
 	/**
 	 * パートナーリストを取得する
@@ -88,7 +88,7 @@ public class TmessageUser {
 	}
 
 	/**
-	 * パートナーリストを登録する
+	 * パートナーを登録する
 	 * @param id
 	 * @param jdbcTemplate
 	 * @return
@@ -100,6 +100,21 @@ public class TmessageUser {
 		jdbcTemplate.update(
 				"INSERT INTO T_MESSAGE_USER VALUES (?, ?, null, 0, current_timestamp, current_timestamp)",
 				id, pid); 
+	}
+
+	/**
+	 * 自分の最新メッセージを更新する
+	 * @param id
+	 * @param jdbcTemplate
+	 * @return
+	 * @throws Exception
+	 */
+	public void updateMessage(int id, int pid, String message, JdbcTemplate jdbcTemplate) throws Exception {
+		
+		jdbcTemplate.update(
+				"UPDATE T_MESSAGE_USER SET LAST_MESSAGE = ?, UPDATE_DATE=current_timestamp "
+				+ " WHERE ID=? AND PARTNER_ID=?",
+				message, pid, id); 
 	}
 
 	/**

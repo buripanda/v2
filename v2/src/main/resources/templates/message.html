@@ -50,17 +50,29 @@
 			function(){});
     }
     function viewMessage(id) {
-		
-		var user_content = document.getElementById("pid"+id);
-		var clone_element = user_content.cloneNode(true);
-		clone_element.id = "content1";
-		
-		var select_user_content = document.getElementById("select_user");
-		select_user_content.append(clone_element);
+	
+		if (id != 0) {		
+			var user_content = document.getElementById("pid"+id);
+			var clone_element = user_content.cloneNode(true);
+			clone_element.id = "select_user";			
+			var select_user_content = document.getElementById("select_user");
+			select_user_content.replaceWith(clone_element);
 			// メッセージ一覧取得
-		loadPage(id);
+			loadPage(id);
+		}
 
 	}
+	function sendMessage(){
+		
+		var message = document.getElementById("textarea").value;
+		if (message != "") {
+			document.getElementById("textarea").value = "";
+	        $("#content-frame").load(
+				"/sendMessageData",
+				{message: message},
+				function(){});
+		}
+    }
 	</script>
 </head>
 
@@ -76,7 +88,7 @@
 			<div class="partner" th:onclick="|javascript:viewMessage(__${partner.id}__)|">
 			<div class="partner_inner" th:id="|pid__${partner.id}__|">
 				<img th:src="@{./getImgMini?id=__${partner.id}__&name=__${partner.imageFile}__}" class="img_mini">
-				<div class="partner_name">[[${partner.userName}]]</div>
+				<div class="partner_name">[[${partner.userName}]]<BR>[[${partner.message}]]</div>
 			</div>
 			</div>
 			</th:blcok>
@@ -84,63 +96,20 @@
 		</div>
 	</div>
 	<div class="right_content">	
-		<div class="right_title" id="select_user"></div>
-		<div class="right_chat" id="content-frame">
-		<!--
-	        <div class="mycomment">
-	        	<div>テストテスト<BR>あああ。<BR>いいい</div>
-	        </div>
-        	<div class="my_time">12/05 22:39</div>
-	        <div class="partner_chat">
-	        	<div class="partner_img">
-	        	<img src="/getImgMini?id=12&name=panda.jpg">
-	        	</div>
-	        	<div class="chatting">
-	        		<div class="says">
-	        			<div>テストテスト。てすと</div>
-	        		</div>
-	        	</div>
-	        	<div class="partner_time">12/05 22:40</div>
-	        </div>
-	        -->
-	        <!--
-			<th:block th:each="chat, chattStat : ${chatList}">
-				<th:block th:if="${chat.sendId != chat.loginId}">
-					<div class="partner_chat">
-						<div class="partner_img">
-							<img th:src="@{./getImgMini?id=__${chat.sendId}__&name=__${chat.sendImagePath}__}"
-								id="preview">
-						</div>
-						<div class="chatting">
-							<div class="says">
-								<th:block th:each="line, stat: ${chat.message.split('\r\n|\r|\n', -1)}">
-									<p th:text="${line}" />
-								</th:block>
-
-							</div>
-						</div>
-						<div class="partner_time" th:text="${chat.registDate}" />
-					</div>
-				</th:block>
-				<th:block th:if="${chat.sendId == chat.loginId}">
-					<div class="mycomment">
-						<th:block th:each="line, stat: ${chat.message.split('\r\n|\r|\n', -1)}">
-							<p th:text="${line}" />
-						</th:block>
-					</div>
-					<div class="my_time"  th:text="${chat.registDate}" />
-				</th:block>
-			</th:block>
-			-->
-			</div>
-			<div class="right_buttom">
-				<textarea name="message" rows="1" cols="50" placeholder="メッセージを入力" id="textarea"></textarea>
-				<input type="submit" class="soshin" />
-			</div>
+		<div class="right_title">
+			<div id="select_user"></div>
+		</div>
+		<div class="right_chat" id="content-frame"></div>
+		<div class="right_buttom">
+			<textarea name="message" rows="1" cols="50" placeholder="メッセージを入力" id="textarea"></textarea>
+			<div class="soshin" onclick="javascript:sendMessage()">送信</div>
+		</div>
 	</div>
 </div>
 </div>
 </form>
+<script type="text/javascript">
+	viewMessage("[[${session.v2bean.cpid}]]");
+</script>
 </body>
-
 </html>
