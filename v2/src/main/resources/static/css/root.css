@@ -41,7 +41,7 @@ body {
 入力欄オートコンプリート候補表示に色が変わるのを抑制
 -------------------------------------*/
 input:-webkit-autofill {
-    box-shadow: 0 0 0 1000px #FFFFFF inset;
+    box-shadow: 0 0 0 1000px var(--input-coler) inset;
     -webkit-text-fill-color: var(--font-coler);
 }
 /*-------------------------------------

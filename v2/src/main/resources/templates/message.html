@@ -65,6 +65,7 @@
 	function sendMessage(){
 		
 		var message = document.getElementById("textarea").value;
+
 		if (message != "") {
 			document.getElementById("textarea").value = "";
 	        $("#content-frame").load(
@@ -87,12 +88,11 @@
 			<th:blcok th:each="partner, partnerStat : ${partnerList}">
 			<div class="partner" th:onclick="|javascript:viewMessage(__${partner.id}__)|">
 			<div class="partner_inner" th:id="|pid__${partner.id}__|">
-				<img th:src="@{./getImgMini?id=__${partner.id}__&name=__${partner.imageFile}__}" class="img_mini">
+				<div><img th:src="@{./getImgDefault?id=__${partner.id}__&name=__${partner.imageFile}__}" class="img_mini"></div>
 				<div class="partner_name">[[${partner.userName}]]<BR>[[${partner.message}]]</div>
 			</div>
 			</div>
 			</th:blcok>
-			<div class="left_footer"></div>
 		</div>
 	</div>
 	<div class="right_content">	

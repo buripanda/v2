@@ -72,7 +72,8 @@ public class MessageUserDao {
 				+ "  T_MESSAGE_USER "
 				+ " WHERE"
 				+ "  ID = ? "
-				+ "  AND PARTNER_ID = ? ",
+				+ "  AND PARTNER_ID = ? "
+				+ "  ORDER BY UPDATE_DATE ",
 				id, pid); 
 		
 		User user = new User();
@@ -144,11 +145,11 @@ public class MessageUserDao {
 				+ "  LEFT OUTER JOIN T_USER T3"
 				+ "  ON T1.RECEIVE_ID = T3.ID "
 				+ " WHERE"
-				+ "  T1.SEND_ID IN (?, ?) "
-				+ "  AND T1.SEND_ID IN (?, ?) "
+				+ "  (T1.SEND_ID = ? AND T1.RECEIVE_ID = ?) "
+				+ "  OR (T1.SEND_ID = ? AND T1.RECEIVE_ID = ?) "
 				+ "ORDER BY"
 				+ "  T1.REGIST_DATE", 
-				id, pid,id, pid); 
+				id, pid,pid,id); 
 		
 		List<Chat> chatList = new ArrayList<>();
 		for (Map<String, Object> data : dataList) {

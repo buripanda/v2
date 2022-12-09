@@ -88,6 +88,20 @@ public class ProfileController extends AbstractController {
 		return "profile";
 		
 	}
+	
+	/**
+	 *  プロフィール変更画面表示（Get)
+	 */
+	@GetMapping("/profileEdit")
+	public String profileEditG(ModelMap modelMap) {
+
+		// セッションからログインID取得
+		if (!super.isLogin())
+			return "redirect:/";
+		
+		return this.profileEdit(modelMap);
+		
+	}
 
 	/**
 	 *  プロフィール変更画面(表示)

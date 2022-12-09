@@ -98,6 +98,10 @@ public class RestMessageController extends AbstractController {
 		SessionBean bean = super.getSessionBean();
 		int id = bean.id;
 		int cpid = bean.cpid;
+		
+		// cpidが0の場合は空で返す
+		if (cpid == 0)
+			return "";
 
 		List<Chat> chatList = new ArrayList<>();
 		String ret = null;

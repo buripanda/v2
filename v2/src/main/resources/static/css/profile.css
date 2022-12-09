@@ -9,13 +9,15 @@
 .profile_left_div01 {
   overflow: hidden;
   border-radius: 8px;
-  filter: drop-shadow(0px 0px 10px rgba(0,0,0,.5));
   inset: 0;
   text-align:center;
   width: 350px;
   height: 500px;
+  /*background: linear-gradient(135deg, #fc00ff 0, #00dbde 100%);*/
+  /*background-color: var(--font-coler--input-border-color);*/
   padding: 4px;
-  background: linear-gradient(135deg, #fc00ff 0, #00dbde 100%);
+  background-color: var(--input-border-color);
+  filter: drop-shadow(0px 0px 10px rgba(235, 174, 188,.5));
 }
 .profile_left_div01_inner {
   overflow: hidden;

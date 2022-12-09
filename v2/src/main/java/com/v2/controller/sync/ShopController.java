@@ -33,19 +33,33 @@ public class ShopController extends AbstractController {
 	
 	@Autowired
 	ShopService shopService;
-	
+
+	/**
+	 *  出品ページ（表示）GET
+	 */
+	@GetMapping("/shopView")
+	public String shopViewG(ModelMap modelMap) {
+				
+		// ログイン中か確認
+		if (!super.isLogin())
+			return "redirect:/";  		
+		shopView(modelMap);
+		return "shop";
+		
+	}
+
+
 	/**
 	 *  出品ページ（表示）
 	 */
-	@GetMapping("/shop")
-	public String profileEditRegistGet(ModelMap modelMap) {
+	@PostMapping("/shopView")
+	public String shopView(ModelMap modelMap) {
 				
 		User user = new User();
-
 		try {
   		// ログイン中か確認
   		if (!super.isLogin())
-  			return "redirect:/login";  		
+  			return "redirect:/";  		
   		//セッションからユーザID取得
   		int id = super.getSessionBean().id;
   		//プロフィール取得
@@ -63,7 +77,7 @@ public class ShopController extends AbstractController {
 	 *  出品ページ(登録）
 	 */
 	@PostMapping("/shop_regist")
-	public String shopRegistPost(
+	public String shopRegist(
 			@RequestParam("image_file") MultipartFile imageFile,
 			@RequestParam("title") String title,
 			@RequestParam("tanka") int tanka,
