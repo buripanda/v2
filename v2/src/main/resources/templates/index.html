@@ -12,6 +12,7 @@
 	<link th:href="@{/css/root.css}" rel="stylesheet">
 	<link th:href="@{/css/index.css}" rel="stylesheet">
 	<link th:href="@{/css/login.css}" rel="stylesheet">
+	<link th:href="@{/css/signup.css}" rel="stylesheet">
 	<link th:href="@{/css/modal.css}" rel="stylesheet">
 	<link th:href="@{/css/sidemenu.css}" rel="stylesheet">
 	<link th:href="@{/css/slider.css}" rel="stylesheet">
@@ -27,12 +28,31 @@
 	}
 	window.onbeforeunload  = mes;
 	
+	$(function () {
+	  // ログインモーダルオープン
+	  $('.login-open').click(function () {
+	    $('#overlay, .modal-login').fadeIn(200);
+	  });
+	  //モーダルクローズ
+	  $('.login-close, .signup-close, #overlay').click(function () {
+	    $('#overlay, .modal-login, .modal-signup').fadeOut(100);
+		document.getElementById('login_error').style.display = "hidden";
+		document.getElementById('login_error').style.backgroundColor = "#FFFFFF";
+		document.getElementById('login_error').innerHTML = "";
+		document.getElementById('signup_error').style.display = "hidden";
+		document.getElementById('signup_error').style.backgroundColor = "#FFFFFF";
+		document.getElementById('signup_error').innerHTML = "";
+	  });
+	  // 新規登録モーダルオープン
+	  $('.signup-open').click(function () {
+	    $('#overlay, .modal-signup').fadeIn(200);
+	  });
+	});
+	
 	// ログイン処理
 	function restLogin(){
-
 		var email = document.getElementById('email').value;
 		var password = document.getElementById('password').value;
-
 		$.post(
 			"/restLogin", 
 			{email: email, password: password},
@@ -41,54 +61,79 @@
 				document.getElementById('login_error').style.display = "block";
 				document.getElementById('login_error').innerHTML = data;
 				if (data == "ok") {
-					document.getElementById('login_01').style.display = "none";
-					document.getElementById('login_02').style.display = "none";
-					document.getElementById('login_03').style.display = "flex";
-					document.getElementById('menu01').style.display = "block";
-					document.getElementById('menu02').style.display = "block";
-					document.getElementById('menu03').style.display = "block";
-					document.getElementById('menu04').style.display = "block";
-					document.getElementById('menu05').style.display = "block";
+					loginMenu();
 				    //リクエストが成功した際に実行する関数
-				    $('#overlay, .modal-window').fadeOut(100);
+				    $('#overlay, .modal-login').fadeOut(100);
 				} else {
 				}
-			});
-		
+			}
+		);
+	}
+
+	// 新規登録処理
+	function restSignup(){
+		var userName = document.getElementById('s_userName').value;
+		var email = document.getElementById('s_email').value;
+		var password = document.getElementById('s_password').value;
+		var sex_bool = document.getElementById('s_sex_1').checked;
+		alert(sex_bool);
+		var sex;
+		if (sex_bool) {
+			sex = "1";
+		} else {
+			sex = "2";			
+		}
+		var agree = document.getElementById('s_agree').value;
+		alert(agree);
+		$.post(
+			"/restSignup", 
+			{userName: userName, email: email, password: password, sex: sex, agree: agree},
+			function(data){
+				document.getElementById('signup_error').style.backgroundColor = "#f08080";
+				document.getElementById('signup_error').style.display = "block";
+				document.getElementById('signup_error').innerHTML = data;
+				if (data == "ok") {
+					loginMenu();
+				    //リクエストが成功した際に実行する関数
+				    $('#overlay, .modal-signup').fadeOut(100);
+				} else {
+				}
+			}
+		);
 	}
 
 	// ログアウト処理
 	function restLogout(){
-
 		$.post(
 			"/restLogout", 
 			{},
 			function(data){
-				document.getElementById('login_01').style.display = "flex";
-				document.getElementById('login_02').style.display = "flex";
-				document.getElementById('login_03').style.display = "none";
-				document.getElementById('menu01').style.display = "none";
-				document.getElementById('menu02').style.display = "none";
-				document.getElementById('menu03').style.display = "none";
-				document.getElementById('menu04').style.display = "none";
-				document.getElementById('menu05').style.display = "none";
+				logoutMenu();
 			});
-		
 	}
 	
-	// ログインモーダルオープン
-	$(function () {
-	  $('.js-open').click(function () {
-	    $('#overlay, .modal-window').fadeIn(200);
-	  });
-	  $('.js-close, #overlay').click(function () {
-	    $('#overlay, .modal-window').fadeOut(100);
-		document.getElementById('login_error').style.display = "hidden";
-		document.getElementById('login_error').style.backgroundColor = "#FFFFFF";
-		document.getElementById('login_error').innerHTML = "";
-	  });
-	});
-
+	// ログイン中のメニュー
+	function loginMenu() {
+		document.getElementById('login_01').style.display = "none";
+		document.getElementById('login_02').style.display = "none";
+		document.getElementById('login_03').style.display = "flex";
+		document.getElementById('menu01').style.display = "block";
+		document.getElementById('menu02').style.display = "block";
+		document.getElementById('menu03').style.display = "block";
+		document.getElementById('menu04').style.display = "block";
+		document.getElementById('menu05').style.display = "block";
+	}
+	// ログアウト中のメニュー
+	function logoutMenu() {
+		document.getElementById('login_01').style.display = "flex";
+		document.getElementById('login_02').style.display = "flex";
+		document.getElementById('login_03').style.display = "none";
+		document.getElementById('menu01').style.display = "none";
+		document.getElementById('menu02').style.display = "none";
+		document.getElementById('menu03').style.display = "none";
+		document.getElementById('menu04').style.display = "none";
+		document.getElementById('menu05').style.display = "none";
+	}
 	</script>
 </head>
 
@@ -99,7 +144,7 @@
 		<img src="/image/logo.jpg" class="logo_img">
 		<div class="logo_text">ぶいつー！</div>
 		<div  class="login_div" th:classappend="${session.v2bean == null} ? display_block : display_none" id="login_01">
-			<span class="js-open button-open login_a">
+			<span class="login-open  login_a">
 			<i class="fa-solid fa-circle-user"></i><span class="login_text">ログイン</span>
 			</span>
 		</div>
@@ -109,7 +154,7 @@
 		</div>
 		-->
 		<div class="shinki_div" th:classappend="${session.v2bean == null} ? display_block : display_none" id="login_02">
-			<a href="/signup" class="shinki_a">新規登録</a>
+			<span class="signup-open shinki_a">新規登録</span>
 		</div>
 		<div  class="login_div" th:classappend="${session.v2bean == null} ? display_none : display_block" id="login_03">
 			<a href="javascript:restLogout()" class="login_a">ログアウト</a>
@@ -118,9 +163,9 @@
 	<div class="banner">
 		<p class="banner_font_big">Vtuberと交流、支援</p>
 		<p class="banner_font_small">活動を応援したいリスナーと、<br>より幅広く活動するVtuberのために。</p>
-	<!--
-		<img src="/image/banaer2.jpg">-->
-		<video src="/video/banner.mp4" autoplay loop muted playsinlin></video>
+	
+		<!-- <img src="/image/banaer2.jpg"> -->
+		<!-- <video src="/video/banner.mp4" autoplay loop muted playsinlin></video> -->
 	</div>
 	<ul class="slider">
 		<li>
@@ -315,9 +360,9 @@
 		<hr class="style1">
 		<div class="copyright">Copyright (C) v2.com All Rights Reserved.</div>
 	</div>
-	<div class="modal-window">
+	<div class="modal-login">
 		<div class="login_01">
-			<span class="round_btn js-close"></span>
+			<span class="round_btn login-close"></span>
 			<div class="login_title">ログイン</div>
 			<div class="error_message" id="login_error"></div>
 			<div class="login_input pushdown">
@@ -336,6 +381,39 @@
 			<br><br>
 			<div>
 				<a href="javascript:restLogin()" class="login_button login_pushdown"><span>ログインする</span></a>
+			</div>
+		</div>
+	</div>
+	<div class="modal-signup">
+		<div class="signup_01">
+			<span class="round_btn signup-close"></span>
+			<div class="login_title">新規登録</div>
+			<div class="error_message" id="signup_error"></div>
+			<div class="login_input pushdown">
+				<input type="text" name="s_userName" placeholder="ユーザーネーム" size="40" id="s_userName">
+			</div>
+			<div class="login_input pushdown">
+				<input type="text" name="s_email" placeholder="E-Mailアドレス" size="40"  id="s_email">
+			</div>
+			<div class="login_input pushdown">
+				<input type="text" name="s_password" placeholder="パスワード" size="40" id="s_password">
+			</div>
+			<div class="radio01">
+			<input name="s_sex" value="1" checked type="radio" id="s_sex_1">女性
+			<input name="s_sex" value="2"  type="radio" id="s_sex_2">男性
+			</div>
+			<div class="check01">
+     				<label class="CheckboxInput">
+     				<input class="CheckboxInput-Input" type="checkbox" name="s_agree" id="s_agree">
+     				<span class="CheckboxInput-DummyInput"></span>
+     				<span class="CheckboxInput-LabelText">利用規約に同意する</span>
+     				</label>
+   			</div>
+			<div class="account_login">
+				アカウントをお持ちの方はログイン
+			</div>
+			<div>
+				<a href="javascript:restSignup()" class="login_button login_pushdown"><span>登録する</span></a>
 			</div>
 		</div>
 	</div>

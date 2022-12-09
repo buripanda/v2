@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import com.v2.bean.Chat;
 import com.v2.bean.User;
 
-@Component
+@Repository
 public class MessageUserDao {
 
 	/**

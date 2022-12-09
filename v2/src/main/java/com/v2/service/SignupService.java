@@ -46,6 +46,23 @@ public class SignupService {
 		return user;
 
 	}
+	
+	/**
+	 * ユーザ重複チェック
+	 * @param user
+	 * @param jdbcTemplate
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean isExistUser(User user, JdbcTemplate jdbcTemplate) throws Exception {
+
+		// ユーザが存在しているか確認する
+		int cnt = tUser.selectUserCntEmail(user.email, jdbcTemplate);
+		if (cnt == 0)
+			return true;
+		return false;
+
+	}
 
 	/**
 	 * 各値をチェック

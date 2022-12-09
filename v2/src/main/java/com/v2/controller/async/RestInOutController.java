@@ -22,6 +22,7 @@ import com.v2.service.HtmlService;
 import com.v2.service.LoginService;
 import com.v2.service.MessageService;
 import com.v2.service.ProfileService;
+import com.v2.service.SignupService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -41,6 +42,9 @@ public class RestInOutController extends AbstractController {
 	
 	@Autowired
 	ProfileService profileService;
+	
+	@Autowired
+	SignupService signupService;
 	
 	Logger logger = LoggerFactory.getLogger(RestInOutController.class);
 	
@@ -76,7 +80,7 @@ public class RestInOutController extends AbstractController {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "error";
+			return "エラーが発生しました";
 		}
 		
 		// ログイン失敗時
@@ -99,6 +103,7 @@ public class RestInOutController extends AbstractController {
 		return "ok";
 	
 	}
+	
 	/**
 	 * ログアウト処理
 	 * @return
@@ -135,9 +140,61 @@ public class RestInOutController extends AbstractController {
             response.addCookie(cookie);
         }
     }
-		
 		return "ok";
+	}
 	
+	/**
+	 * 新規登録処理
+	 * @param userName
+	 * @param password
+	 * @param eMail
+	 * @param sex
+	 * @param modelMap
+	 * @return
+	 */
+	@PostMapping("/restSignup")
+	public String restSignup(@RequestParam("userName") String userName,
+			@RequestParam("password") String password,
+			@RequestParam("email") String email,
+			@RequestParam("sex") String sex,
+			@RequestParam(name = "agree", required = false) String agree,
+			ModelMap modelMap) {
+		
+		User user = new User();
+		user.userName = userName;
+		user.email = email;
+		user.password = password;
+		user.sex = sex;
+		if ("2".equals(sex)) {
+			user.sexChecked = 2;
+		} else {
+			user.sexChecked = 1;
+		}
+
+		// 各値チェック
+		if (!signupService.doCheck(user, agree)) {
+			modelMap.addAttribute("user", user);
+			return "入力情報が不足しています";
+		}
+		
+		//ユーザ登録
+		try {
+			// ユーザ存在チェック
+			if (!signupService.isExistUser(user, jdbcTemplate))
+				return "既に使われてるメールアドレスです";
+			user = signupService.doSignup(user, jdbcTemplate);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "エラーが発生しました";
+		}
+		
+		//セッションにid保持
+		SessionBean bean = new SessionBean();
+		bean.id = user.id;
+		super.setSessionBean(bean);		
+		modelMap.addAttribute("user", user);
+
+		return "ok";
 	}
 
 

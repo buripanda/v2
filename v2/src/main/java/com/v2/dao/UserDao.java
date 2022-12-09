@@ -7,12 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.v2.bean.User;
 
-@Component
+@Repository
 public class UserDao {
 	
 	/**
@@ -119,6 +119,25 @@ public class UserDao {
 		if (dataList.size() == 1) 
 			return setUser(dataList.get(0));
 		return new User();
+		
+	}
+
+	/**
+	 * ユーザ情報確認（Email指定）
+	 * @param emal
+	 * @param password
+	 * @param jdbcTemplate
+	 * @return
+	 */
+	public int selectUserCntEmail(String email, JdbcTemplate jdbcTemplate) throws Exception {
+		
+		String[] param = {email};
+		
+		int cnt =  jdbcTemplate.queryForObject(
+				"SELECT * FROM T_USER WHERE E_MAIL = ?",
+				Integer.class, email); 
+		
+		return cnt;
 		
 	}
 
