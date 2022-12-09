@@ -131,10 +131,8 @@ public class UserDao {
 	 */
 	public int selectUserCntEmail(String email, JdbcTemplate jdbcTemplate) throws Exception {
 		
-		String[] param = {email};
-		
 		int cnt =  jdbcTemplate.queryForObject(
-				"SELECT * FROM T_USER WHERE E_MAIL = ?",
+				"SELECT count(*) FROM T_USER WHERE E_MAIL = ?",
 				Integer.class, email); 
 		
 		return cnt;

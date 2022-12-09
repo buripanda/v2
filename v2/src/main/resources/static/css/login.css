@@ -2,14 +2,24 @@
 ログインモーダル　入れ物枠設定
 -------------------------------------*/
 .login_01 {
-  width: 500px;
-  height: 500px;
   position: fixed;
   inset: 0;
   margin: auto;
   overflow: hidden;
   text-align: center;
-  border: none;
+}
+
+/*-------------------------------------
+入力欄などの入れ物
+-------------------------------------*/
+.login_frame {
+  width: 400px;
+  height: 400px;	
+  position: relative; 
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-flow: column;
 }
 
 /*--------------------------------
@@ -57,13 +67,12 @@
 /*--------------------------------
 入力欄
 ---------------------------------*/
-
+/* 入力欄の枠 */
 .login_input {
     position: relative;
-	display: inline-block;
-    margin: 25px auto;
+	display: inline;
+    margin: 20px auto;
 }
-
 /*入力欄の中のテキスト*/
 .login_input input {
 	border: none;
@@ -75,20 +84,19 @@
 	background-color: var(--input-coler);
 	border-radius: 10px;
 	color:var(--font-coler);
+	width: 380px;
     /*アニメーションの指定*/
     transition: all 0.1s ease;
     text-decoration: none;
     outline: none;
 }
-
-/*== 下に押し込まれる（立体が平面に） */
 /*影の設定*/
 .pushdown:before {
     content:"";
     /*絶対配置で影の位置を決める*/
     position: absolute;
 	z-index: -1;
-    top:4px;
+    top:3px;
     left:0;
     /*影の形状*/
     width: 100%;
@@ -101,27 +109,21 @@
 .pushdown:hover input {
 	background-color: var(--input-coler);
 	color:  var(--font-color);
-	transform: translateY(4px);
+	transform: translateY(3px);
 	outline: none;
 }
 
 .pushdown:active input {
 	background-color: var(--input-coler);
 	color: var(--font-color);
-	transform: translateY(4px);
+	transform: translateY(3px);
 	outline: none;
-}
-
-/* オートコンプリート候補表示に色が変わるのを抑制 */
-input:-webkit-autofill {
-    box-shadow: 0 0 0 1000px var(--input-coler) inset;
 }
 /*-------------------------------
 チェックボックス
 ------------------------------*/
 .check01 {
 	position: relative;
-	margin-left: 140px;
 }
 
 .CheckboxInput {
@@ -199,6 +201,7 @@ input:-webkit-autofill {
   /*アニメーションの指定*/
   transition: all 0.1s ease;
   background-color: #ffffff;
+  margin-top: 20px;
   width: 200px;
 }
 
