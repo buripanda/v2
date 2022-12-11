@@ -11,10 +11,17 @@
 	<link th:href="@{/css/root.css}" rel="stylesheet">
 	<link th:href="@{/css/sidemenu.css}" rel="stylesheet">
 	<link th:href="@{/css/message.css}" rel="stylesheet">
-	<script src="/js/common.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
 	<script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="/js/common.js"></script>
 	<script>
+	
+    var stompClient = null;
+	var sendId = null;
+	var distId = "[[${session.v2bean.id}]]";
+
 	$(function(){
 	  $('#textarea')
 	  .on('input', function(){
@@ -26,42 +33,35 @@
 	    }
 	  });
 	});
-	function selectFunc(id) {
-
-		const form = document.createElement('form');
-		form.method = 'post';
-		form.action = '/message_selectPartner';
-
-		const hiddenField = document.createElement('input');
-		hiddenField.type = 'hidden';
-		hiddenField.name = 'pid';
-		hiddenField.value = id;
-		form.appendChild(hiddenField);
-
-		document.body.appendChild(form);
-		form.submit();
-
-		//document.location="view/" + id
-	}
-	function loadPage(id){
+	
+	function loadPage(){
         $("#content-frame").load(
 			"/getMessageData",
-			{pid: id},
-			function(){});
+			{distId: distId, sendId: sendId},
+			function(){
+				// スクロールを下へ
+				let chatArea = document.getElementById('content-frame');
+				chatArea.scrollTop = chatArea.scrollHeight;
+			});
     }
-    function viewMessage(id) {
-	
-		if (id != 0) {		
-			var user_content = document.getElementById("pid"+id);
+    
+    // 左のユーザを選択した時
+    function viewMessage(selectId) {
+		console.log("sendId:" + selectId);
+		if (selectId != 0) {
+			// 送信先ユーザID設定
+			sendId = selectId;
+			var user_content = document.getElementById("pid" + sendId);
 			var clone_element = user_content.cloneNode(true);
 			clone_element.id = "select_user";			
 			var select_user_content = document.getElementById("select_user");
 			select_user_content.replaceWith(clone_element);
 			// メッセージ一覧取得
-			loadPage(id);
+			loadPage();
 		}
 
 	}
+	/*
 	function sendMessage(){
 		
 		var message = document.getElementById("textarea").value;
@@ -74,6 +74,73 @@
 				function(){});
 		}
     }
+    */
+    
+    // 以下はWebSocket通信	
+	function setConnected(connected) {
+	    $("#connect").prop("disabled", connected);
+	    $("#disconnect").prop("disabled", !connected);
+	    if (connected) {
+	        $("#conversation").show();
+	    }
+	    else {
+	        $("#conversation").hide();
+	    }
+	    $("#greetings").html("");
+	}
+	
+	function connect() {
+	    var socket = new SockJS('/v2-websocket');
+	    stompClient = Stomp.over(socket);
+	    stompClient.connect({}, function (after) {
+	        //setConnected(true);
+	        console.log('Connected: ' + after);
+	        var toRecivePath = "/topic/greetings/" + distId;
+	        stompClient.subscribe(toRecivePath, function (ws_essage) {
+				console.log(JSON.parse(ws_essage.body).content);
+				// メッセージ一覧取得
+				loadPage();
+	        });
+	    });
+	}
+	
+	function disconnect() {
+	    if (stompClient !== null) {
+	        stompClient.disconnect();
+	    }
+	    setConnected(false);
+	    console.log("Disconnected");
+	}
+	
+	async function sendMessage() {
+		var toSendPath = "/v2/chat";
+		var message = document.getElementById("textarea").value;
+
+		if (message != "") {
+			// wsで相手に通知＆メッセージ登録
+		    stompClient.send(toSendPath, {}, JSON.stringify(
+			{'sendId': sendId,'distId': distId, 'mode': 0,'message': message}));
+			// 入力欄クリア
+			document.getElementById("textarea").value = "";
+			await new Promise(s => setTimeout(s, 200));
+	        // 画面リロード
+	        loadPage();
+		}
+	}
+	
+	function showGreeting(message) {
+	    //$("#greetings").append("<tr><td>" + message + "</td></tr>");
+	}
+	
+	$(function () {
+	    //$("form").on('submit', function (e) {
+	    //    e.preventDefault();
+	    //});
+	    $( "#connect" ).click(function() { connect(); });
+	    $( "#disconnect" ).click(function() { disconnect(); });
+	    $( "#send" ).click(function() { sendMessage(); });
+	});
+	window.onload = connect();
 	</script>
 </head>
 
@@ -81,9 +148,10 @@
 <th:block th:replace="sidemenu::sidemenu"></th:block>
 <div class="contents">
 <form method="post" name="form1" enctype="multipart/form-data" action="/chat/soshin">
+	<div class="title"><img src="/image/banaer2.jpg"></div>
 <div class="message">
 	<div class="left_content">
-		<div class="title">メッセージ一覧</div>
+		<div class="left_header"></div>
 		<div class="partner_list">
 			<th:blcok th:each="partner, partnerStat : ${partnerList}">
 			<div class="partner" th:onclick="|javascript:viewMessage(__${partner.id}__)|">
@@ -94,6 +162,7 @@
 			</div>
 			</th:blcok>
 		</div>
+		<div class="left_footer"></div>
 	</div>
 	<div class="right_content">	
 		<div class="right_title">

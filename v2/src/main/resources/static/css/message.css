@@ -4,44 +4,54 @@
 -------------------------------------*/
 .message {
   display: flex;
-  width: 1000px;
   height: 100vh;
   position: fixed;
-  top: 0;
+  top: 0px;
   bottom: 0;
-  border: 1px solid var(--input-border-color);
-  filter: drop-shadow(0px 0px 5px rgba(125,125,125,.3));
-  background-color: #FFFFFF;
-  margin: 0 30px;
+  margin: 0;
   
 }
 /*-------------------------------------
 ヘッダー
 -------------------------------------*/
 .title {
+/*
   height: 50px;
-  border-width: 0 0 1px 0 ;
-  border-color:var(--input-border-color);
-  border-style: solid;
   margin: 0;
   padding-top: 20px;
   padding-left: 20px;
-  
+  */
+  display: block;
+  margin-right: calc(50% - 50vw);
+  margin-left: calc(50% - 50vw);
+  border-width: 0 0 1px 0 ;
+  border-color:var(--input-border-color);
+  border-style: solid;
+
 }
 
+.title img {
+  display: block;
+  width: 100vw;
+  height: 100px;
+  object-fit: cover;
+}
+
+/*
 /*-------------------------------------
 メッセージ一覧左
 -------------------------------------*/
 .left_content {
   width: 299px;
   height: 100vh;
-  border-width: 0 1px 0 0;
-  border-color:var(--input-border-color);
-  border-style: solid;
   display: grid;
   flex-flow: column;
-  grid-template-rows: 70px 1fr;
+  grid-template-rows: 104px 1fr 104px ;
 }
+.left_header {
+  width: 299px;
+}
+
 .partner_list {
   overflow: hidden scroll ;
   display:flex;
@@ -50,32 +60,38 @@
 }
 
 .partner {
-  border-width: 0 0 1px 0;
-  border-color:var(--input-border-color);
-  border-style: solid;
+  border-width: 0;
   display: flex;
   position: relative;
-  padding: 5px 0;
-
+  cursor: pointer;
+  padding: 3px 5px;
 }
 .partner_inner {
+  width: 290px;
   height: 50px;
   display: flex;
   position: relative;
-  padding: 5px 10px;
-  width:100%;
+  border-radius: 8px;
+  padding: 3px;
+  box-shadow: 0px 0px 5px  #DDDDDD;
+  background-color: #FFFFFF;
 }
-
+.partner_inner:hover {
+  top:-2px;
+  left:-2px;
+  filter: drop-shadow(2px 2px 3px rgba(222,120,144,.5));
+  z-index:10;
+}
 .img_mini {
-  width:40px;
-  height:40px;
+  width:50px;
+  height:50px;
   object-fit: cover;
-  border-radius: 50%;
+  /*
   border:1px solid #CCCCCC;
-  /* 縦中央にし、その半分戻す */
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  */
 }
 .partner_name {
   position: absolute;
@@ -84,12 +100,14 @@
   left:70px;	
 }
 .left_footer {
-  width: 299px;
-  height: 50px;
+  width: 100%;
+  height: 100px;
   position: fixed;
   left: 0;
   bottom: 0;
-  background-color: #FFFFFF;
+  border-width: 1px 0 0 0 ;
+  border-color:var(--input-border-color);
+  border-style: solid;
 }
 /*-------------------------------------
 メッセージ一覧右
@@ -99,15 +117,11 @@
   height: 100vh;
   display: grid;
   flex-flow: column;
-  grid-template-rows: 70px 1fr 70px;
+  grid-template-rows: 104px 1fr 104px;
 
 }
 .right_title {
   font-weight: 700;
-  height: 67px;
-  border-width:0 0 1px 0;
-  border-color:var(--input-border-color);
-  border-style: solid;
   margin: 0;
   padding: 2px ;
 }
@@ -116,10 +130,9 @@
 -------------------------------------*/
 .right_chat {
   padding: 20px 10px;
-  width: 680px;
   /*margin: 15px auto;*/
   text-align: right;
-  overflow: hidden scroll ;
+  overflow-y: auto;
   display:flex;
   flex-flow: column;
 }
@@ -152,7 +165,7 @@
   display: inline-block;
   position: relative; 
   margin: 0 0 3px 50px;
-  padding: 10px;
+  padding: 8px 15px;
   max-width: 80%;
   border-radius: 12px 12px 12px 0;
   background: #edf1ee;
@@ -161,17 +174,17 @@
   text-align:left
 }
 .partner_time {
-	color: #778899;
-	width: 100%;
+  	margin: 2px 0 5px 10px;
   	text-align: left;
+  	font-size: 0.7rem;
 }
 /*-------------------------------------
 自分部分
 -------------------------------------*/
 .mycomment {
   display: inline-block;
-  margin: 5px 0 5px auto;
-  padding: 10px;
+  margin: 0 0 3px auto;
+  padding: 8px 15px;
   border-radius: 15px 15px 0 15px;
   background: var(--shadow-color);
   color: #FFFFFF;
@@ -180,8 +193,8 @@
   text-align:left
 }
 .my_time {
-	color: #778899;
-  	margin: 0 10px 0 0;
+  	margin: 2px 5px 5px 0;
+  	font-size: 0.7rem;
 }
 /*-------------------------------------
 メッセージ送信
@@ -192,9 +205,8 @@
   border-style: solid;
   display: flex;
   width: 700px;
-  height: 70px;
+  height: 100px;
   position: fixed;
-  right: 0;
   bottom: 0;
   background-color: #FFFFFF;
 }
@@ -211,6 +223,9 @@ textarea {
   width: 80%;
   height: 20px;
 }
+textarea::-webkit-scrollbar{
+  display:none;
+}
 
 .soshin {
   font-size: 18px;;
@@ -219,7 +234,7 @@ textarea {
   border: none;
 /* 縦中央にし、その半分戻す */
   position: absolute;
-  top: 50%;
+  top: 30%;
   left: 85%;
   transform: translateY(-50%);
 }

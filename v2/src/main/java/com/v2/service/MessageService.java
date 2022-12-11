@@ -57,6 +57,25 @@ public class MessageService {
 	}
 	
 	/**
+	 * メッセージを登録する
+	 * @param id
+	 * @param pid
+	 * @param message
+	 * @param jdbcTemplate
+	 * @return
+	 * @throws Exception
+	 */
+	public void registMessage(int id, int pid, String message, JdbcTemplate jdbcTemplate) throws Exception {
+		
+		// メッセージを登録
+		messageHistDao.insertMessage(id, pid, message, jdbcTemplate);
+
+		// 最新メッセージを登録
+		messageUserDao.updateMessage(id, pid, message, jdbcTemplate);
+		
+	}
+
+	/**
 	 * メッセージを登録して、リストを返す
 	 * @param id
 	 * @param pid
@@ -65,13 +84,9 @@ public class MessageService {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<Chat> registMessage(int id, int pid, String message, JdbcTemplate jdbcTemplate) throws Exception {
+	public List<Chat> registMessageRetList(int id, int pid, String message, JdbcTemplate jdbcTemplate) throws Exception {
 		
-		// メッセージを登録
-		messageHistDao.insertMessage(id, pid, message, jdbcTemplate);
-
-		// 最新メッセージを登録
-		messageUserDao.updateMessage(id, pid, message, jdbcTemplate);
+		this.registMessage(id, pid, message, jdbcTemplate);
 		
 		// メッセージリストを取得する
 		List<Chat> chatList = messageUserDao.selectMessageList(id, pid, jdbcTemplate);

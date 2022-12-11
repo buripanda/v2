@@ -1,23 +1,9 @@
 /*-------------------------------------
-プレースフォルダ色
--------------------------------------*/
-::placeholder {
-  color: #CCCCCC;
-}
-/*-------------------------------------
-オートコンプリート候補表示に色が変わるのを抑制
--------------------------------------*/
-input:-webkit-autofill {
-    box-shadow: 0 0 0 1000px #FFFFFF inset;
-    -webkit-text-fill-color: var(--font-coler);
-}
-
-/*-------------------------------------
 プロフィール画面　左側
 -------------------------------------*/
-.profile_table01 {
-	padding: 10px;
-	vertical-align: top;
+.profile01 {
+	padding: 30px;
+	display: flex;
 }
 .profile_left_div01 {
   overflow: hidden;
@@ -28,9 +14,8 @@ input:-webkit-autofill {
   width: 350px;
   height: 500px;
   padding: 4px;
-  background-color: var(--input-border-color);
-  filter: drop-shadow(0px 0px 10px rgba(235, 174, 188,.5));
-
+  background-color: var(--card-border-coloer);
+  filter: drop-shadow(0px 0px 5px rgba(222,120,144,.5));
 }
 .profile_left_div01_inner {
   overflow: hidden;
@@ -38,7 +23,7 @@ input:-webkit-autofill {
   background-color: #FFFFFF;
   border-radius: 8px;
   padding: 8px;
-  height: 482px;
+  height: 483px;
 }
 .upload_txt {
   font-size: 1.5rem;
@@ -56,7 +41,7 @@ img {
 /*-------------------------------------
 プロフィール画面　右側
 -------------------------------------*/
-.profile_table02 {
+.profile_right_div01 {
 	padding: 10px;
 	vertical-align: top;
 	width: 800px;

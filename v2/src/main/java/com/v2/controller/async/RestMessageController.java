@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.v2.bean.Chat;
-import com.v2.bean.SessionBean;
 import com.v2.controller.AbstractController;
 import com.v2.service.HtmlService;
 import com.v2.service.LoginService;
@@ -42,7 +41,6 @@ public class RestMessageController extends AbstractController {
 	Logger logger = LoggerFactory.getLogger(RestMessageController.class);
 	
 	private final JdbcTemplate jdbcTemplate;
-
 	public RestMessageController(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
@@ -54,61 +52,18 @@ public class RestMessageController extends AbstractController {
 	 * @return
 	 */
 	@PostMapping("/getMessageData")
-	public String getMessageData(@RequestParam("pid") int pid) {
+	public String getMessageData(@RequestParam("sendId") int sendId, @RequestParam("distId") int distId) {
 		
 		// セッションからログインID取得
 		if (!super.isLogin())
 			return "redirect:/";
 		
-		SessionBean bean = super.getSessionBean();
-		int id = bean.id;
-
 		// チャットリスト取得
 		List<Chat> chatList = new ArrayList<>();
 		String ret = null;
 		try {
-			chatList = messageService.getMessageList(id, pid, jdbcTemplate);
-			ret = htmlService.getChatList(id, chatList);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
-		
-		// 選択したチャット画面の相手のpidを保持
-		bean.cpid = pid;
-		super.setSessionBean(bean);
-		
-		logger.info(ret);
-		return ret;
-		
-	}
-
-	/**
-	 * メッセージ送信
-	 * @param id
-	 * @param modelMap
-	 * @return
-	 */
-	@PostMapping("/sendMessageData")
-	public String sendMessageData(@RequestParam("message") String message) {
-		
-		// セッションからログインID取得
-		if (!super.isLogin())
-			return "redirect:/";
-		SessionBean bean = super.getSessionBean();
-		int id = bean.id;
-		int cpid = bean.cpid;
-		
-		// cpidが0の場合は空で返す
-		if (cpid == 0)
-			return "";
-
-		List<Chat> chatList = new ArrayList<>();
-		String ret = null;
-		try {
-			// メッセージを登録して、チャットリスト取得
-			chatList = messageService.registMessage(id, cpid, message, jdbcTemplate);
-			ret = htmlService.getChatList(id, chatList);
+			chatList = messageService.getMessageList(distId, sendId, jdbcTemplate);
+			ret = htmlService.getChatList(distId, chatList);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
@@ -118,5 +73,5 @@ public class RestMessageController extends AbstractController {
 		return ret;
 		
 	}
-
+	
 }

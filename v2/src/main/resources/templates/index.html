@@ -22,13 +22,12 @@
 	<script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
 	<script src="https://apis.google.com/js/platform.js"></script>
 	<script>
-
-	function mes(event){
-	  $.post( '/leave', '' );
-	}
-	window.onbeforeunload  = mes;
 	
 	$(function () {
+		//$(window).unload(function() {
+		//  $.post( '/leave', '' );
+		//  console.log("close!!");
+		//});
 	  // ログインモーダルオープン
 	  $('.login-open').click(function () {
 	    $('#overlay, .modal-login').fadeIn(200);
@@ -42,6 +41,12 @@
 		document.getElementById('signup_error').style.display = "hidden";
 		document.getElementById('signup_error').style.backgroundColor = "#FFFFFF";
 		document.getElementById('signup_error').innerHTML = "";
+		document.getElementById('email').value = "";
+		document.getElementById('password').value = "";
+		document.getElementById('s_userName').value = "";
+		document.getElementById('s_email').value = "";
+		document.getElementById('s_password').value = "";
+		
 	  });
 	  // 新規登録モーダルオープン
 	  $('.signup-open').click(function () {

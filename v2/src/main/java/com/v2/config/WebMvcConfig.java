@@ -8,6 +8,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.v2.AppInterceptor;
 
+/**
+ * インスペクタークラス。
+ * リクエスト前後の処理を行う
+ * @author burip
+ *
+ */
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 	

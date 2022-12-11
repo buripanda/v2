@@ -3,10 +3,13 @@
 　基本設定変数
 ------------------------------------*/
 :root {
-  --font-coler: #DE7890; /* 基本文字色 */
+  /*--font-coler: #DE7890; /* 基本文字色 */
+  --font-coler: #9A6239; /* 基本文字色（通常文字） */
+  --font-coler2: #DE7890; /* 基本文字色（濃い文字） */
+  --button-coler: #DE7890; /*　基本ボタン色 */
 /*  --input-coler: #ffe4e1;*/ /* 基本入力欄の色 */
-  --input-coler: #ffcccc; /* 基本入力欄の色 */
-  --shadow-color: #f08080; /* 基本の影色 */
+  --input-coler: #FFDDD2; /* 基本入力欄の色 */
+  --shadow-color: #DE7890; /* 基本の影色 */
   --font-family: "07LogoTypeGothic7", "komorebi-gothic","游ゴシック体", YuGothic, "游ゴシック", "Yu Gothic", sans-serif; /* 基本フォント種類 */
   --background-color: #fefefe; /* 基本背景色 */
   --youtube-color:#DA1725; /* Youtube色 */
@@ -14,7 +17,8 @@
   --tiktok-color:#00acee; /* TikTok色 */
   --instagram-color:#CF2E92; /* Instagram色 */
   --placefolder-color: #EBAEBC; /*プレースフォルダ色*/
-  --input-border-color: #EBAEBC; /* 入力欄の淵の色 */
+  --input-border-color: #DE7890; /* 入力欄の淵の色 */
+  --card-border-coloer: #EBAEBC; /* プロフィールカードの淵の色 */
 }
 /*-----------------------------------
 　HTML　BODY部　基本設定
@@ -50,5 +54,18 @@ input:-webkit-autofill {
 ::placeholder {
   color: var(--placefolder-color);
 }
-
+/*-------------------------------------
+スクロールバー
+-------------------------------------*/
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #ffe6ea;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--input-border-color);
+  border-radius: 5px;
+}
 

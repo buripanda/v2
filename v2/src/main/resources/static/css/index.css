@@ -38,7 +38,7 @@
 }
 
 .login_a {
-  border: 1px solid var(--font-coler);
+  border: 1px solid var(--button-coler);
   border-radius: 10px;
   position: relative;
   padding: 14px 12px;
@@ -50,7 +50,7 @@
   letter-spacing: 0.1em;
   font-size: 18px;
   width: 100px;
-  color: var(--font-coler);
+  color: var(--button-coler);
 }
 /*
 .login_a:hover {
@@ -77,7 +77,7 @@
   padding: 15px 10px 15px 10px;
 }
 .shinki_a {
-  border: 1px solid var(--font-coler);
+  border: 1px solid var(--button-coler);
   border-radius: 10px;
   position: relative;
   padding: 14px 12px;
@@ -89,7 +89,7 @@
   letter-spacing: 0.1em;
   font-size: 18px;
   width: 100px;
-  background-color:var(--font-coler);
+  background-color:var(--button-coler);
   color: #ffffff;
 }
 /*
@@ -123,7 +123,7 @@
   position: absolute;
   top: 20px;
   left: 115px;
-  color: #333333;
+  color: var(--font-coler);
 }
 
 .banner_font_small{
@@ -132,7 +132,7 @@
   position: absolute;
   top: 170px;
   left: 120px;
-  color: #333333;
+  color: var(--font-coler);
 }
 
 /*--------------------------------------
@@ -192,15 +192,15 @@
 }
 .card_footer {
   position: relative;
-  top: -42px;
+  top: -40px;
 }
 
 .card_title {
-  font-size: 1.4rem;
+  font-size: 18px;
   order: 1;
   font-weight: 400;
   color:#FFFFFF;
-  padding: 10px 10px;
+  padding: 15px 10px 5px 10px;
   background: linear-gradient(rgba(85,85,85,0),rgba(85,85,85,0.4));
 }
 

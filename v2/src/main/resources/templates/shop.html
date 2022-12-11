@@ -36,43 +36,39 @@ function submitFunc(action) {
 <body>
 <th:block th:replace="sidemenu::sidemenu"></th:block>
 <div class="contents">
-	<form method="post" name="form1" enctype="multipart/form-data" action="shop_regist">
-		<table>
-			<tr>
-				<td rowspan="2" class="profile_table01">
-				<div class="profile_left_div01">
-				<div class="profile_left_div01_inner">
-					<div>
-					<label class="image_select">
-							<!--<img src="http://localhost:8383/images/thumbnail/icon_user_1.png" width="250" id="preview">-->
-							<img th:src="@{./getImgDefault?id=__${user.id}__&name=__${user.imageFile}__}" width="300" id="preview">
-							<input type="file" name="image_file" onchange="previewImage(this);" />
-					</label>
-					</div>
-					<div class="upload_txt">[[${user.userName}]]</div>
-				</div>
-				</div>
-				</td>
-				<td class="profile_table02">
-					<div class="profile_right01">
-						<div class="profile_right01_dev01">出品情報の編集</div>
-					</div>
-					<hr class="style_100">
-					出品タイトル
-					<div>
-						<input type="text" name="title" placeholder="出品タイトルをいれてください" size="40" th:value="${user.title}" class="input_username">
-					</div>
-					出品価格
-					<div>
-						<input type="text" name="tanka" placeholder="出品価格をいれてください" size="40" th:value="${user.tanka}" class="input_username">
-					</div>
-					<div class="regist_div">
-					<a href="javascript:document.form1.submit()" class="regist_button regist_pushdown"><span>出品する</span></a>
-					</div>
-				</td>
-			</tr>
-		</table>
-	</form>
+<form method="post" name="form1" enctype="multipart/form-data" action="shop_regist">
+<div class="profile01">
+	<div class="profile_left_div01">
+		<div class="profile_left_div01_inner">
+			<div>
+			<label class="image_select">
+					<!--<img src="http://localhost:8383/images/thumbnail/icon_user_1.png" width="250" id="preview">-->
+					<img th:src="@{./getImgDefault?id=__${user.id}__&name=__${user.imageFile}__}" width="300" id="preview">
+					<input type="file" name="image_file" onchange="previewImage(this);" />
+			</label>
+			</div>
+			<div class="upload_txt">[[${user.userName}]]</div>
+		</div>
+	</div>
+	<div class="profile_right_div01">
+		<div class="profile_right01">
+			<div class="profile_right01_dev01">出品情報の編集</div>
+		</div>
+		<hr class="style_100">
+		出品タイトル
+		<div>
+			<input type="text" name="title" placeholder="出品タイトルをいれてください" size="40" th:value="${user.title}" class="input_username">
+		</div>
+		出品価格
+		<div>
+			<input type="text" name="tanka" placeholder="出品価格をいれてください" size="40" th:value="${user.tanka}" class="input_username">
+		</div>
+		<div class="regist_div">
+		<a href="javascript:document.form1.submit()" class="regist_button regist_pushdown"><span>出品する</span></a>
+		</div>
+	</div>
+</div>
+</form>
 </div>
 </body>
 </html>
