@@ -8,9 +8,12 @@
 <meta name="copyright" content="Copyright (C) v2.com All Rights Reserved." />
 <title>プロフィール</title>
 <link th:href="@{/css/root.css}" rel="stylesheet">
+<link th:href="@{/css/header.css}" rel="stylesheet">
 <link th:href="@{/css/profile.css}" rel="stylesheet">
 <link th:href="@{/css/sidemenu.css}" rel="stylesheet">
+<link th:href="@{/css/footer.css}" rel="stylesheet">
 <script src="/js/common.js"></script>
+<script src="/js/header.js"></script>
 <script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
 <script>
 function previewImage(obj)
@@ -26,6 +29,7 @@ function previewImage(obj)
 <body>
 <th:block th:replace="sidemenu::sidemenu"></th:block>
 <div class="contents">
+<th:block th:replace="header::header"></th:block>
 <form method="post" name="form1" enctype="multipart/form-data" action="profile">
 <div class="profile01">
 	<div class="profile_left_div01">
@@ -41,7 +45,7 @@ function previewImage(obj)
 	<div class="profile_right_div01">
 		<div class="profile_right01">
 			<div class="profile_right01_dev01">プロフィール</div>
-			<th:block th:if="${session.v2bean.id == session.v2bean.pid}">
+			<th:block th:if="${session.v2bean.id == session.pid}">
 			<div class="profile_right01_dev02">
 			<a href="javascript:postSelectAc('profileEdit')" class="login_button login_pushdown"><span>プロフィールを編集</span></a>
 			</div>
@@ -53,12 +57,12 @@ function previewImage(obj)
 		<hr class="style_100">
 		<div class="profile_right01_dev01">自己紹介</div>
 		<div class="profile_message">
-		<th:block th:if="${user.message}">
-			<th:block th:each="line: ${user.message.split('\r\n|\r|\n', -1)}">
-				<th:block th:text="${line}" />
-				<br />
+			<th:block th:if="${user.message}">
+				<th:block th:each="line: ${user.message.split('\r\n|\r|\n', -1)}">
+					<th:block th:text="${line}" />
+					<br />
+				</th:block>
 			</th:block>
-		</th:block>
 		</div>
 		<div class="profile_right01_dev01">バッジ</div>
 		<div class="profile_badge">
@@ -67,9 +71,7 @@ function previewImage(obj)
 			<div class="profile_badge_txt02">購入回数10回以上達成</div>
 		</div>
 		<div class="profile_right01_dev01">概要</div>
-		<div class="profile_message">
 		<div class="profile_right01_dev01">ファンバッチ</div>
-		<div class="profile_message">
 		<hr class="style_100">
 		<div class="profile_media">
 			<div class="icon"><i class="fa-brands fa-youtube"></i>　Youtube</div>
@@ -80,6 +82,7 @@ function previewImage(obj)
 	</div>
 </div>
 </form>
+<th:block th:replace="footer::footer"></th:block>
 </div>
 </body>
 </html>

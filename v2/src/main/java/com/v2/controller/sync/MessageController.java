@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.v2.bean.Chat;
-import com.v2.bean.SessionBean;
 import com.v2.bean.User;
 import com.v2.controller.AbstractController;
 import com.v2.service.MessageService;
@@ -46,8 +45,8 @@ public class MessageController extends AbstractController {
 		// セッションからログインID取得
 		if (!super.isLogin())
 			return "redirect:/";		
-		SessionBean bean = super.getSessionBean();		
-		return messagePartnerList(bean.cpid, modelMap);
+		int cpid = super.getSessionBeanInt("cpid");	
+		return messagePartnerList(cpid, modelMap);
 	
 	}
 	
@@ -63,8 +62,8 @@ public class MessageController extends AbstractController {
 		// セッションからログインID取得
 		if (!super.isLogin())
 			return "redirect:/";		
-		SessionBean bean = super.getSessionBean();
-		int id = bean.id;
+		User user = super.getSessionBean();
+		int id = user.id;
 		
 		List<User> partnerList = new ArrayList<>();
 		try {
@@ -81,11 +80,9 @@ public class MessageController extends AbstractController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
-		}
-		
+		}	
 		// 選択したチャット画面の相手のpidを保持
-		bean.cpid = cpid;
-		super.setSessionBean(bean);
+		super.setSessionBeanInt("cpid", cpid);
 		
 		return "message";
 		

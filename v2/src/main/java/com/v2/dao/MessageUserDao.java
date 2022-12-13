@@ -29,7 +29,9 @@ public class MessageUserDao {
 				+ "  T1.PARTNER_ID, "
 				+ "  T2.USER_NAME, "
 				+ "  T2.IMAGE_PATH, "
+				+ "  T2.ONLINE_STATUS, "
 				+ "  T1.LAST_MESSAGE, "
+				+ "  T1.NEW_MESSAGE, "
 				+ "  T1.UPDATE_DATE "
 				+ "FROM"
 				+ "  T_MESSAGE_USER T1"
@@ -48,7 +50,12 @@ public class MessageUserDao {
 			user.id = (int)data.get("PARTNER_ID");
 			user.userName = (String)data.get("USER_NAME");
 			user.imageFile = (String) data.get("IMAGE_PATH");
+			user.onlineStatus = (int)data.get("ONLINE_STATUS");
 			user.message = (String) data.get("LAST_MESSAGE");
+	  	if (user.message != null && user.message.length() > 10) {
+	  		user.message = user.message.substring(0,10);
+	  	}
+			user.newMessage = (int) data.get("NEW_MESSAGE");
 			user.updateDate = (Date)data.get("UPDATE_DATE");
 			partnerList.add(user);
 		}
@@ -89,6 +96,29 @@ public class MessageUserDao {
 	}
 
 	/**
+	 * 新着メッセージがあるか確認する
+	 * @param id
+	 * @param jdbcTemplate
+	 * @return
+	 * @throws Exception
+	 */
+	public int selectNewMessage(int id, JdbcTemplate jdbcTemplate) throws Exception {
+		
+		int cnt = jdbcTemplate.queryForObject(
+				"SELECT"
+				+ "  COUNT(*) "
+				+ "FROM"
+				+ "  T_MESSAGE_USER "
+				+ " WHERE"
+				+ "  ID = ? "
+				+ "  AND NEW_MESSAGE > 0 ",
+				Integer.class, id); 
+		
+		return cnt;
+
+	}
+
+	/**
 	 * パートナーを登録する
 	 * @param id
 	 * @param jdbcTemplate
@@ -113,10 +143,25 @@ public class MessageUserDao {
 	public void updateMessage(int id, int pid, String message, JdbcTemplate jdbcTemplate) throws Exception {
 		
 		jdbcTemplate.update(
-				"UPDATE T_MESSAGE_USER SET LAST_MESSAGE = ?, UPDATE_DATE=current_timestamp "
+				"UPDATE T_MESSAGE_USER SET LAST_MESSAGE = ?, NEW_MESSAGE = 1, UPDATE_DATE=current_timestamp "
 				+ " WHERE ID=? AND PARTNER_ID=?",
 				message, pid, id); 
 	}
+	/**
+	 * 新着メッセージを既読にする
+	 * @param id
+	 * @param jdbcTemplate
+	 * @return
+	 * @throws Exception
+	 */
+	public void updateNewMessage(int id, int pid, int newMessage, JdbcTemplate jdbcTemplate) throws Exception {
+		
+		jdbcTemplate.update(
+				"UPDATE T_MESSAGE_USER SET NEW_MESSAGE = ? "
+				+ " WHERE ID=? AND PARTNER_ID=?",
+				newMessage, id, pid); 
+	}
+
 
 	/**
 	 * チャットリストを取得する

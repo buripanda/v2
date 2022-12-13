@@ -9,12 +9,14 @@
 .profile_left_div01 {
   overflow: hidden;
   border-radius: 8px;
-  /*box-shadow: 0 4px 15px rgba(0,0,0,.2);*/
   inset: 0;
   text-align:center;
-  width: 350px;
+  width: 300px;
   height: 500px;
-  padding: 4px;
+  /*background: linear-gradient(135deg, #fc00ff 0, #00dbde 100%);*/
+  /*background-color: var(--font-coler--input-border-color);*/
+  /* ここが枠になる */
+  /*padding: 4px;*/
   background-color: var(--card-border-coloer);
   filter: drop-shadow(0px 0px 5px rgba(222,120,144,.5));
 }
@@ -23,8 +25,7 @@
   text-align:center;
   background-color: #FFFFFF;
   border-radius: 8px;
-  padding: 8px;
-  height: 483px;
+  height: 500px
 }
 
 .upload_txt {
@@ -36,8 +37,8 @@
  画像は中央でトリミング
 --------------------------------------*/
 img {
-	width: 250px;
-	height: 250px;
+	width: 300px;
+	height: 300px;
 	object-fit: cover;
 }
 /*-------------------------------------

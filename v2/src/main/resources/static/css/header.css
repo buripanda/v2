@@ -1,0 +1,179 @@
+/*--------------------------------------
+ 状態によって要素を表示・非表示にするCSS
+--------------------------------------*/
+.display_block {
+	display:flex;
+}
+.display_none {
+	display: none;	
+}
+/*--------------------------------------
+ ヘッダー
+--------------------------------------*/
+.header {
+  display:flex;
+  height:60px;
+  border-width: 1px 0;
+  border-style: solid;
+  border-color: #DDDDDD;
+  padding-left: 20px;
+  margin-right: calc(50% - 50vw);
+  margin-left: calc(50% - 50vw);
+  background-color: #FFFFFF;
+}
+
+.logo_img {
+  width: 50px;
+  height: 50px;
+  margin: 5px 15px;	
+}
+
+.logo_text {
+  width: 300px;
+  font-size: 35px;
+  height:40px;
+  top: 13px;
+  left: -5px;
+  position: relative;
+  text-shadow: 3px 3px 1px #cccccc;
+  color: var(--card-border-coloer);
+
+}
+/* 検索ボックス */
+.login_search{
+  top: 10px;
+  box-sizing: border-box;
+  position: relative;
+  border: 1px solid var(--input-border-color);
+  display: block;
+  padding: 3px 10px;
+  border-radius: 20px;
+  height: 2.3em;
+  width: 260px;
+  overflow: hidden;
+}
+.keyword:-webkit-autofill {
+    box-shadow: 0 0 0 1000px #FFFFFF inset;
+    -webkit-text-fill-color: var(--font-coler);
+}
+.login_search input[type="text"]{
+  border: none;
+  height: 2.0em;
+  color:var(--font-coler);
+}
+.login_search input[type="text"]:focus {
+  outline: 0;
+}
+.login_search input[type="submit"]{
+  cursor: pointer;
+  font-family: FontAwesome;
+  font-size: 1.3em;
+  border: none;
+  background: none;
+  color: var(--font-coler2);
+  position: absolute;
+  width: 2.5em;
+  height: 2.5em;
+  right: 0;
+  top: -10px;
+  outline : none;
+}
+.right_div {
+  margin-left: auto;	
+}
+.bell_tushi {
+  position:relative;
+  top:-35px;
+  left:25px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+  background-color: #FF0000;
+  z-index: 11;
+}
+.chat_tuchi {
+  position:relative;
+  top:-35px;
+  left:25px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+  background-color: #FF0000;
+  z-index: 11;	
+}
+/* ベルアイコン */
+.bell_icon {
+  display:flex;
+  flex-flow: column;
+  width:45px;
+  height:60px;
+  font-size: 30px;
+  text-align: center;
+  color: var(--font-coler2);
+  cursor:pointer;
+  top: 0;
+  bottom:0;
+  padding:15px 10px 10px 10px;
+}
+.chat_icon {
+  display:flex;
+  flex-flow: column;
+  width:45px;
+  height:60px;
+  font-size: 30px;
+  text-align: center;
+  color: var(--font-coler2);
+  cursor:pointer;
+  top: 0;
+  bottom:0;
+  padding:15px 10px 10px 10px;
+}
+/* ログイン */
+.login_div {
+  position: relative;
+  padding:5px;
+  top: 0;
+  bottom:0;
+}
+
+.login_a {
+  position:relative;
+  border: 1px solid var(--button-coler);
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  font-size: 20px;
+  padding: 12px;
+  width: 100px;
+  color: var(--button-coler);
+}
+.shinki_div {
+  position: relative;
+  padding:5px 40px 5px 5px;
+  top: 0;
+  bottom:0;
+}
+.shinki_a {
+  border: 1px solid var(--button-coler);
+  border-radius: 10px;
+  position: relative;
+  padding: 12px;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
+  text-decoration: none;
+  font-size: 20px;
+  width: 100px;
+  background-color:var(--button-coler);
+  color: #ffffff;
+}
+
+/*
+.shinki_a:hover {
+  color: var(--font-coler);
+  background-color:#ffffff
+}
+*/

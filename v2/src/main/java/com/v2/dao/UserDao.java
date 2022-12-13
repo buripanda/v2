@@ -76,6 +76,27 @@ public class UserDao {
 	}
 	
 	/**
+	 * プロフィール一覧取得（キーワード）
+	 * @param jdbcTemplate
+	 * @return
+	 * @throws Exception
+	 */
+	public List<User> selectListKeyword(String keyword, JdbcTemplate jdbcTemplate) throws Exception {
+		
+		List<User> userList = new ArrayList<>();
+		List<Map<String, Object>> dataList = jdbcTemplate
+				.queryForList("SELECT * FROM ( "
+						+ "SELECT * FROM T_USER WHERE TANKA > 0 AND (USER_NAME LIKE ? OR MESSAGE LIKE ?) ORDER BY UPDATE_DATE "
+						+ ")",
+						"%" + keyword +"%", "%" + keyword +"%");
+
+		for (Map<String, Object> data : dataList) {
+  		userList.add(setUser(data));
+		}
+		return userList;
+	}
+
+	/**
 	 * ユーザ情報取得（ID指定）
 	 * @param id
 	 * @return
@@ -153,6 +174,24 @@ public class UserDao {
   			"ONLINE_STATUS=? ,COOKIE=?, UPDATE_DATE=current_timestamp " +
   			"WHERE  ID=?",
   			1, uid, id);		
+  	return cnt;
+  
+  }
+
+  /**
+   * オンラインステータスをON/OFFにする
+   * @param emal
+   * @param password
+   * @param jdbcTemplate
+   * @return
+   */
+  public int updateOnlineStatus(int id, int status, JdbcTemplate jdbcTemplate) throws Exception {
+  	
+  	int cnt = jdbcTemplate.update(
+  			"UPDATE T_USER SET " +
+  			"ONLINE_STATUS=? ,UPDATE_DATE=current_timestamp " +
+  			"WHERE  ID=?",
+  			status, id);		
   	return cnt;
   
   }
@@ -318,6 +357,8 @@ public class UserDao {
 			user.tiktok = (String) data.get("TIKTOK_URL");
 		if (data.get("COOKIE") != null) 
 			user.cookie = (String) data.get("COOKIE");
+		user.bellTuchi =  (int) data.get("BELL_TUCHI");
+		user.chatTuchi =  (int) data.get("CHAT_TUCHI");		
 		user.registDate = (Date) data.get("REGIST_DATE");
 		user.updateDate = (Date) data.get("UPDATE_DATE");
 		user.onlineStatus = (int) data.get("ONLINE_STATUS");

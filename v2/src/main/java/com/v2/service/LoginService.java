@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.v2.bean.User;
+import com.v2.dao.MessageUserDao;
 import com.v2.dao.UserDao;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,9 @@ public class LoginService {
   
   @Autowired
   UserDao tUser;
+  
+  @Autowired
+  MessageUserDao messageUserDao;
 	
   /**
    * ログインする
@@ -50,11 +54,97 @@ public class LoginService {
 		}
 		// オンラインかつCookeiハッシュを更新する
 		tUser.updateOnlineOn(user.id, uid, jdbcTemplate);
+		// チャット新着メッセージがあるか確認する
+		int cnt = messageUserDao.selectNewMessage(user.id, jdbcTemplate);
+		user.chatTuchi = cnt; 
 			
 		return user;
 
 	}
-	
+
+  /**
+   * ログインする（CookieIDでログイン）
+   * @param emal
+   * @param password
+   * @param jdbcTemplate
+   * @return
+   * @throws Exception
+   */
+	public User doLoginCookie(String uid, JdbcTemplate jdbcTemplate) throws Exception {
+		
+		// CookieIDでログイン
+		User user = tUser.selectUserCookie(uid, jdbcTemplate);
+		if (user.id > 0) {
+  		// オンラインかつCookeiハッシュを更新する
+  		tUser.updateOnlineOn(user.id, uid, jdbcTemplate);
+  		// チャット新着メッセージがあるか確認する
+  		int cnt = messageUserDao.selectNewMessage(user.id, jdbcTemplate);
+  		user.chatTuchi = cnt; 
+		}
+		return user;
+
+	}
+
+  /**
+   * ログインする（IDでログイン）
+   * @param emal
+   * @param password
+   * @param jdbcTemplate
+   * @return
+   * @throws Exception
+   */
+	public User doLoginId(int id, JdbcTemplate jdbcTemplate) throws Exception {
+		
+		// IDでログイン
+		User user = tUser.selectUser(id, jdbcTemplate);
+		if (user.id > 0) {
+  		// オンラインかつCookeiハッシュを更新する
+  		tUser.updateOnlineOn(user.id, user.cookie, jdbcTemplate);
+  		// チャット新着メッセージがあるか確認する
+  		int cnt = messageUserDao.selectNewMessage(user.id, jdbcTemplate);
+  		user.chatTuchi = cnt; 
+		}
+		return user;
+
+	}
+
+  /**
+   * ログインステータスをONにする
+   * @param emal
+   * @param password
+   * @param jdbcTemplate
+   * @return
+   * @throws Exception
+   */
+	public int onlineStatusOn(int id, JdbcTemplate jdbcTemplate) throws Exception {
+		
+		// オンラインフラグを立てる
+		return tUser.updateOnlineStatus(id, 1, jdbcTemplate);
+
+	}
+
+  /**
+   * ログインステータスをOFFにする
+   * @param emal
+   * @param password
+   * @param jdbcTemplate
+   * @return
+   * @throws Exception
+   */
+	public int onlineStatusOff(int id, JdbcTemplate jdbcTemplate) throws Exception {
+		
+		// オンラインフラグを立てる
+		return tUser.updateOnlineStatus(id, 0, jdbcTemplate);
+
+	}
+
+	/**
+	 * ログアウトする
+	 * @param id
+	 * @param jdbcTemplate
+	 * @return
+	 * @throws Exception
+	 */
 	public int doLogout(int id, JdbcTemplate jdbcTemplate) throws Exception {
 		return tUser.updateOnlineOff(id, jdbcTemplate);
 	}

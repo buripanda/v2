@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.v2.bean.SessionBean;
 import com.v2.bean.User;
 import com.v2.controller.AbstractController;
 import com.v2.service.HtmlService;
@@ -92,18 +91,58 @@ public class RestInOutController extends AbstractController {
 		}
 
 		// ログイン成功時セッションにid保持
-		SessionBean bean = new SessionBean();
-		bean.id = user.id;
-		super.setSessionBean(bean);
+		super.setSessionBean(user);
 		
 		// Cookieを埋め込む
 		Cookie cookie = new Cookie("uid", uid);
+		System.out.println("Cookie埋め込み：" + uid);
 		response.addCookie(cookie);
 		
 		return "ok";
 	
 	}
+
+	/**
+	 * オンラインフラグを立てる
+	 * @param pid
+	 * @return
+	 */
+	@PostMapping("/restOnlineStatusOn")
+	public String restOnlineFlgOn(@RequestParam(name="pid", defaultValue = "0") int pid) {
+		
+		try {			
+				// オンラインフラグを立てる
+				loginService.onlineStatusOn(pid, jdbcTemplate);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "エラーが発生しました";
+		}
+		return "ok";
 	
+	}
+	
+	/**
+	 * オンラインフラグをOFFにする
+	 * @param pid
+	 * @return
+	 */
+	@PostMapping("/restOnlineStatusOff")
+	public String restOnlineStatusOff(@RequestParam(name="pid", defaultValue = "0") int pid) {
+		
+		try {			
+				// オンラインフラグをOFFにする
+				loginService.onlineStatusOff(pid, jdbcTemplate);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "エラーが発生しました";
+		}
+		return "ok";
+	
+	}
+
+
 	/**
 	 * ログアウト処理
 	 * @return
@@ -126,7 +165,7 @@ public class RestInOutController extends AbstractController {
 		
 		try {
 			// ログアウト処理
-			loginService.doLogout(id, jdbcTemplate);
+			//loginService.doLogout(id, jdbcTemplate);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "ok";
@@ -189,9 +228,7 @@ public class RestInOutController extends AbstractController {
 		}
 		
 		//セッションにid保持
-		SessionBean bean = new SessionBean();
-		bean.id = user.id;
-		super.setSessionBean(bean);		
+		super.setSessionBean(user);		
 		modelMap.addAttribute("user", user);
 
 		return "ok";

@@ -6,12 +6,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.v2.bean.SessionBean;
 import com.v2.bean.User;
 import com.v2.controller.AbstractController;
 import com.v2.service.ProfileService;
@@ -50,8 +48,9 @@ public class ProfileController extends AbstractController {
 			return "redirect:/";
 		
 		// pidを渡して画面表示
-		SessionBean bean = super.getSessionBean();
-		return this.profileView(bean.pid, modelMap);
+		User user = super.getSessionBean();
+		int pid = super.getSessionBeanInt("pid");
+		return this.profileView(pid, modelMap);
 		
 	}
 	/**
@@ -64,13 +63,12 @@ public class ProfileController extends AbstractController {
 		if (!super.isLogin())
 			return "redirect:/";
 		
-		SessionBean bean = super.getSessionBean();
-		int searchId = bean.id;
+		User user = super.getSessionBean();
+		int searchId = user.id;
 		if (pid > 0) 
 			searchId = pid;
 		
 		// プロフィール取得
-		User user = new User();
 		try {
 			user = profileService.getProfile(searchId, jdbcTemplate);
 		} catch (Exception e) {
@@ -79,11 +77,11 @@ public class ProfileController extends AbstractController {
 		}
 		
 		// 相手IDを保存しておく
-		bean.pid = pid;
+		super.setSessionBeanInt("pid", pid);
 		// pidが0なら自分のIDをセット
 		if (pid == 0)
-			bean.pid = bean.id;		
-		super.setSessionBean(bean);
+			super.setSessionBeanInt("pid", user.id);
+		super.setSessionBean(user);
 		modelMap.addAttribute("user", user);
 		return "profile";
 		
@@ -174,74 +172,4 @@ public class ProfileController extends AbstractController {
 		return "forward:/index";
 		
 	}
-
-	/**
-	 * 個人ページ表示
-	 * @param id
-	 * @param modelMap
-	 * @return
-	 */
-	@GetMapping("/view/{id}")
-	public String viewGet(@PathVariable("id") int pid, ModelMap modelMap) {
-		
-		SessionBean bean = null;		
-		// ログイン中か確認
-		if (this.isLogin()) {
-			bean = super.getSessionBean();
-		} else {
-			bean = new SessionBean();
-		}
-		
-		// 参照先IDを保持
-		bean.pid = pid;
-		
-		// 参照先のプロフィール取得
-		User user = new User();
-		try {
-			user = profileService.getProfile(pid, jdbcTemplate);
-  	} catch (Exception e) {
-  		e.printStackTrace();
-  		return "error";
-  	}
-
-		user.loginId = bean.id;
-		modelMap.addAttribute("user", user);
-		
-		return "view";
-	}
-
-	/**
-	 * 個人ページ表示
-	 * @param modelMap
-	 * @return
-	 */
-	@PostMapping("/view")
-	public String viewPost(@RequestParam("pid") int pid , ModelMap modelMap) {
-		
-		SessionBean bean = null;		
-		// ログイン中か確認
-		if (this.isLogin()) {
-			bean = super.getSessionBean();
-		} else {
-			bean = new SessionBean();
-		}
-		
-		// 参照先IDを保持
-		bean.pid = pid;
-		
-		// 参照先のプロフィール取得
-		User user = new User();
-		try {
-			user = profileService.getProfile(pid, jdbcTemplate);
-  	} catch (Exception e) {
-  		e.printStackTrace();
-  		return "error";
-  	}
-		user.loginId = bean.id;
-		modelMap.addAttribute("user", user);
-		
-		return "view";
-		
-	}
-
 }

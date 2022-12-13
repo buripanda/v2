@@ -52,6 +52,9 @@ public class MessageService {
 	 */
 	public List<Chat> getMessageList(int id, int pid, JdbcTemplate jdbcTemplate) throws Exception {
 		
+		// 新着メッセージを既読にする
+		messageUserDao.updateNewMessage(id, pid, 0, jdbcTemplate);
+		// チャットリスト取得
 		return messageUserDao.selectMessageList(id, pid, jdbcTemplate);
 
 	}

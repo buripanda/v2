@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
-import com.v2.bean.SessionBean;
+import com.v2.bean.User;
 
 public class AbstractController {
 	
@@ -27,7 +27,7 @@ public class AbstractController {
 		if (obj == null)
 			return false;
 		
-		if (((SessionBean)obj).id == 0)
+		if (((User)obj).id == 0)
 			return false;
 		
 		return true;
@@ -38,13 +38,13 @@ public class AbstractController {
 	 * セッションBeanを取得する
 	 * @return
 	 */
-	protected SessionBean getSessionBean() {
+	protected User getSessionBean() {
 
 		Object obj = session.getAttribute("v2bean");
-		if (obj == null)
-			return new SessionBean();
+		if (obj != null)
+			return (User)obj;
 		
-		return (SessionBean)obj;
+		return null;
 	
 	}
 
@@ -52,10 +52,45 @@ public class AbstractController {
 	 * セッションBeanを設定する
 	 * @return
 	 */
-	protected void setSessionBean(SessionBean bean) {
+	protected void setSessionBean(User bean) {
 		
 		session.setAttribute("v2bean", bean);
 	
+	}
+
+	/**
+	 * セッションを設定する
+	 * @return
+	 */
+	protected void setSessionBeanString(String key, String value) {
+		session.setAttribute(key, value);
+	}
+	/**
+	 * セッションを取得する
+	 * @return
+	 */
+	protected String getSessionBeanString(String key) {
+		Object obj = session.getAttribute(key);
+		if (obj != null)
+			return (String)obj;
+		return null;
+	}
+	/**
+	 * セッションを設定する
+	 * @return
+	 */
+	protected void setSessionBeanInt(String key, int value) {
+		session.setAttribute(key, value);
+	}
+	/**
+	 * セッションを取得する
+	 * @return
+	 */
+	protected int getSessionBeanInt(String key) {
+		Object obj = session.getAttribute(key);
+		if (obj != null)
+			return (int)obj;
+		return 0;
 	}
 
 	

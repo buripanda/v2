@@ -71,7 +71,7 @@ body {
 .cp_sidebarmenu ul li i {
 	font-size: 1.2em;
 	display: inline-block;
-	padding: 0.8em;
+	padding: 0.5em 0.5em 0.5em 0.7em;
 	vertical-align: middle;
 }
 .cp_sidenav li:hover {

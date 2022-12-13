@@ -83,6 +83,25 @@ public class IndexService {
 		return userList2;
 	}
 	
+	/**
+	 * プロフィール一覧取得（キーワード検索）
+	 * @param jdbcTemplate
+	 * @return
+	 * @throws Exception
+	 */
+	public List<User> getProfileListKeyword(String keyword, JdbcTemplate jdbcTemplate) throws Exception {
+		List<User> userList = tUser.selectListKeyword(keyword, jdbcTemplate);	
+		List<User> userList2 = new ArrayList<>();
+	  for (User user : userList) {
+	  	if (user.title != null && user.title.length() > TITILE_LENGTH) {
+	  		user.title = user.title.substring(0,TITILE_LENGTH);
+	  	}
+	  	userList2.add(user);
+	  }
+		return userList2;
+
+	}
+
 
 
 }

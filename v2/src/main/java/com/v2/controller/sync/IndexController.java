@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.v2.bean.User;
 import com.v2.controller.AbstractController;
-import com.v2.service.MessageService;
 import com.v2.service.ImageService;
 import com.v2.service.IndexService;
+import com.v2.service.MessageService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -103,7 +103,36 @@ public class IndexController extends AbstractController {
 		}
 		return "index";
 	}
-	
+
+	/**
+	 * キーワード検索処理（Get）
+	 * @param modelMap
+	 * @return
+	 */
+	@GetMapping("/keyword")
+	public String keywordGet(@RequestParam(name="keyword", required = false) String keyword, ModelMap modelMap) {
+		return keywordPost(keyword, modelMap);
+	}
+	/**
+	 * キーワード検索処理
+	 * @param modelMap
+	 * @return
+	 */
+	@PostMapping("/keyword")
+	public String keywordPost(@RequestParam(name="keyword", required = false) String keyword, ModelMap modelMap) {
+		
+		// プロフィール一覧を取得する
+		try {
+			// 古い順
+			List<User> userList =indexService.getProfileListKeyword(keyword, jdbcTemplate);
+  		modelMap.addAttribute("userList", userList);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+		return "search_result";
+	}
+
 	/**
 	 * 画像データ取得（ミニ）
 	 * @param id

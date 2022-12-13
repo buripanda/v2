@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.v2.bean.Chat;
+import com.v2.bean.User;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -45,4 +46,29 @@ public class HtmlService {
 		}
 		return sb.toString();
 	}
+	
+	/**
+	 * プロフィール情報を構築
+	 * @param id
+	 * @param chatList
+	 * @return
+	 * @throws Exception
+	 */
+	public String getProfile(User user) throws Exception {
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append("<div class=\"profile_header\"></div>");		
+		sb.append("<div class=\"profile_left_div01\">");
+		sb.append("<div class=\"profile_left_div01_inner\">");
+		sb.append("<label class=\"image_select\">");
+		sb.append("<img src=\"/getImgDefault?id=").append(user.id).append("&name=").append(user.imageFile).append("\" width=\"300\">");
+		sb.append("</label>");
+		sb.append("<div class=\"username\">").append(user.userName).append("</div>");
+		sb.append("</div>");
+		sb.append("</div>");
+		sb.append("<div class=\"profile_footer\"></div>");		
+		return sb.toString();
+		
+	}
+
 }

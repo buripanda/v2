@@ -9,18 +9,22 @@
 	<meta name="copyright" content="Copyright &copy; BURIPANDA CO., LTD. " />
 	<title>メッセージ一覧画面</title>
 	<link th:href="@{/css/root.css}" rel="stylesheet">
+	<link th:href="@{/css/header.css}" rel="stylesheet">
 	<link th:href="@{/css/sidemenu.css}" rel="stylesheet">
 	<link th:href="@{/css/message.css}" rel="stylesheet">
+	<script src="/js/header.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
 	<script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
 	<script src="/js/common.js"></script>
 	<script>
 	
     var stompClient = null;
 	var sendId = null;
 	var distId = "[[${session.v2bean.id}]]";
+	var activeUser = null;
 
 	$(function(){
 	  $('#textarea')
@@ -42,22 +46,47 @@
 				// スクロールを下へ
 				let chatArea = document.getElementById('content-frame');
 				chatArea.scrollTop = chatArea.scrollHeight;
+				// 新着マークを消す
+				var userMessage = document.getElementById('user_message' + sendId);
+				if (userMessage != null) {
+					userMessage.style.display = "none";
+				}
 			});
     }
     
+	function loadProfile(){
+        $("#profile_content").load(
+			"/getChatProfileData",
+			{selectId: sendId},
+			function(){
+			});
+    }
+
     // 左のユーザを選択した時
     function viewMessage(selectId) {
 		console.log("sendId:" + selectId);
+		var selectUser = document.getElementById('select_user' + selectId);
+		if (selectUser != null) {
+			var beforUser = document.getElementById('select_user' + activeUser);
+			if (beforUser != null) {
+				beforUser.style.backgroundColor = "#FFFFFF";
+			}
+			activeUser = selectId;
+			selectUser.style.backgroundColor = "#DE7890";
+		}
 		if (selectId != 0) {
 			// 送信先ユーザID設定
 			sendId = selectId;
+			/*
 			var user_content = document.getElementById("pid" + sendId);
 			var clone_element = user_content.cloneNode(true);
 			clone_element.id = "select_user";			
 			var select_user_content = document.getElementById("select_user");
 			select_user_content.replaceWith(clone_element);
+			*/
 			// メッセージ一覧取得
 			loadPage();
+			loadProfile();
 		}
 
 	}
@@ -75,40 +104,37 @@
 		}
     }
     */
-    
-    // 以下はWebSocket通信	
-	function setConnected(connected) {
-	    $("#connect").prop("disabled", connected);
-	    $("#disconnect").prop("disabled", !connected);
-	    if (connected) {
-	        $("#conversation").show();
-	    }
-	    else {
-	        $("#conversation").hide();
-	    }
-	    $("#greetings").html("");
-	}
-	
 	function connect() {
-	    var socket = new SockJS('/v2-websocket');
-	    stompClient = Stomp.over(socket);
-	    stompClient.connect({}, function (after) {
-	        //setConnected(true);
-	        console.log('Connected: ' + after);
-	        var toRecivePath = "/topic/greetings/" + distId;
-	        stompClient.subscribe(toRecivePath, function (ws_essage) {
-				console.log(JSON.parse(ws_essage.body).content);
+		var socket = new SockJS('/v2-websocket');
+		stompClient = Stomp.over(socket);
+		stompClient.connect({}, function (after) {
+			//setConnected(true);
+			console.log('Connected: ' + after);
+			var toRecivePath = "/topic/greetings";
+			stompClient.subscribe(toRecivePath, function (ws_message) {
+				console.log(JSON.parse(ws_message.body));
+				const jsMessage = JSON.parse(ws_message.body);
 				// メッセージ一覧取得
-				loadPage();
-	        });
-	    });
+				if (jsMessage.mode == 0) {
+					loadPage();				
+				} else {
+					onlineStatus(jsMessage.distId, 1);
+				}
+				// 対象ユーザを開いていない場合は新着ありにする
+				if (sendId != jsMessage.sendId) {
+					var userMessage = document.getElementById('user_message' + jsMessage.sendId);
+					if (userMessage != null) {
+						userMessage.style.display = "block";
+					}
+				} 
+			});
+		});
 	}
 	
 	function disconnect() {
 	    if (stompClient !== null) {
 	        stompClient.disconnect();
 	    }
-	    setConnected(false);
 	    console.log("Disconnected");
 	}
 	
@@ -128,27 +154,40 @@
 		}
 	}
 	
-	function showGreeting(message) {
-	    //$("#greetings").append("<tr><td>" + message + "</td></tr>");
+	var so = function sendOnlineStatus() {
+		var toSendPath = "/v2/login";
+		//wsで相手に通知
+	    stompClient.send(toSendPath, {}, JSON.stringify(
+		{'sendId': sendId,'distId': 21, 'mode': 1,'message': ""}));
+	}
+
+	function onlineStatus(id, status) {
+		var element = document.getElementById("user" + id);
+		if (element != null) {	
+			if (status == 1) {
+				element.style.display = "block";
+			} else {
+				element.style.display = "none";
+			}
+		}
+		
+		
 	}
 	
-	$(function () {
-	    //$("form").on('submit', function (e) {
-	    //    e.preventDefault();
-	    //});
-	    $( "#connect" ).click(function() { connect(); });
-	    $( "#disconnect" ).click(function() { disconnect(); });
-	    $( "#send" ).click(function() { sendMessage(); });
+	window.addEventListener("load",function() {
+		connect();
+		setTimeout(so,1000);
 	});
-	window.onload = connect();
+	window.addEventListener('unload',function(){
+		disconnect();
+	});
 	</script>
 </head>
 
 <body>
 <th:block th:replace="sidemenu::sidemenu"></th:block>
 <div class="contents">
-<form method="post" name="form1" enctype="multipart/form-data" action="/chat/soshin">
-	<div class="title"><img src="/image/banaer2.jpg"></div>
+<th:block th:replace="header::header"></th:block>
 <div class="message">
 	<div class="left_content">
 		<div class="left_header"></div>
@@ -157,7 +196,10 @@
 			<div class="partner" th:onclick="|javascript:viewMessage(__${partner.id}__)|">
 			<div class="partner_inner" th:id="|pid__${partner.id}__|">
 				<div><img th:src="@{./getImgDefault?id=__${partner.id}__&name=__${partner.imageFile}__}" class="img_mini"></div>
+				<div class="select_user" th:id="|select_user__${partner.id}__|"></div>
 				<div class="partner_name">[[${partner.userName}]]<BR>[[${partner.message}]]</div>
+				<div class="user_login" th:id="|user__${partner.id}__|" th:classappend="${partner.onlineStatus == 1} ? display_block : display_none"></div>
+				<div class="user_message" th:id="|user_message__${partner.id}__|" th:classappend="${partner.newMessage == 1} ? display_block : display_none"></div>
 			</div>
 			</div>
 			</th:blcok>
@@ -174,11 +216,12 @@
 			<div class="soshin" onclick="javascript:sendMessage()">送信</div>
 		</div>
 	</div>
+	<div id="profile_content" class="profile_content">	
+	</div>
 </div>
 </div>
-</form>
 <script type="text/javascript">
-	viewMessage("[[${session.v2bean.cpid}]]");
+	viewMessage("[[${session.cpid}]]");
 </script>
 </body>
 </html>

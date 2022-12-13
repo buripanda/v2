@@ -1,104 +1,4 @@
 /*--------------------------------------
- 状態によって要素を表示・非表示にするCSS
---------------------------------------*/
-.display_block {
-	display:flex;
-}
-.display_none {
-	display: none;	
-}
-
-/*--------------------------------------
- ヘッダー
---------------------------------------*/
-.header {
-  display:flex;
-  width: 100%;
-}
-
-.logo_img {
-  width: 60px;
-  height: 60px;
-  margin: 5px 10px 15px 5px;	
-}
-
-.logo_text {
-  width: 300px;
-  font-size: 40px;
-  font-weight: 400;
-  position: relative;
-  top: 15px;
-  letter-spacing: 0.2em;
-  text-shadow: 5px 5px 1px #cccccc;
-  color: #E69AAB;
-}
-.login_div {
-  margin-left: auto;
-  padding: 15px 10px 15px 10px;
-}
-
-.login_a {
-  border: 1px solid var(--button-coler);
-  border-radius: 10px;
-  position: relative;
-  padding: 14px 12px;
-  cursor: pointer;
-  transition: all 0.1s;
-  text-align: center;
-  vertical-align: middle;
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  font-size: 18px;
-  width: 100px;
-  color: var(--button-coler);
-}
-/*
-.login_a:hover {
-  color: #ffffff;
-  background-color: var(--font-coler);
-}
-*/
-/*
-.login_img {
-  width: 40px;
-  height: 40px;
-  margin: 0px 10px 10px auto;
-  position: relative;
-  top: 14px;
-}
-
-.login_text {
-  position: relative;
-  margin: 0px 0px 0px 10px;
-}
-*/
-
-.shinki_div {
-  padding: 15px 10px 15px 10px;
-}
-.shinki_a {
-  border: 1px solid var(--button-coler);
-  border-radius: 10px;
-  position: relative;
-  padding: 14px 12px;
-  cursor: pointer;
-  transition: all 0.1s;
-  text-align: center;
-  vertical-align: middle;
-  text-decoration: none;
-  letter-spacing: 0.1em;
-  font-size: 18px;
-  width: 100px;
-  background-color:var(--button-coler);
-  color: #ffffff;
-}
-/*
-.shinki_a:hover {
-  color: var(--font-coler);
-  background-color:#ffffff
-}
-*/
-/*--------------------------------------
  バナー
 --------------------------------------*/
 
@@ -143,6 +43,15 @@
   font-weight: 400;
   margin-right: auto;
   margin-left: auto;
+  width: 90%;
+}
+.midashi_02 {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top:20px;
+  margin-bottom:20px;  
   width: 90%;
 }
 .profile {
@@ -359,40 +268,4 @@ hr.style1{
 .youtube_button {
 	display: flex;	
   	left: 50px;
-}
-/*--------------------------------------
- フッター
---------------------------------------*/
-.footer {
-  background-color:  var(--placefolder-color);
-  margin: 50px 0px;
-  padding: 100px 0px;
-  margin-right: calc(50% - 50vw);
-  margin-left: calc(50% - 50vw);
-  color: #FFFFFF;
-  line-height: 1.5rem;
-}
-.footer_div {
-  margin-right: auto;
-  margin-left: auto;
-  margin-top: 10px;
-  width: 90%;
-  display: flex;
-}
-.footer_div_02 {
-  width: 25%;
-  height: 300px;
-  cursor : pointer;
-  overflow: hidden;
-  border-radius: 5px;
-  margin: 20px;
-}
-.footer_header_01 {
-  font-size: 1.4rem;
-  font-weight: 400;
-  margin:0 0 5px 0px;
-}
-.copyright {
-	margin: 50px 0px 0px 0px;
-	text-align: center;;
 }

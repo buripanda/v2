@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.v2.bean.Chat;
+import com.v2.bean.User;
 import com.v2.controller.AbstractController;
 import com.v2.service.HtmlService;
 import com.v2.service.LoginService;
@@ -46,7 +47,7 @@ public class RestMessageController extends AbstractController {
 	}
 	
 	/**
-	 * メッセージ画面（パートナーデータ読み込み）
+	 * メッセージ取得
 	 * @param id
 	 * @param modelMap
 	 * @return
@@ -56,7 +57,7 @@ public class RestMessageController extends AbstractController {
 		
 		// セッションからログインID取得
 		if (!super.isLogin())
-			return "redirect:/";
+			return "";
 		
 		// チャットリスト取得
 		List<Chat> chatList = new ArrayList<>();
@@ -69,9 +70,41 @@ public class RestMessageController extends AbstractController {
 			return "error";
 		}
 		
+		//セッションに選択ユーザを保持
+		// 選択したチャット画面の相手のpidを保持
+		super.setSessionBeanInt("cpid", sendId);
+		
 		logger.info(ret);
 		return ret;
 		
 	}
-	
+
+	/**
+	 * プロフィール情報取得
+	 * @param id
+	 * @param modelMap
+	 * @return
+	 */
+	@PostMapping("/getChatProfileData")
+	public String getChatProfileData(@RequestParam("selectId") int selectId) {
+		
+		// セッションからログインID取得
+		if (!super.isLogin())
+			return "";
+		
+		// プロフィール取得
+		User user = new User();
+		String ret = null;
+		try {
+			user = profileService.getProfile(selectId, jdbcTemplate);
+			ret = htmlService.getProfile(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+		logger.info(ret);
+		return ret;
+		
+	}
+
 }

@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.v2.bean.SessionBean;
+import com.v2.bean.User;
 import com.v2.controller.AbstractController;
 import com.v2.service.IndexService;
 
@@ -39,15 +39,11 @@ public class SessionController extends AbstractController {
 	@PostMapping("/leave")
 	public void leavePost() {
 
+		System.out.println("ページを離れました。");
     // ブラウザを離れた場合
 		if (super.isLogin()) {
-			SessionBean bean = super.getSessionBean();
-			System.out.println("セッションが破棄されました。ID=" + bean.id);
-			jdbcTemplate.update(
-					"UPDATE T_USER SET " +
-							"ONLINE_STATUS=? ,UPDATE_DATE=current_timestamp " +
-							"WHERE  ID=?",
-							0, bean.id);
+			User user = super.getSessionBean();
+			System.out.println("ID=" + user.id);
 		}
 	}	
 	

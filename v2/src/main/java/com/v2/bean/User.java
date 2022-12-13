@@ -50,6 +50,12 @@ public class User {
     public int registStatus;    
     /** Cookie */
     public String cookie;    
+    /** ベル通知　 */
+    public int bellTuchi;
+    /** チャット通知　 */
+    public int chatTuchi;
+    /** チャット新着通知　 */
+    public int newMessage;
     /** 更新日時 */
     public Date updateDate;
     /** 登録日時 */

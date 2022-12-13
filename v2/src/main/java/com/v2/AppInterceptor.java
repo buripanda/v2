@@ -9,9 +9,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.v2.bean.SessionBean;
 import com.v2.bean.User;
-import com.v2.dao.UserDao;
+import com.v2.service.LoginService;
 
 /**
  * アプリケーションイベントハンドラー
@@ -21,7 +20,7 @@ import com.v2.dao.UserDao;
 public class AppInterceptor implements HandlerInterceptor {
 	
 	@Autowired
-	UserDao tUser;
+	LoginService loginService;
 	
 	private final JdbcTemplate jdbcTemplate;
 
@@ -34,26 +33,33 @@ public class AppInterceptor implements HandlerInterceptor {
 	    HttpServletResponse response,
 	    Object handler) throws Exception {
 		
+		String url = request.getRequestURI();
+		if (url.contains("getImg") || url.contains("font/") || url.contains("image/") || url.contains("js/") || url.contains("css/")) {
+			return true;
+		}
 		// セッションチェック
 		Object obj = request.getSession().getAttribute("v2bean");
 		// セッションBeanがない場合はCookieチェック
 		if (obj == null) {
 			if (request.getCookies() != null) {
   			for (Cookie cookie : request.getCookies()) {
-  					//CookieにuidがあればDB検索
+  					//Cookieにuidがあればユーザ情報取得
   					if ("uid".equals(cookie.getName())) {
-  						System.out.println("リクエスト中のCookie：" + cookie.getValue());
-  						User user = tUser.selectUserCookie(cookie.getValue(), jdbcTemplate);
+  						System.out.println("Cookieが存在：" + cookie.getValue());
+  						User user = loginService.doLoginCookie(cookie.getValue(), jdbcTemplate);
   						// CookieがDBにあればセッション作成
   						if (user.id > 0) {
-  							SessionBean bean = new SessionBean();
-  							bean.id = user.id;
-  							request.getSession().setAttribute("v2bean", bean);
+  							request.getSession().setAttribute("v2bean", user);
   							
   						}
   					}
   			}
 			}
+  		// ユーザ情報取得しなおし
+		} else {
+			System.out.println("ユーザ情報取得しなおし" + ((User)obj).id);
+			User user = loginService.doLoginId(((User)obj).id, jdbcTemplate);
+			request.getSession().setAttribute("v2bean", user);
 		}
 		return true;
 	}
