@@ -80,7 +80,7 @@ public class ShopController extends AbstractController {
 	public String shopRegist(
 			@RequestParam("image_file") MultipartFile imageFile,
 			@RequestParam("title") String title,
-			@RequestParam("tanka") int tanka,
+			@RequestParam("price") int price,
 			ModelMap modelMap) {
 				
 		User user = new User();
@@ -98,7 +98,7 @@ public class ShopController extends AbstractController {
 			user.id = super.getSessionBean().id;
   		user.imageFile = imageFile.getOriginalFilename();
   		user.title = chgNull(title);
-  		user.tanka = tanka;
+  		user.price = price;
   		// パラメタチェック
   		if (!shopService.isShop(user)) {
   			modelMap.addAttribute("user", user);

@@ -10,11 +10,15 @@
 	<div class="right_div"></div>
 	<div class="bell_icon" th:classappend="${session.v2bean == null} ? display_none : display_block" id="login_04" >
 		<i class="fa-regular fa-bell"></i>
+		<th:block th:if="${session.v2bean != null}">
 		<div class="bell_tushi" th:classappend="${session.v2bean.bellTuchi > 0} ? display_block : display_none"></div>
+		</th:block>
 	</div>
 	<div class="chat_icon" th:classappend="${session.v2bean == null} ? display_none : display_block" id="login_05">
 		<i class="fa-regular fa-comments"></i>
+		<th:block th:if="${session.v2bean != null}">
 		<div class="chat_tuchi" th:classappend="${session.v2bean.chatTuchi > 0} ? display_block : display_none"></div>
+		</th:block>
 	</div>
 	<div  class="login_div" th:classappend="${session.v2bean == null} ? display_block : display_none" id="login_01">
 		<div class="login-open  login_a">
@@ -24,7 +28,7 @@
 	<div class="shinki_div" th:classappend="${session.v2bean == null} ? display_block : display_none" id="login_02">
 		<div class="signup-open shinki_a">新規登録</div>
 	</div>
-	<div  class="shinki_div" th:classappend="${session.v2bean == null} ? display_none : display_block" id="login_03" onclick="javascript:restLogout()">
+	<div  class="shinki_div" th:classappend="${session.v2bean == null} ? display_none : display_block" id="login_03" onclick="javascript:postSelectAc('logout')">
 		<div class="login_a"><span class="login_text">ログアウト</span></div>
 	</div>
 </div>

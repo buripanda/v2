@@ -31,7 +31,9 @@ public class User {
     /** 性別チェック */
     public int sexChecked = 1;
     /** 単価 */
-    public int tanka;
+    public int price;
+    /** チャージ金額 */
+    public int amount;
     /** 評価 */
     public BigDecimal evaluation;
     /** オーダー数 */

@@ -23,9 +23,9 @@ public class HtmlService {
 			if (id != chat.sendId) {
 
 				sb.append("<div class=\"partner_chat\">");
-				sb.append("<div class=\"partner_img\">");
-				sb.append("<img src=\"/getImgMini?id=").append(chat.sendId).append("&name=").append(chat.sendImagePath).append("\">");
-				sb.append("</div>");
+				//sb.append("<div class=\"partner_img\">");
+				//sb.append("<img src=\"/getImgMini?id=").append(chat.sendId).append("&name=").append(chat.sendImagePath).append("\">");
+				//sb.append("</div>");
 				sb.append("<div class=\"chatting\">");
 				sb.append("<div class=\"says\">");
 				tmp = chat.message.replaceAll("\r\n|\r|\n", "<BR>");
@@ -57,16 +57,15 @@ public class HtmlService {
 	public String getProfile(User user) throws Exception {
 		
 		StringBuffer sb = new StringBuffer();
-		sb.append("<div class=\"profile_header\"></div>");		
-		sb.append("<div class=\"profile_left_div01\">");
-		sb.append("<div class=\"profile_left_div01_inner\">");
+		sb.append("<div class=\"profile_body_inner\">");
 		sb.append("<label class=\"image_select\">");
 		sb.append("<img src=\"/getImgDefault?id=").append(user.id).append("&name=").append(user.imageFile).append("\" width=\"300\">");
 		sb.append("</label>");
 		sb.append("<div class=\"username\">").append(user.userName).append("</div>");
+		sb.append("<div class=\"very_frame\">");
+		sb.append("<div class=\"very_price\" id=\"very_price\">").append(user.price).append("</div><div class=\"very_tani\">Very</div>");
 		sb.append("</div>");
 		sb.append("</div>");
-		sb.append("<div class=\"profile_footer\"></div>");		
 		return sb.toString();
 		
 	}

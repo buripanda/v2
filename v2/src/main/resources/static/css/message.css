@@ -14,14 +14,14 @@
 メッセージ一覧左
 -------------------------------------*/
 .left_content {
-  width: 299px;
+  width: 250px;
   height: 100vh;
   display: grid;
   flex-flow: column;
-  grid-template-rows: 104px 1fr 42px ;
+  grid-template-rows: 104px 1fr 86px ;
 }
 .left_header {
-  width: 299px;
+  width: 250px;
 }
 
 .partner_list {
@@ -39,7 +39,7 @@
   padding: 3px 5px;
 }
 .partner_inner {
-  width: 290px;
+  width: 250px;
   height: 50px;
   display: flex;
   position: relative;
@@ -60,13 +60,15 @@
   height:50px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid #CCCCCC;
 }
 .partner_name {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   left:70px;	
+}
+.partner_price {
+	display: none;
 }
 .select_user {
 	position: absolute;
@@ -85,7 +87,7 @@
   border-radius: 50%;
   border: 2px solid #FFFFFF;
   background-color: #00cc33;
-  z-index: 11;
+
 }
 .user_message {
   position: absolute;
@@ -96,7 +98,7 @@
   border-radius: 50%;
   border: 2px solid #FFFFFF;
   background-color: #FF0000;
-  z-index: 11;	
+
 }
 .display_none {
   display: none;	
@@ -110,27 +112,131 @@
   position: fixed;
   left: 0;
   bottom: 0;
-  border-width: 1px 0 0 0 ;
+  border-width: 0 ;
   border-color:var(--input-border-color);
   border-style: solid;
 }
 /*-------------------------------------
-メッセージ一覧右
+真ん中プロフィール
 -------------------------------------*/
-.right_content {
-  width: 500px;
+.profile_content {
+  width: 304px;
   height: 100vh;
   display: grid;
   flex-flow: column;
-  grid-template-rows: 104px 1fr 44px;
+  grid-template-rows: 104px 380px 40px 1fr ;
+}
+.profile_header {
+}
+.profile_body {
+  margin:2px;
+  overflow: hidden;
+  border-radius: 8px;
+  text-align:center;
+  width: 300px;
+  height: 380px;
+  background-color: #FFFFFF;
+  /*filter: drop-shadow(0px 0px 5px rgba(222,120,144,.5));*/
+}
+.profile_body img {
+	width: 300px;
+	height: 300px;
+	object-fit: cover;
+}
+.profile_body_inner {
+  overflow: hidden;
+  text-align:center;
+  background-color: #FFFFFF;
+  border-radius: 8px;
+
+}
+.username {
+  font-size: 1.2rem;
+  margin: 10px 0;
+
+}
+.very_frame {
+	display:flex;
+	position:relative;
+	height:40px;
+	padding:10px;
+}
+.very_price {
+  	margin-left: auto;
+}
+.very_tani {
+	margin-right: auto;
+}
+/* 日程を予約する */
+.reserve_div {
+  display:flex;
+  height:38px;
+  margin:2px;
+}
+.reserve_button {
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.1s ease;
+  background-color: #ffffff;
+  width:100%;
+  cursor:pointer;
+}
+
+/*ボタンの中のテキスト*/
+.reserve_button span {
+  position: relative;
+  display: block;
+  padding: 10px 30px;
+  background: var(--shadow-color);
+  border-radius: 10px;
+  color:#ffffff;
+  transition: all 0.1s ease;
+}
+
+/*影の設定*/
+.reserve_pushdown:before {
+  content:"";
+  position: absolute;
+  top:4px;
+  left:0;
+  /*影の形状*/
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: #ffe4e1;
+}
+
+/*hoverの際にY軸に4pxずらす*/
+.reserve_pushdown:hover span {
+  background-color: var(--shadow-color);
+  color: #ffffff;
+  transform: translateY(4px);
+}
+.profile_footer {
+	bottom: 0;
+	background-color: #FFFFFF;
+}
+
+/*-------------------------------------
+メッセージ一覧右
+-------------------------------------*/
+.right_content {
+  width: 550px;
+  height: 100vh;
+  display: grid;
+  flex-flow: column;
+  grid-template-rows: 104px 1fr 86px;
+
 }
 .right_title {
   margin: 0;
   padding: 2px ;
 }
-/*-------------------------------------
-メッセージ部分
--------------------------------------*/
+/*メッセージ部分*/
 .right_chat {
   padding: 20px 10px;
   /*margin: 15px auto;*/
@@ -138,28 +244,29 @@
   overflow-y: auto;
   display:flex;
   flex-flow: column;
+  border-left: 1px solid #FFFFFF;
 }
 
-/*-------------------------------------
-相手部分
--------------------------------------*/
+/*相手部分*/
 .partner_chat {
   width: 100%;
   margin: 10px 0;
 }
-
+/*
 .partner_chat .partner_img {
   float: left;
   margin-right: -50px;
   margin-top: 5px;
   width: 35px;
 }
-
+*/
+/*
 .partner_chat .partner_img img{
   width: 30px;
   height: 30px;
   border-radius: 50%;
 }
+*/
 .partner_chat .chatting {
   width: 100%;
   text-align: left;
@@ -167,7 +274,7 @@
 .says {
   display: inline-block;
   position: relative; 
-  margin: 0 0 3px 50px;
+  margin: 0 0 3px 0px;
   padding: 8px 15px;
   max-width: 80%;
   border-radius: 12px 12px 12px 0;
@@ -181,9 +288,7 @@
   	text-align: left;
   	font-size: 0.7rem;
 }
-/*-------------------------------------
-自分部分
--------------------------------------*/
+/*自分部分*/
 .mycomment {
   display: inline-block;
   margin: 0 0 3px auto;
@@ -207,87 +312,338 @@
   border-color:var(--input-border-color);
   border-style: solid;
   display: flex;
-  width: 900px;
-  height: 80px;
+  width: 100%;
+  height: 120px;
   position: fixed;
+  left:0;
   bottom: 0;
   background-color: #FFFFFF;
 }
 textarea {
+  position:absolute;
   margin: 8px 8px;
-  padding: 8px;
   font-size: 18px;
+  line-height: 18px;
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 2px;
   border: 1px solid var(--input-border-color);
   outline: none;
   color:var(--font-coler);
   resize:none;
-  width: 40%;
-  height: 20px;
+  left:610px;
+  width: 460px;
+  height:22px;
+  min-height: 22px;
+  max-height: 96px;
+  padding: 4px;
 }
 textarea::-webkit-scrollbar{
   display:none;
 }
-
 .soshin {
+  position:absolute;
   font-size: 18px;;
   font-weight: 700;
   cursor: pointer;
   border: none;
-/* 縦中央にし、その半分戻す */
-  position: absolute;
-  top: 30%;
-  left: 45%;
-  transform: translateY(-50%);
+  top: 26px;
+  left: 1100px;
 }
+
 /*-------------------------------------
-プロフィール
+日程予約モーダル
 -------------------------------------*/
-.profile_content {
-  position:flex;
-  width: 300px;
-  display: grid;
+.reserve-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  z-index: 9;
+}
+.modal-reserve {
+  display: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #FFFFFF;
+  z-index: 12;
+  width: 500px;
+  height: 550px;
+  position: fixed;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px var(--shadow-color);
+  text-align: center;
+  color: var(--font-coler2);
+}
+/*日程予約モーダル　入れ物枠設定*/
+.reserve_01 {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  overflow: hidden;
+  text-align: center;
+}
+
+/*入力欄などの入れ物*/
+.reserve_frame {
+  width: 400px;
+  height: 500px;	
+  position: relative; 
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
   flex-flow: column;
-  grid-template-rows: 104px 1fr 104px;
 }
-.profile_header {
-  margin: 0;
-  padding: 2px ;
-}
-.profile01 {
 
+/*×アイコン*/
+.round_btn {
+  display: block;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;  /* 丸みの度合い */
+  background: var(--shadow-color); /* ボタンの背景色 */
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
 }
-.profile_left_div01 {
-  margin:4px;
-  overflow: hidden;
-  border-radius: 8px;
-  text-align:center;
-  width: 300px;
-  height: 500px;
-  background-color: #FFFFFF;
-  filter: drop-shadow(0px 0px 5px rgba(222,120,144,.5));
+ 
+.round_btn::before, .round_btn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 21px;
+  background: #ffffff; /* バツ印の色 */
+}
+ 
+.round_btn::before {
+  transform: translate(-50%,-50%) rotate(45deg);
+}
+ 
+.round_btn::after {
+  transform: translate(-50%,-50%) rotate(-45deg);
+}
+/*タイトル文字*/
+.reserve_title {
+	font-weight: 400;
+	margin: 20px auto 10px auto;
+	font-size: 1.0rem;
+}
+/* チケット購入数 */
+.ticket_counter {
+  display:flex;
+  position:relative;
+  margin-bottom: 20px;
+}
+.ticket_first {
+	height:30px;
+	line-height:30px;
+	width:100px;
+	text-align: left;
+}
+.ticket_middle {
+	display:flex;
+	position:relative;
+	margin-right: auto;
+  	margin-left: auto;
+}
+.arrow_left {
+	padding-top:5px;
+	width:50px;
+    font-size: 20px;
+  	cursor:pointer;
+	height:30px;
+	line-height:30px;
+}
+.ticket_num {
+	width:50px;
+	margin-left:30px;
+    font-size: 30px;
+    border:none;
+    color:var(--font-coler);
+	height:30px;
+	line-height:30px;
+}
+.arrow_right {
+	padding-top:5px;
+	width:50px;	
+	margin-right: auto;
+  	margin-left: auto;
+    font-size: 20px;
+  	cursor:pointer;
+	height:30px;
+	line-height:30px;
+}
+.ticket_last {
+	text-align: left;
+	height:30px;
+	line-height:30px;
+}
+
+.purchase_result {
+	display:flex;
+}
+/* 日時選択 */
+.schedule_counter {
+	display:flex;
+	position:relative;
+	margin-bottom: 40px;
+}
+.schedule_first {
+	height:30px;
+	line-height:30px;
+	width:100px;
+	text-align: left;
+}
+.schedule_last {
+	padding-left:50px;
+}
+.datetime {
+  border: 1px solid var( --input-border-color);
+  width:250px;
+  padding: 4px;
+  border-radius: 5px;
+  font-size: 16px;
+  color: var(--font-coler);
+  outline: none;
+  cursor:pointer;
+}
+
+/*-------------------------------
+チェックボックス1個目
+------------------------------*/
+.check01 {
+	position: relative;
+}
+
+/* 元々のチェックボックス（非表示） */
+.check01 input[type="checkbox"]{
+    display: none;
+}
+/* チェックボックスの代わりを成すラベル */
+.check01 input[type="checkbox"]+label{
+    display: none;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    padding-left: 25px;
+    padding-right: 10px;
+    font-size:11px;
+    text-align: left;
+}
+/* ラベルの左に表示させるチェックボックス */
+.check01 input[type="checkbox"]+label::before{
+    content: "";
+    position: absolute;
+    display: block;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    left: 0;
+    top: 50%;
+    border: 1px solid;
+    border-color:  var(--input-border-color); /* 枠の色変更 お好きな色を */
+    background-color: #FFFFFF; /* 背景の色変更 お好きな色を */
+    border-radius: 50%;
+    
+}
+/* チェックが入った時のレ点 */
+.check01 input[type="checkbox"]:checked+label::after{
+    content: "";
+    position: absolute;
+    display: block;
+    box-sizing: border-box;
+    width: 18px;
+    height: 9px;
+    margin-top: -9px;
+    top: 50%;
+    left: 3px;
+    transform: rotate(-45deg);
+    border-bottom: 3px solid;
+    border-left: 3px solid;
+    border-color:  var(--input-border-color); /* チェックの色変更 お好きな色を */
+}
+
+hr.style1{
+  width: 100%;
+  border-top: 1px solid  var(--shadow-color);
+  margin: 30px 0;
+}
+.pid_hidden {
+	display:none;
+}
+/*--------------------------------
+購入して予約するボタン
+---------------------------------*/
+.reserve_button02 {
+  /*影の基点とするためrelativeを指定*/
+  position: relative;
+  /*ボタンの形状*/
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  border-radius: 10px;
+  /*border: solid 1px #333;*/
+  outline: none;
+  /*アニメーションの指定*/
+  transition: all 0.1s ease;
+  background-color: #ffffff;
+  margin-top: 20px;
+  width: 200px;
+}
+
+/*ボタンの中のテキスト*/
+.reserve_button02 span {
+  position: relative;
+  z-index: 2;/*z-indexの数値をあげて文字を背景よりも手前に表示*/
+  /*テキストの形状*/
+  display: block;
+  padding: 10px 30px;
+  background: var(--shadow-color);
+  border-radius: 10px;
+  color:#ffffff;
+  /*アニメーションの指定*/
+  transition: all 0.1s ease;
+}
+
+/*影の設定*/
+.reserve_pushdown02:before {
+  content:"";
+  /*絶対配置で影の位置を決める*/
+  position: absolute;
   z-index: -1;
-}
-.profile_left_div01 img {
-	width: 300px;
-	height: 300px;
-	object-fit: cover;
-}
-.profile_left_div01_inner {
-  overflow: hidden;
-  text-align:center;
-  background-color: #FFFFFF;
-  border-radius: 8px;
-
-}
-.username {
-  font-size: 1.2rem;
-  margin: 10px 0;
-
-}
-.profile_footer {
-	bottom: 0;
-	background-color: #FFFFFF;
+  top:4px;
+  left:0;
+  /*影の形状*/
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: #ffe4e1;
 }
 
+/*hoverの際にY軸に4pxずらす*/
+.reserve_pushdown02:hover span {
+  background-color: var(--shadow-color);
+  color: #ffffff;
+  transform: translateY(4px);
+}
+
+/*--------------------------------------
+ エラーメッセージ
+--------------------------------------*/
+.error_message {
+	display: hidden;
+	height: 20px;
+	/*background-color: var(--shadow-color);*/
+	color: #FFFFFF;
+	padding: 5px;
+	line-height: 20px;
+}

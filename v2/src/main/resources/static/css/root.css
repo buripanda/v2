@@ -68,4 +68,13 @@ input:-webkit-autofill {
   background: var(--input-border-color);
   border-radius: 5px;
 }
+/*-------------------------------------
+ 要素表示/非表示
+-------------------------------------*/
+.display_none {
+	display: none;
+}
+.display_block {
+	display: block;
+}
 

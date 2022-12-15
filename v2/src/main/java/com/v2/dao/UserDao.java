@@ -26,7 +26,7 @@ public class UserDao {
 		List<User> userList = new ArrayList<>();
 		List<Map<String, Object>> dataList = jdbcTemplate
 				.queryForList("SELECT * FROM ( "
-						+ "SELECT * FROM T_USER WHERE TANKA > 0 ORDER BY REGIST_DATE "
+						+ "SELECT * FROM T_USER WHERE PRICE > 0 ORDER BY REGIST_DATE "
 						+ ") WHERE ROWNUM() <= 8"); // 新着順でデータベースから取り出す。
 
 		for (Map<String, Object> data : dataList) {
@@ -46,7 +46,7 @@ public class UserDao {
 		List<User> userList = new ArrayList<>();
 		List<Map<String, Object>> dataList = jdbcTemplate
 				.queryForList("SELECT * FROM ( "
-						+ "SELECT * FROM T_USER WHERE TANKA > 0 ORDER BY REGIST_DATE DESC "
+						+ "SELECT * FROM T_USER WHERE PRICE > 0 ORDER BY REGIST_DATE DESC "
 						+ ") WHERE ROWNUM() <= 8"); // 新着順でデータベースから取り出す。
 
 		for (Map<String, Object> data : dataList) {
@@ -66,7 +66,7 @@ public class UserDao {
   	List<User> userList = new ArrayList<>();
   	List<Map<String, Object>> dataList = jdbcTemplate
 				.queryForList("SELECT * FROM ( "
-						+ "SELECT * FROM T_USER WHERE TANKA > 0 ORDER BY ORDER_SUM DESC "
+						+ "SELECT * FROM T_USER WHERE PRICE > 0 ORDER BY ORDER_SUM DESC "
 						+ ") WHERE ROWNUM() <= 8"); // オーダー数順でデータベースから取り出す。
   
   	for (Map<String, Object> data : dataList) {
@@ -86,7 +86,7 @@ public class UserDao {
 		List<User> userList = new ArrayList<>();
 		List<Map<String, Object>> dataList = jdbcTemplate
 				.queryForList("SELECT * FROM ( "
-						+ "SELECT * FROM T_USER WHERE TANKA > 0 AND (USER_NAME LIKE ? OR MESSAGE LIKE ?) ORDER BY UPDATE_DATE "
+						+ "SELECT * FROM T_USER WHERE PRICE > 0 AND (USER_NAME LIKE ? OR MESSAGE LIKE ?) ORDER BY UPDATE_DATE "
 						+ ")",
 						"%" + keyword +"%", "%" + keyword +"%");
 
@@ -207,7 +207,7 @@ public class UserDao {
   	
   	int cnt = jdbcTemplate.update(
   			"UPDATE T_USER SET " +
-  			"ONLINE_STATUS=? ,UPDATE_DATE=current_timestamp " +
+  			"ONLINE_STATUS=? ,COOKIE = null, UPDATE_DATE=current_timestamp " +
   			"WHERE  ID=?",
   			0, id);		
   	return cnt;
@@ -271,9 +271,9 @@ public class UserDao {
   	
 		int cnt = jdbcTemplate.update(
 				"UPDATE T_USER SET " +
-						"IMAGE_PATH=?, TITLE=?, TANKA=?, UPDATE_DATE=current_timestamp " +
+						"IMAGE_PATH=?, TITLE=?, PRICE=?, UPDATE_DATE=current_timestamp " +
 						"WHERE  ID=?",
-						user.imageFile, user.title, user.tanka, user.id);
+						user.imageFile, user.title, user.price, user.id);
   	return cnt;
   
   }
@@ -289,9 +289,9 @@ public class UserDao {
   	
 		int cnt = jdbcTemplate.update(
 				"UPDATE T_USER SET " +
-						"TITLE=?, TANKA=?, UPDATE_DATE=current_timestamp " +
+						"TITLE=?, PRICE=?, UPDATE_DATE=current_timestamp " +
 						"WHERE  ID=?",
-						user.title, user.tanka, user.id);
+						user.title, user.price, user.id);
   	return cnt;
   
   }
@@ -344,7 +344,8 @@ public class UserDao {
 			user.title = (String) data.get("TITLE");
 		if (data.get("MESSAGE") != null) 
 			user.message = (String) data.get("MESSAGE");
-		user.tanka = (int) data.get("TANKA");
+		user.price = (int) data.get("PRICE");
+    user.amount = (int) data.get("AMOUNT");
 		user.evaluation = (BigDecimal) data.get("EVALUATION");
 		user.orderSum = (int) data.get("ORDER_SUM");
 		if (data.get("INSTA_URL") != null) 

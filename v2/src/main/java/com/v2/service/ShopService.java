@@ -35,8 +35,8 @@ public class ShopService {
 			// titleチェック
 			if (!StringUtils.hasLength(user.title))
 				return false;
-			// tankaチェック
-			if (user.tanka < 500)
+			// priceチェック
+			if (user.price < 500)
 				return false;
 			return true;
 		

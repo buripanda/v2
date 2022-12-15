@@ -13,7 +13,8 @@ body {
 	height: 100%;
 	-webkit-transition: width 0.4s;
 	transition: width 0.4s;
-	background: #EBAEBC;
+	/*background: #EBAEBC;*/
+	background-image: linear-gradient(to bottom, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
 }
 .cp_sidebarmenu:hover {
 	width: 13em;

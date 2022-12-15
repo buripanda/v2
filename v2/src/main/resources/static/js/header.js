@@ -1,34 +1,32 @@
 $(function () {
-	//$(window).unload(function() {
-	//  $.post( '/leave', '' );
-	//  console.log("close!!");
-	//});
   // ログインモーダルオープン
   $('.login-open').click(function () {
     $('#overlay, .modal-login').fadeIn(200);
-  });
-  //モーダルクローズ
-  $('.login-close, .signup-close, #overlay').click(function () {
-    $('#overlay, .modal-login, .modal-signup').fadeOut(100);
-	document.getElementById('login_error').style.display = "hidden";
-	document.getElementById('login_error').style.backgroundColor = "#FFFFFF";
-	document.getElementById('login_error').innerHTML = "";
-	document.getElementById('signup_error').style.display = "hidden";
-	document.getElementById('signup_error').style.backgroundColor = "#FFFFFF";
-	document.getElementById('signup_error').innerHTML = "";
-	document.getElementById('email').value = "";
-	document.getElementById('password').value = "";
-	document.getElementById('s_userName').value = "";
-	document.getElementById('s_email').value = "";
-	document.getElementById('s_password').value = "";
-	
   });
   // 新規登録モーダルオープン
   $('.signup-open').click(function () {
     $('#overlay, .modal-signup').fadeIn(200);
   });
+  //モーダルクローズ
+  $('.login-close, .signup-close, #overlay').click(function () {
+    $('#overlay, .modal-login, .modal-signup, .modal-reserve').fadeOut(100);
+    if (document.getElementById('modal-login') != null) {
+		document.getElementById('login_error').style.display = "hidden";
+		document.getElementById('login_error').style.backgroundColor = "#FFFFFF";
+		document.getElementById('login_error').innerHTML = "";
+		document.getElementById('email').value = "";
+		document.getElementById('password').value = "";
+	}
+    if (document.getElementById('modal-signup') != null) {
+		document.getElementById('signup_error').style.display = "hidden";
+		document.getElementById('signup_error').style.backgroundColor = "#FFFFFF";
+		document.getElementById('signup_error').innerHTML = "";
+		document.getElementById('s_userName').value = "";
+		document.getElementById('s_email').value = "";
+		document.getElementById('s_password').value = "";
+	}	
+  });
 });
-
 // ログイン処理
 function restLogin(){
 	var email = document.getElementById('email').value;
@@ -116,3 +114,4 @@ function logoutMenu() {
 	document.getElementById('menu04').style.display = "none";
 	document.getElementById('menu05').style.display = "none";
 }
+

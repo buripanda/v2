@@ -95,7 +95,7 @@
 					<div class="card_footer">
 						<div class="card_title" th:text="${user.title}" />
 						<div class="card_name" th:text="${user.userName}" />
-						<div class="card_tanka" th:text="${user.tanka + 'Very'}" />
+						<div class="card_price" th:text="${user.price + 'Very'}" />
 						<div class="icons">
 							<th:block th:if="${user.youtube != null}">
 								<!--<img src="/image/youtube.png" alt="" class="icon">-->
@@ -139,7 +139,7 @@
 					<div class="card_footer">
 						<div class="card_title" th:text="${newUser.title}" />
 						<div class="card_name" th:text="${newUser.userName}" />
-						<div class="card_tanka" th:text="${newUser.tanka + 'Very'}" />
+						<div class="card_price" th:text="${newUser.price + 'Very'}" />
 						<div class="icons">
 							<th:block th:if="${newUser.youtube != null}">
 								<!--<img src="/image/youtube.png" alt="" class="icon">-->
@@ -175,7 +175,7 @@
 			</div>
 			<div class="chat_01">
 				<p>15分</p>
-				<p th:text="${order.tanka + 'Very'}" />
+				<p th:text="${order.price + 'Very'}" />
 			</div>
 			<div class="chat_01" th:onclick="|javascript:postSelectId(__${order.id}__, 'messagePartnerList')|">
 				<dev herf="" class="chat_text_01">チャットをする</dev>
@@ -200,7 +200,7 @@
 	</th:block>
 	<hr class="style1">
 	<th:block th:replace="footer::footer"></th:block>
-	<div class="modal-login">
+	<div class="modal-login" id="modal-login">
 		<div class="login_01">
 			<span class="round_btn login-close"></span>
 			<div class="login_title">ログイン</div>
@@ -225,7 +225,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="modal-signup">
+	<div class="modal-signup" id="modal-signup">
 		<div class="signup_01">
 			<span class="round_btn signup-close"></span>
 			<div class="login_title">新規登録</div>

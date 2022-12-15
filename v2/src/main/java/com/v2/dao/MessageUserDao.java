@@ -30,6 +30,7 @@ public class MessageUserDao {
 				+ "  T2.USER_NAME, "
 				+ "  T2.IMAGE_PATH, "
 				+ "  T2.ONLINE_STATUS, "
+				+ "  T2.PRICE, "
 				+ "  T1.LAST_MESSAGE, "
 				+ "  T1.NEW_MESSAGE, "
 				+ "  T1.UPDATE_DATE "
@@ -55,6 +56,7 @@ public class MessageUserDao {
 	  	if (user.message != null && user.message.length() > 10) {
 	  		user.message = user.message.substring(0,10);
 	  	}
+			user.price = (int)data.get("PRICE");
 			user.newMessage = (int) data.get("NEW_MESSAGE");
 			user.updateDate = (Date)data.get("UPDATE_DATE");
 			partnerList.add(user);
