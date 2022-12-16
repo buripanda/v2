@@ -323,6 +323,24 @@ public class UserDao {
 		    user.id, user.userId, user.userName, user.password, user.email, user.sex, "default.png");
 
   }
+  
+  /**
+   * 残高を更新する
+   * @param emal
+   * @param password
+   * @param jdbcTemplate
+   * @return
+   */
+  public int updateBlance(int id, int amount, JdbcTemplate jdbcTemplate) throws Exception {
+  	
+		int cnt = jdbcTemplate.update(
+				"UPDATE T_USER SET " +
+						"AMOUNT=AMOUNT + ?, UPDATE_DATE=current_timestamp " +
+						"WHERE  ID=?",
+						id, amount);
+  	return cnt;
+  
+  }
 
   /**
 	 * ユーザ情報をセットする
