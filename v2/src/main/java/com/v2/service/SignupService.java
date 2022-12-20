@@ -42,6 +42,9 @@ public class SignupService {
 
 		// プロフィール新規登録
 		tUser.insertProfile(user, jdbcTemplate);
+		
+		// 自己紹介文新規登録
+		tUser.insertUserMessage(user, jdbcTemplate);
 
 		return user;
 

@@ -142,7 +142,7 @@ img {
 }
 
 .image_select:active {
-     background: url(/images/icon_user_1.png) center center / contain no-repeat;
+     background: url(/images/default.png) center center / contain no-repeat;
 }
 
 .image_select input{

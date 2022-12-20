@@ -85,9 +85,16 @@ public class UserDao {
 		
 		List<User> userList = new ArrayList<>();
 		List<Map<String, Object>> dataList = jdbcTemplate
-				.queryForList("SELECT * FROM ( "
-						+ "SELECT * FROM T_USER WHERE PRICE > 0 AND (USER_NAME LIKE ? OR MESSAGE LIKE ?) ORDER BY UPDATE_DATE "
-						+ ")",
+				.queryForList("SELECT * FROM "
+						+ "T_USER T1 "
+						+ "INNER JOIN T_USER_INTRODUCTION T2 "
+						+ "ON T1.ID = T2.ID "
+						+ "WHERE "
+						+ "T1.PRICE > 0 "
+						+ "AND T1.DELETE_FLG = 0 "
+						+ "AND T1.USER_NAME LIKE ? "
+						+ "AND T2.MESSAGE LIKE ? "
+						+ "ORDER BY UPDATE_DATE ",
 						"%" + keyword +"%", "%" + keyword +"%");
 
 		for (Map<String, Object> data : dataList) {
@@ -109,6 +116,28 @@ public class UserDao {
 		return new User();
 	
 	}
+
+	 /**
+   * ユーザ情報＋自己紹介メッセージ取得（ID指定）
+   * @param id
+   * @return
+   */
+  public User selectUserPlusMessage(int id, JdbcTemplate jdbcTemplate) throws Exception {
+
+    List<Map<String, Object>> dataList = jdbcTemplate.queryForList(
+        "SELECT * FROM "
+        + " T_USER T1"
+        + " INNER JOIN T_USER_INTRODUCTION T2"
+        + " ON T1.ID = T2.ID "
+        + " WHERE"
+        + " T1.ID = ? "
+        + " AND T1.DELETE_FLG = 0",
+        id); 
+    if (dataList.size() == 1) 
+      return setUser(dataList.get(0));
+    return new User();
+  
+  }
 
 	/**
 	 * ユーザ情報取得（Cookie指定）
@@ -223,16 +252,11 @@ public class UserDao {
    */
   public int updateProfileDetail(User user, JdbcTemplate jdbcTemplate) throws Exception {
   	
-		String messageRep = null;
-		// 改行コードを置換
-		if (StringUtils.hasLength(user.message))
-			messageRep = user.message.replaceAll("\r\n|\r|\n", "\n");
-
 		int cnt = jdbcTemplate.update(
 				"UPDATE T_USER SET " +
-						"USER_NAME=?, IMAGE_PATH=?, MESSAGE=?, YOUTUBE_URL=?, TWITTER_URL=?, TIKTOK_URL=?, INSTA_URL=?, UPDATE_DATE=current_timestamp " +
+						"USER_NAME=?, IMAGE_PATH=?, YOUTUBE_URL=?, TWITTER_URL=?, TIKTOK_URL=?, INSTA_URL=?, UPDATE_DATE=current_timestamp " +
 						"WHERE  ID=?",
-						user.userName, user.imageFile, messageRep, user.youtube, user.twitter, user.tiktok, user.insta,  user.id);
+						user.userName, user.imageFile, user.youtube, user.twitter, user.tiktok, user.insta,  user.id);
   	return cnt;
   
   }
@@ -246,17 +270,56 @@ public class UserDao {
    */
   public int updateProfileDetailNoImage(User user, JdbcTemplate jdbcTemplate) throws Exception {
   	
-		String messageRep = null;
-		// 改行コードを置換
-		if (StringUtils.hasLength(user.message))
-			messageRep = user.message.replaceAll("\r\n|\r|\n", "\n");
-
 		int cnt = jdbcTemplate.update(
 				"UPDATE T_USER SET " +
-						"USER_NAME=?, MESSAGE=?, YOUTUBE_URL=?, TWITTER_URL=?, TIKTOK_URL=?, INSTA_URL=?, UPDATE_DATE=current_timestamp " +
+						"USER_NAME=?, YOUTUBE_URL=?, TWITTER_URL=?, TIKTOK_URL=?, INSTA_URL=?, UPDATE_DATE=current_timestamp " +
 						"WHERE  ID=?",
-						user.userName, messageRep, user.youtube, user.twitter, user.tiktok, user.insta,  user.id);
+						user.userName, user.youtube, user.twitter, user.tiktok, user.insta,  user.id);
   	return cnt;
+  
+  }
+  
+  /**
+   * 自己紹介文新規登録
+   * @param user
+   * @param jdbcTemplate
+   */
+  public void insertUserMessage(User user, JdbcTemplate jdbcTemplate) throws Exception {
+    
+    String messageRep = null;
+    // 改行コードを置換
+    if (StringUtils.hasLength(user.message))
+      messageRep = user.message.replaceAll("\r\n|\r|\n", "\n");
+
+    // プロフィール新規登録
+    jdbcTemplate.update(
+        "INSERT INTO T_USER_INTRODUCTION " +
+            "( ID, MESSAGE, DELETE_FLG, REGIST_DATE, UPDATE_DATE ) " +
+            "VALUES (?, ?, 0, current_timestamp, current_timestamp)",
+        user.id, messageRep);
+
+  }
+
+  /**
+   * 自己紹介文を更新する
+   * @param emal
+   * @param password
+   * @param jdbcTemplate
+   * @return
+   */
+  public int updateUserMessage(User user, JdbcTemplate jdbcTemplate) throws Exception {
+    
+    String messageRep = null;
+    // 改行コードを置換
+    if (StringUtils.hasLength(user.message))
+      messageRep = user.message.replaceAll("\r\n|\r|\n", "\n");
+
+    int cnt = jdbcTemplate.update(
+        "UPDATE T_USER_INTRODUCTION SET " +
+            "MESSAGE=?,UPDATE_DATE=current_timestamp " +
+            "WHERE  ID=?",
+            messageRep, user.id);
+    return cnt;
   
   }
 
@@ -323,7 +386,7 @@ public class UserDao {
 		    user.id, user.userId, user.userName, user.password, user.email, user.sex, "default.png");
 
   }
-  
+    
   /**
    * 残高を更新する
    * @param emal
@@ -337,7 +400,7 @@ public class UserDao {
 				"UPDATE T_USER SET " +
 						"AMOUNT=AMOUNT + ?, UPDATE_DATE=current_timestamp " +
 						"WHERE  ID=?",
-						id, amount);
+						amount, id);
   	return cnt;
   
   }
@@ -364,7 +427,7 @@ public class UserDao {
 			user.message = (String) data.get("MESSAGE");
 		user.price = (int) data.get("PRICE");
     user.amount = (int) data.get("AMOUNT");
-		user.evaluation = (BigDecimal) data.get("EVALUATION");
+		user.rate = (BigDecimal) data.get("RATE");
 		user.orderSum = (int) data.get("ORDER_SUM");
 		if (data.get("INSTA_URL") != null) 
 			user.insta = (String) data.get("INSTA_URL");

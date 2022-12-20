@@ -12,17 +12,49 @@
 <link th:href="@{/css/charge.css}" rel="stylesheet">
 <link th:href="@{/css/sidemenu.css}" rel="stylesheet">
 <link th:href="@{/css/footer.css}" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/header.js"></script>
 <script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
 <script>
-function previewImage(obj)
+var very_flg = [0,0,0,0,0];
+var very_money = [10000, 20000, 30000, 50000, 100000];
+function verySelect(sel)
 {
-	var fileReader = new FileReader();
-	fileReader.onload = (function() {
-		document.getElementById('preview').src = fileReader.result;
-	});
-	fileReader.readAsDataURL(obj.files[0]);
+  var element = document.getElementById("very" + sel);
+  if (very_flg[sel-1] == 0) {
+   element.className = "very very_onclick";
+   very_flg[sel-1] = 1;
+   var billing = document.getElementById("charge_balance_num").textContent;
+   var billing = billing.replace(/,/g, '');
+   document.getElementById("charge_balance_num").textContent = 
+    (Number(billing) + very_money[sel-1]).toLocaleString();
+	} else {
+   element.className = "very very_unclick";    
+   very_flg[sel-1] = 0;
+   var billing = document.getElementById("charge_balance_num").textContent;
+   var billing = billing.replace(/,/g, '');
+   document.getElementById("charge_balance_num").textContent = 
+    (Number(billing) - very_money[sel-1]).toLocaleString();
+  }
+}
+
+function postCharge() {
+
+  const form = document.createElement('form');
+  form.method = 'post';
+  form.action = '/charge';
+
+  const hiddenField = document.createElement('input');
+  hiddenField.type = 'hidden';
+  hiddenField.name = 'amount';
+  var billing = document.getElementById("charge_balance_num").textContent;
+  var billing = billing.replace(/,/g, '');
+  hiddenField.value = billing;
+  form.appendChild(hiddenField);
+  document.body.appendChild(form);
+  form.submit();
+
 }
 </script>
 </head>
@@ -33,22 +65,67 @@ function previewImage(obj)
 	<form method="post" name="form1" enctype="multipart/form-data" action="charge">
 	<div class="charge_frame">
 		<div class="charge_title">
-		課金
+		Very購入
 		</div>
-		<div class="charge_balance">
-		  <div>残高</div>
-		  <div>[[${session.v2bean.amount}]]</div>
+		<div class="very_list">
+			<div class="very" id="very1" onclick="javascript:verySelect(1)">
+		 	  <div class="very_img_outline">
+        <img src="/image/very.jpg" class="very_img">		 	
+		 	  </div>
+		 	  <div class="very_money">10,000 Very</div>
+		 	  <div class="very_submit">購入</div>
+			</div>
+      <div class="very" id="very2" onclick="javascript:verySelect(2)">
+        <div class="very_img_outline">
+        <img src="/image/very.jpg" class="very_img">      
+        </div>
+        <div class="very_money">20,000 Very</div>
+        <div class="very_submit">購入</div>
+      </div>
+      <div class="very" id="very3" onclick="javascript:verySelect(3)">
+        <div class="very_img_outline">
+        <img src="/image/very.jpg" class="very_img">      
+        </div>
+        <div class="very_money">30,000 Very</div>
+        <div class="very_submit">購入</div>
+      </div>
+      <div class="very" id="very4" onclick="javascript:verySelect(4)">
+        <div class="very_img_outline">
+        <img src="/image/very.jpg" class="very_img">      
+        </div>
+        <div class="very_money">50,000 Very</div>
+        <div class="very_submit">購入</div>
+      </div>
+      <div class="very" id="very5" onclick="javascript:verySelect(5)">
+        <div class="very_img_outline">
+        <img src="/image/very.jpg" class="very_img">      
+        </div>
+        <div class="very_money">100,000 Very</div>
+        <div class="very_submit">購入</div>
+      </div>
 		</div>
-		<div class="charge01">
-		  <input type="radio" name="chargeRadio"  id="charge1" value="10000"><label for="charge1">10000円</label>
-		  <input type="radio" name="chargeRadio"  id="charge2" value="20000"><label for="charge2">20000円</label>
-		  <input type="radio" name="chargeRadio"  id="charge3" value="30000"><label for="charge3">30000円</label>
-		  <input type="radio" name="chargeRadio"  id="charge5" value="50000"><label for="charge5">50000円</label>
-		  <input type="radio" name="chargeRadio"  id="charge10" value="100000"><label for="charge10">100000円</label>
+		<div class="note">
+		※サービス内コインの有効期間は、取得日を含む月から5ヶ月目末日（日本時間）までです。<BR>
+    ※クレジットカード情報は決済サービスXXXXXが管理しており、V2には保存されません。
 		</div>
-		<div>
-				<a href="javascript:postSelectAc('charge')" class="login_button login_pushdown"><span>購入</span></a>
-		</div>
+		<hr class="style2">
+    <div class="charge_balance">
+      <div class="charge_balance_col">購入金額</div>
+      <div id="charge_balance_num">0</div>
+      <div> Very</div>
+    </div>
+    <div class="charge_balance">
+      <div class="charge_balance_col">残高</div>
+      <div>[[${session.v2bean.amount}]]</div>
+      <div> Very</div>
+    </div>
+    <div class="charge_button_frame" onclick="javascript:postCharge()">
+      <div class="charge_div">購入する
+      <!--
+        <a href="javascript:restReserve()" class="charge_button charge_pushdown"><span>購入する</span></a>
+      -->
+      <div>
+    </div>
 	</div>
 	</form>
 	<th:block th:replace="footer::footer"></th:block>

@@ -35,7 +35,7 @@ public class User {
     /** チャージ金額 */
     public int amount;
     /** 評価 */
-    public BigDecimal evaluation;
+    public BigDecimal rate;
     /** オーダー数 */
     public int orderSum;
     /** インスタ */

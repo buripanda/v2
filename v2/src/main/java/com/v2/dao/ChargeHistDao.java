@@ -21,7 +21,7 @@ public class ChargeHistDao {
 		// プロフィール新規登録
 		jdbcTemplate.update(
 		    "INSERT INTO T_CHARGE_HIST (CHARGE_ID, FROM_ID , TO_ID, CHARGE_DATE, CHARGE_KBN, QUANTITY, "
-		    + " AMOUNT, DELETE_FLG, REGIST_DATE, UPDATE_DATE" 
+		    + " AMOUNT, DELETE_FLG, REGIST_DATE, UPDATE_DATE) " 
 		    +  "VALUES (?, ?, ?, current_timestamp, ?, ?, ?, 0, current_timestamp, current_timestamp)",
 		        charge.chargeId, charge.fromId, charge.toId, charge.chargeKbn, charge.quantity, charge.amount);
 

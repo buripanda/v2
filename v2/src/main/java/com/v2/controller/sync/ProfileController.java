@@ -70,7 +70,7 @@ public class ProfileController extends AbstractController {
 		
 		// プロフィール取得
 		try {
-			user = profileService.getProfile(searchId, jdbcTemplate);
+			user = profileService.getProfilePlusMessage(searchId, jdbcTemplate);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
@@ -115,7 +115,7 @@ public class ProfileController extends AbstractController {
 		User user = new User();
 		try {
 			//プロフィール情報取得
-			user = profileService.getProfile(id, jdbcTemplate);
+			user = profileService.getProfilePlusMessage(id, jdbcTemplate);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";

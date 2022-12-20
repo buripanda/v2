@@ -12,6 +12,7 @@
 <link th:href="@{/css/profile.css}" rel="stylesheet">
 <link th:href="@{/css/sidemenu.css}" rel="stylesheet">
 <link th:href="@{/css/footer.css}" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/header.js"></script>
 <script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
@@ -32,30 +33,38 @@ function previewImage(obj)
 <th:block th:replace="header::header"></th:block>
 <form method="post" name="form1" enctype="multipart/form-data" action="profile">
 <div class="profile01">
-	<div class="profile_left_div01">
-		<div class="profile_left_div01_inner">
+	<div class="profile_left">
+		<div class="profile_left_inner">
 			<label class="image_select">
 					<!--<img src="http://localhost:8383/images/thumbnail/icon_user_1.png" width="250" id="preview">-->
 					<img th:src="@{./getImgDefault?id=__${user.id}__&name=__${user.imageFile}__}" width="300">
 			</label>
 			<div class="username">[[${user.userName}]]</div>
+			<hr class="hr90">
 			<div class="title">[[${user.title}]]</div>
 		</div>
 	</div>
-	<div class="profile_right_div01">
-		<div class="profile_right01">
-			<div class="profile_right01_dev01">プロフィール</div>
+	<div class="profile_right">
+		<div class="profile_right_hedder">
+			<div class="profile_right_title">プロフィール</div>
 			<th:block th:if="${session.v2bean.id == session.pid}">
-			<div class="profile_right01_dev02">
+			<div class="profile_right_edit">
 			<a href="javascript:postSelectAc('profileEdit')" class="login_button login_pushdown"><span>プロフィールを編集</span></a>
 			</div>
 			</th:block>
 		</div>
-		<div class="profile_right02">
-		登録日：[[${user.registDateYMD}]]
+    <div class="profile_right_registdate">
+    登録日：[[${user.registDateYMD}]]
+    </div>
+		<div class="user_price">
+  		<div class="price">[[${user.price}]]</div><div class="price_str">Very/15分</div>
+		</div>
+		<div class="evaluate">
+		  <div class="evaluate_stars"><span class="star5_rating" data-rate="5"></span></div>
+		  <div class="evaluate_str">[[${user.rate}]]　([[${user.orderSum}]])</div>
 		</div>
 		<hr class="style_100">
-		<div class="profile_right01_dev01">自己紹介</div>
+		<div class="profile_message_title"><i class="fa-solid fa-user-pen"></i>　自己紹介</div>
 		<div class="profile_message">
 			<th:block th:if="${user.message}">
 				<th:block th:each="line: ${user.message.split('\r\n|\r|\n', -1)}">

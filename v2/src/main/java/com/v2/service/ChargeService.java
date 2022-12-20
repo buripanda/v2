@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.v2.bean.ChargeHist;
+import com.v2.bean.User;
 import com.v2.dao.ChargeHistDao;
 import com.v2.dao.UserDao;
 
@@ -29,7 +30,7 @@ public class ChargeService {
 	 * @return
 	 * @throws Exception
 	 */
-	public void doCharge(ChargeHist chargeHist, JdbcTemplate jdbcTemplate) throws Exception {
+	public User doCharge(ChargeHist chargeHist, JdbcTemplate jdbcTemplate) throws Exception {
 
 		//シーケンス取得
 		int seq = chargeHistDao.getSequenceChargeId(jdbcTemplate);
@@ -38,6 +39,8 @@ public class ChargeService {
 		chargeHistDao.inserChargeHist(chargeHist, jdbcTemplate);
 		// 残高更新
 		userDao.updateBlance(chargeHist.toId, chargeHist.amount, jdbcTemplate);
+		//　ユーザ情報取得
+		return userDao.selectUser(chargeHist.toId, jdbcTemplate);
 
 	}
 	

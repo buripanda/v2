@@ -12,6 +12,7 @@
 <link th:href="@{/css/profile_edit.css}" rel="stylesheet">
 <link th:href="@{/css/sidemenu.css}" rel="stylesheet">
 <link th:href="@{/css/footer.css}" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="/js/common.js"></script>
 <script src="/js/header.js"></script>
 <script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
@@ -24,23 +25,13 @@ function previewImage(obj)
 	});
 	fileReader.readAsDataURL(obj.files[0]);
 }
-function submitFunc(action) {
-
-	const form = document.createElement('form');
-	form.method = 'post';
-	form.action = '/' + action;
-	document.body.appendChild(form);
-	form.submit();
-
-	//document.location="view/" + id
-}
 </script>
 </head>
 <body>
 <th:block th:replace="sidemenu::sidemenu"></th:block>
 <div class="contents">
 <th:block th:replace="header::header"></th:block>
-<form method="post" name="form1" enctype="multipart/form-data" action="profileEditRegist">
+<form method="post" name="profileEditForm" enctype="multipart/form-data" action="profileEditRegist">
 <div class="profile01">
 	<div class="profile_left_div01">
 		<div class="profile_left_div01_inner">
@@ -84,7 +75,7 @@ function submitFunc(action) {
 			</div>
 		</div>
 		<div class="regist_div">
-		<a href="javascript:document.form1.submit()" class="regist_button regist_pushdown"><span>登録する</span></a>
+		<a href="javascript:document.profileEditForm.submit();" class="regist_button regist_pushdown"><span>登録する</span></a>
 		</div>
 	</div>
 </div>

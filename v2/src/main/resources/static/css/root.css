@@ -20,11 +20,13 @@
   --input-border-color: #DE7890; /* 入力欄の淵の色 */
   --card-border-coloer: #EBAEBC; /* プロフィールカードの淵の色 */
 }
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700&display=swap');
 /*-----------------------------------
 　HTML　BODY部　基本設定
 ------------------------------------*/
 body {
-  font-family: var(--font-family);
+  /*font-family: var(--font-family);*/
+  font-family: '07やさしさゴシック', sans-serif;
   color: var(--font-coler);
   background-color: var(--background-color);
 }
@@ -32,8 +34,8 @@ body {
  フォント読み込み
 --------------------------------------*/
 @font-face {
-  font-family: '07LogoTypeGothic7';
-  src: url(/font/07LogoTypeGothic7.ttf);
+  font-family: '07やさしさゴシック';
+  src: url(/font/07やさしさゴシック.ttf);
 }
 /*--------------------------------------
  サイドメニューの文字

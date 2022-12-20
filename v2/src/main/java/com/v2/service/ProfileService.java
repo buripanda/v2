@@ -40,18 +40,31 @@ public class ProfileService {
 	UserDao tUser;
 	
 	/**
-	 * プロフィール情報取得
+	 * プロフィール情報取得（自己紹介あり）
 	 * @param id
 	 * @param jdbcTemplate
 	 * @return
 	 * @throws Exception
 	 */
-	public User getProfile(int id, JdbcTemplate jdbcTemplate) throws Exception {
+	public User getProfilePlusMessage(int id, JdbcTemplate jdbcTemplate) throws Exception {
 		
 		// プロフィール情報取得
-		return tUser.selectUser(id, jdbcTemplate);
+		return tUser.selectUserPlusMessage(id, jdbcTemplate);
 
 	}
+  /**
+   * プロフィール情報取得
+   * @param id
+   * @param jdbcTemplate
+   * @return
+   * @throws Exception
+   */
+  public User getProfile(int id, JdbcTemplate jdbcTemplate) throws Exception {
+    
+    // プロフィール情報取得
+    return tUser.selectUser(id, jdbcTemplate);
+
+  }
 	
 	/**
 	 * プロフィール変更時のパラメータチェック
@@ -86,6 +99,8 @@ public class ProfileService {
 		} else {
 			tUser.updateProfileDetailNoImage(user, jdbcTemplate);
 		}
+		// 自己紹介文を更新する
+		tUser.updateUserMessage(user, jdbcTemplate);
 		
 	}
 }

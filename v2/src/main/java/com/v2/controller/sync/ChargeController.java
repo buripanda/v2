@@ -72,7 +72,7 @@ public class ChargeController extends AbstractController {
 	 *  課金処理
 	 */
 	@PostMapping("/charge")
-	public String charge(@RequestParam(name="chargeRadio") int chargeRadio, ModelMap modelMap) {
+	public String charge(@RequestParam(name="amount") int amount, ModelMap modelMap) {
 		
 		// セッションからログインID取得
 		if (!super.isLogin())
@@ -83,20 +83,22 @@ public class ChargeController extends AbstractController {
 		charge.fromId = user.id;
 		charge.toId = user.id;
 		charge.chargeKbn = 1;
-		charge.chargeRadio = chargeRadio;
+		charge.chargeRadio = 1;
 		charge.quantity = 1;
-		charge.amount =  chargeRadio * charge.quantity;
+		charge.amount =  amount;
 		//入力値チェック
 		if (!chargeService.doCheck(charge)) 
 			return "redirect:/";		
 		
 		// 課金処理
 		try {
-			chargeService.doCharge(charge, jdbcTemplate);
+			user = chargeService.doCharge(charge, jdbcTemplate);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
 		}
+		// セッションにユーザ情報格納
+		super.setSessionBean(user);
 		return "charge";
 		
 	}
