@@ -7,7 +7,7 @@
 	display: grid;
 	grid-template-columns: 300px 1fr;
 }
-.profile_left {
+.profile_card {
   overflow: hidden;
   border-radius: 8px;
   width: 300px;
@@ -19,7 +19,7 @@
   background-color: var(--card-border-coloer);
   filter: drop-shadow(0px 0px 5px rgba(222,120,144,.5));
 }
-.profile_left_inner {
+.profile_inner {
   overflow: hidden;
   text-align:center;
   background-color: #FFFFFF;
@@ -46,7 +46,9 @@ img {
   font-size: 16px;
   margin: 0px 0;
 }
-
+.evaluation_list {
+	
+}
 /*-------------------------------------
 プロフィール画面　右側
 -------------------------------------*/

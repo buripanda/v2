@@ -34,14 +34,18 @@ function previewImage(obj)
 <form method="post" name="form1" enctype="multipart/form-data" action="profile">
 <div class="profile01">
 	<div class="profile_left">
-		<div class="profile_left_inner">
-			<label class="image_select">
-					<!--<img src="http://localhost:8383/images/thumbnail/icon_user_1.png" width="250" id="preview">-->
-					<img th:src="@{./getImgDefault?id=__${user.id}__&name=__${user.imageFile}__}" width="300">
-			</label>
-			<div class="username">[[${user.userName}]]</div>
-			<hr class="hr90">
-			<div class="title">[[${user.title}]]</div>
+		<div class="profile_card">
+			<div class="profile_inner">
+				<label class="image_select">
+						<!--<img src="http://localhost:8383/images/thumbnail/icon_user_1.png" width="250" id="preview">-->
+						<img th:src="@{./getImgDefault?id=__${user.id}__&name=__${user.imageFile}__}" width="300">
+				</label>
+				<div class="username">[[${user.userName}]]</div>
+				<hr class="hr90">
+				<div class="title">[[${user.title}]]</div>
+			</div>
+		</div>
+		<div class="evaluation_list">
 		</div>
 	</div>
 	<div class="profile_right">
