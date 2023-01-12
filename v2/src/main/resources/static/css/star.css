@@ -1,0 +1,191 @@
+/*-------------------------------------
+ログインモーダル　入れ物枠設定
+-------------------------------------*/
+.rate {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  overflow: hidden;
+  text-align: center;
+}
+
+/*-------------------------------------
+入力欄などの入れ物
+-------------------------------------*/
+.rate_frame {
+  width: 400px;
+  height: 400px;  
+  position: relative; 
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-flow: column;
+}
+
+/*--------------------------------
+×アイコン
+---------------------------------*/
+.round_btn {
+  display: block;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;  /* 丸みの度合い */
+  background: var(--shadow-color); /* ボタンの背景色 */
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+}
+ 
+.round_btn::before, .round_btn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 21px;
+  background: #ffffff; /* バツ印の色 */
+}
+ 
+.round_btn::before {
+  transform: translate(-50%,-50%) rotate(45deg);
+}
+ 
+.round_btn::after {
+  transform: translate(-50%,-50%) rotate(-45deg);
+}
+/*--------------------------------
+ログイン文字
+---------------------------------*/
+.rate_title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 30px auto 10px auto;
+  color: var(--shadow-color);
+}
+/*--------------------------------
+星
+---------------------------------*/
+.rate-form {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+.rate-form input[type=radio] {
+  display: none;
+}
+.rate-form label {
+  position: relative;
+  padding: 0 5px;
+  color: #cccccc;
+  cursor: pointer;
+  font-size: 35px;
+}
+.rate-form label:hover {
+  color: #cccccc;
+}
+.rate-form label:hover ~ label {
+  color: #ffcc00;
+}
+.rate-form input[type=radio]:checked ~ label {
+  color: #ffcc00;
+}
+/*--------------------------------
+コメント欄
+---------------------------------*/
+.comment {
+	width: 300px;
+	height: 100px;
+}
+/*--------------------------------
+評価するボタン
+---------------------------------*/
+.login_button {
+  position: relative;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.1s ease;
+  background-color: #ffffff;
+  margin-top: 20px;
+  width: 200px;
+}
+/*ボタンの中のテキスト*/
+.login_button span {
+  position: relative;
+  z-index: 2;/*z-indexの数値をあげて文字を背景よりも手前に表示*/
+  display: block;
+  padding: 10px 30px;
+  background: var(--shadow-color);
+  border-radius: 10px;
+  color:#ffffff;
+  transition: all 0.1s ease;
+}
+
+/*影の設定*/
+.login_pushdown:before {
+  content:"";
+  position: absolute;
+  z-index: -1;
+  top:4px;
+  left:0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: #ffe4e1;
+}
+
+/*hoverの際にY軸に4pxずらす*/
+.login_pushdown:hover span {
+  background-color: var(--shadow-color);
+  color: #ffffff;
+  transform: translateY(4px);
+}
+/* モーダルを開いた時の外側のレイヤー */
+.over-lay {
+  content: '';
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #999;
+  opacity: 0.7;
+}
+
+.wrapper {
+  max-width: 400px;
+  margin: 0 auto;
+}
+/* モーダルウィンドウ */
+.modal {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 400px;
+  width: 80%;
+  padding: 30px;
+  background-color: #fff;
+}
+/* モーダルを開いたとき */
+.modal.active,
+.over-lay.active {
+  display: block;
+}
+
+/*--------------------------------------
+ エラーメッセージ
+--------------------------------------*/
+.error_message {
+  display: hidden;
+  height: 20px;
+  /*background-color: var(--shadow-color);*/
+  color: #FFFFFF;
+  padding: 5px;
+  line-height: 20px;
+}
