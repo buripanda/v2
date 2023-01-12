@@ -32,7 +32,7 @@ public class User {
     public int sexChecked = 1;
     /** 単価 */
     public int price;
-    /** チャージ金額 */
+    /** 残高 */
     public int amount;
     /** 評価 */
     public BigDecimal rate;
@@ -66,4 +66,10 @@ public class User {
     public String getRegistDateYMD() {
     	return new SimpleDateFormat("yyyy年MM月dd日").format(registDate);
     }
+    public String getAmountKanma() {
+      return String.format("%,d", amount);
+    }
+    public String getPriceKanma() {
+      return String.format("%,d", price);
+    }    
 }

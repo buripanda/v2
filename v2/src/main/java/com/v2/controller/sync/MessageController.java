@@ -40,12 +40,15 @@ public class MessageController extends AbstractController {
 	 * @return
 	 */
 	@GetMapping("/messagePartnerList")
-	public String messagePartnerListG(ModelMap modelMap) {
+	public String messagePartnerListG(@RequestParam(name="pid", defaultValue = "0") int pid, ModelMap modelMap) {
 		
 		// セッションからログインID取得
 		if (!super.isLogin())
-			return "redirect:/";		
+			return "redirect:/";
+		
 		int cpid = super.getSessionBeanInt("cpid");	
+		if (pid > 0)
+		  cpid = pid;
 		return messagePartnerList(cpid, modelMap);
 	
 	}

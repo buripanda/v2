@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+import com.v2.util.DateUtil;
+
 import lombok.Data;
 
 @Data
@@ -26,4 +28,14 @@ public class ReserveHist {
   public Date updateDate;
   /** 登録日時 */
   public Date registDate;
+  public int id;
+  public String userName;
+  public String imageFile;
+  
+  public String getReserveStartDate() {
+    return DateUtil.changeDateString(reserveStartDate);
+  }
+  public String getReserveEndDate() {
+    return DateUtil.changeDateString(reserveEndDate);
+  }
 }

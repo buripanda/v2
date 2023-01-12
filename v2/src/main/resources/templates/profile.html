@@ -42,7 +42,10 @@ function previewImage(obj)
 				</label>
 				<div class="username">[[${user.userName}]]</div>
 				<hr class="hr90">
-				<div class="title">[[${user.title}]]</div>
+				<div class="badge">
+				<img src="/image/daia2.png">
+				<div class="badge_info">購入回数10回以上達成</div>
+				</div>
 			</div>
 		</div>
 		<div class="evaluation_list">
@@ -50,7 +53,7 @@ function previewImage(obj)
 	</div>
 	<div class="profile_right">
 		<div class="profile_right_hedder">
-			<div class="profile_right_title">プロフィール</div>
+			<div class="profile_right_title">[[${user.title}]]</div>
 			<th:block th:if="${session.v2bean.id == session.pid}">
 			<div class="profile_right_edit">
 			<a href="javascript:postSelectAc('profileEdit')" class="login_button login_pushdown"><span>プロフィールを編集</span></a>

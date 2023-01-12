@@ -27,7 +27,7 @@
   width:300px;
   height: 500px
 }
-img {
+.profile_inner img {
   width: 300px;
   height: 300px;
   object-fit: cover;
@@ -42,9 +42,21 @@ img {
   border-top: 1px solid  var(--shadow-color);
   inset:0;
 }
-.title {
+.badge {
   font-size: 16px;
-  margin: 0px 0;
+  display:flex;
+  position:relative;
+}
+.badge img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;  
+  margin:0 20px;
+}
+.badge_info {
+  position:absolute;
+  top:10px;
+  left:70px;
 }
 .evaluation_list {
 	

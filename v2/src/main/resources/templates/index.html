@@ -43,27 +43,21 @@
 		<li>
 			<div class="slider_div">
 			<!--<div class="sild_img01" id="sild_img01"><img src="/getImgCommon?name=neko1.jpg"></div>-->
-			<!--
 			<iframe width="545" height="305" src="https://www.youtube.com/embed/7M5yHLKwdng?rel=0&autoplay=1&mute=1&loop=1&playlist=7M5yHLKwdng&controls=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-			-->
 			</div>
 			<div class="slider_text">PICK UP</div>
 		</li>
 		<li>
 			<div class="slider_div">
 			<!--<div class="sild_img02" id="sild_img02"><img src="/getImgCommon?name=neko2.jpg"></div>-->
-			<!--
 			<iframe width="545" height="305" src="https://www.youtube.com/embed/qda5RRVhmS8?rel=0&autoplay=1&mute=1&loop=1&playlist=qda5RRVhmS8&controls=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-			-->
 			</div>
 			<div class="slider_text">PICK UP</div>
 		</li>
 		<li>
 			<div class="slider_div">
 			<!--<div class="sild_img03" id="sild_img03"><img src="/getImgCommon?name=neko3.jpg"></div>-->
-			<!--
 			<iframe width="545" height="305" src="https://www.youtube.com/embed/vqmh-8qU5Wg?rel=0&autoplay=1&mute=1&loop=1&playlist=vqmh-8qU5Wg&controls=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-			-->
 			</div>
 			<div class="slider_text">PICK UP</div>
 		</li>		
@@ -95,23 +89,23 @@
 					<div class="card_footer">
 						<div class="card_title" th:text="${user.title}" />
 						<div class="card_name" th:text="${user.userName}" />
-						<div class="card_price" th:text="${user.price + 'Very'}" />
+						<div class="card_price" th:text="${user.priceKanma + 'Very'}" />
 						<div class="icons">
 							<th:block th:if="${user.youtube != null}">
-								<!--<img src="/image/youtube.png" alt="" class="icon">-->
-								<i class="fa-brands fa-youtube icon1"></i>
+								<img src="/image/youtube.png" alt="" class="icon1">
+								<!--<i class="fa-brands fa-youtube icon1"></i>-->
 							</th:block>
 							<th:block th:if="${user.twitter != null}">
-								<!--<div><img src="/image/twitter.png" alt="" class="icon"></div>-->
-								<i class="fa-brands fa-twitter icon2"></i>
+								<div><img src="/image/twitter.png" alt="" class="icon2"></div>
+								<!--<i class="fa-brands fa-twitter icon2"></i>-->
 							</th:block>
 							<th:block th:if="${user.tiktok != null}">
-								<!--<div><img src="/image/tiktok.png" alt="" class="icon"></div>-->
-								<i class="fa-brands fa-tiktok icon3"></i>
+								<div><img src="/image/tiktok.png" alt="" class="icon3"></div>
+								<!--<i class="fa-brands fa-tiktok icon3"></i>-->
 							</th:block>
 							<th:block th:if="${user.insta != null}">
-								<!--<div><img src="/image/insta.png" alt="" class="icon"></div>-->
-								<i class="fa-brands fa-instagram icon4"></i>
+								<div><img src="/image/instagram.jpg" alt="" class="icon4"></div>
+								<!--<i class="fa-brands fa-instagram icon4"></i>-->
 							</th:block>
 						</div>
 					</div>
@@ -139,7 +133,7 @@
 					<div class="card_footer">
 						<div class="card_title" th:text="${newUser.title}" />
 						<div class="card_name" th:text="${newUser.userName}" />
-						<div class="card_price" th:text="${newUser.price + 'Very'}" />
+						<div class="card_price" th:text="${newUser.priceKanma + 'Very'}" />
 						<div class="icons">
 							<th:block th:if="${newUser.youtube != null}">
 								<!--<img src="/image/youtube.png" alt="" class="icon">-->
@@ -175,7 +169,7 @@
 			</div>
 			<div class="chat_01">
 				<p>15分</p>
-				<p th:text="${order.price + 'Very'}" />
+				<p th:text="${order.priceKanma + 'Very'}" />
 			</div>
 			<div class="chat_01" th:onclick="|javascript:postSelectId(__${order.id}__, 'messagePartnerList')|">
 				<dev herf="" class="chat_text_01">チャットをする</dev>

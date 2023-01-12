@@ -128,24 +128,42 @@
 	/*justify-content: space-between;*/
 }
 .icon1 {
+  /*
   font-size: 35px;
   margin: 10px 20px;
   color: var(--youtube-color);
+  */
+  width:35px;
+  height:24px;
+  margin:5px 20px;
+  padding-top:5px;
 }
 .icon2 {
+  /*
   font-size: 35px;
   margin: 10px 20px;
   color: var(--twitter-color);
+  */
+  height:35px;
+  margin:5px 20px;
 }
 .icon3 {
+  /*
   font-size: 35px;
   margin: 10px 20px;
   color: var(--tiktok-color);
+  */
+  height:35px;
+  margin:5px 20px;
 }
 .icon4 {
+  /*
   font-size: 35px;
   margin: 10px 20px;
   color: var(--instagram-color);
+  */
+  height:35px;
+  margin:5px 20px;
 }
 
 

@@ -156,12 +156,17 @@
   text-align: center;
   vertical-align: middle;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 18px;
   width: 100px;
   background-color:var(--button-coler);
   color: #ffffff;
 }
-
+.login_text {
+  font-size: 18px;
+}
+.logout_text {
+  font-size: 18px;
+}
 /*
 .shinki_a:hover {
   color: var(--font-coler);

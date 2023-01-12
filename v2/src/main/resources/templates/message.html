@@ -31,7 +31,8 @@
 		var sendId = null;
 		var distId = "[[${session.v2bean.id}]]";
 		var activeUser = null;
-
+    
+    // チャット欄データ取得
 		function loadPage() {
 			$("#content-frame").load(
 				"/getMessageData",
@@ -47,7 +48,8 @@
 					}
 				});
 		}
-
+    
+    // プロフィールデータ取得
 		function loadProfile() {
 			$("#profile_body").load(
 				"/getChatProfileData",
@@ -55,6 +57,15 @@
 				function () {
 				});
 		}
+
+    // 予約一覧取得
+    function loadReserve() {
+      $("#reserve_list").load(
+        "/restReserveData",
+        {pid: sendId},
+        function () {
+        });
+    }
 
 		// 左のユーザを選択した時
 		function viewMessage(selectId) {
@@ -81,6 +92,7 @@
 				// メッセージ一覧取得
 				loadPage();
 				loadProfile();
+				loadReserve();
 				var chatFrame = document.getElementById('content-frame');
 				if (chatFrame != null) {
 					chatFrame.style.borderColor = "#EBAEBC";
@@ -88,6 +100,7 @@
 				// 選択したユーザの単価、ユーザIDをチケット購入画面に渡す
 				var ticket_price = document.getElementById('price' + selectId).textContent;
 				document.getElementById('price2').textContent = ticket_price;
+				document.getElementById('very_sum').textContent = ticket_price;
 				document.getElementById('hidden_pid').textContent = selectId;
 				
 				console.log("単価2：" + document.getElementById('price2').textContent);
@@ -197,7 +210,7 @@
 					// 金額を算出する
 					let very = document.getElementById('price2').textContent;
 					let very_sum = cnt * Number(very);
-					document.getElementById('very_sum').textContent = very_sum;
+					document.getElementById('very_sum').textContent = very_sum.toLocaleString();
 				}
 			});
 			// チケット枚数を増やす
@@ -214,7 +227,7 @@
 				// 金額を算出する
 				let very = document.getElementById('price2').textContent;
 				let very_sum = cnt * Number(very);
-				document.getElementById('very_sum').textContent = very_sum;
+				document.getElementById('very_sum').textContent = very_sum.toLocaleString();
 			});
 			
 			// チャット入力欄の拡張
@@ -240,6 +253,23 @@
 		window.addEventListener('unload', function () {
 			disconnect();
 		});
+		
+		function postReserve() {
+
+      const form = document.createElement('form');
+      form.method = 'post';
+      form.action = ac;
+    
+      const hiddenField = document.createElement('input');
+      hiddenField.type = 'hidden';
+      hiddenField.name = 'pid';
+      hiddenField.value = id;
+      form.appendChild(hiddenField);
+    
+      document.body.appendChild(form);
+      form.submit();
+
+    }
 
 	</script>
 </head>
@@ -276,6 +306,8 @@
 				<div class="reserve-open reserve_div" id="reserve_div">
 					<a class="reserve_button reserve_pushdown"><span>日程を予約する</span></a>
 				</div>
+				<div class="reserve_list" id="reserve_list">
+				</div>
 				<div class="profile_footer"></div>
 			</div>
 			<div class="right_content">
@@ -291,6 +323,7 @@
 			</div>
 		</div>
 		<div class="modal-reserve" id="modal-reserve">
+		<form method="post" name="reserveForm" enctype="multipart/form-data" action="messagePartnerList">
 			<div class="reserve_01">
 				<span class="round_btn reserve-close"></span>
 				<div class="reserve_title">日程予約</div>
@@ -325,9 +358,12 @@
 					<hr class="style1">
 					<div class="purchase_result">
 						<div>購入時間：</div>
-						<div class="ticket_hour" id="ticket_hour"></div>
+						<div class="ticket_hour" id="ticket_hour">0時間15分</div>
 					</div>
 					<div class="purchase_result">
+            <div>合計：</div>
+            <div class="very_sum" id="very_sum"></div>
+            <div>Very</div>
 						<div>（</div>
 						<div class="ticket_time" id="ticket_time">1</div>
 						<div> x 15分/</div>
@@ -335,20 +371,18 @@
 						<div> Very）</div>
 					</div>
 					<div class="purchase_result">
-						<div>合計：</div>
-						<div class="very_sum" id="very_sum"></div>
-						<div>Very</div>
+					  <div>残高</div>
+					  <div>[[${session.v2bean.amountKanma}]]</div>
 					</div>
-					<div>残高</div><div>[[${session.v2bean.amount}]]</div>
 					<div class="display_none">
 						<input type="text" name="hidden_pid" id="hidden_pid">
 					</div>
 					<div>
-						<a href="javascript:restReserve()"
-							class="reserve_button02 reserve_pushdown02"><span>購入して予約する</span></a>
+						<a href="javascript:restReserve()" class="reserve_button02 reserve_pushdown02"><span>購入して予約する</span></a>
 					</div>
 				</div>
 			</div>
+		</form>
 		</div>
 		<div id="reserve-overlay" class="reserve-overlay"></div>
 	</div>

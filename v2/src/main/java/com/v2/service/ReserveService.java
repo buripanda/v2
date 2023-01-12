@@ -1,8 +1,7 @@
 package com.v2.service;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +15,7 @@ import com.v2.bean.PurchaseHist;
 import com.v2.bean.ReserveHist;
 import com.v2.dao.PurchaseHistDao;
 import com.v2.dao.ReserveHistDao;
+import com.v2.util.DateUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,8 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 @Transactional(rollbackFor = Exception.class)
 public class ReserveService {
   
-  private final String FORMAT = "yyyy/MM/dd HH:mm";
-
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
@@ -54,8 +52,8 @@ public class ReserveService {
     reserve.quantity = ticketCnt;
     reserve.price = price;
     reserve.amount = ticketCnt * price;
-    reserve.reserveStartDate = this.changeStringDate(reserveDate);
-    reserve.reserveEndDate = this.getEndDate(reserveDate, ticketCnt);
+    reserve.reserveStartDate = DateUtil.changeStringDate(reserveDate);
+    reserve.reserveEndDate = DateUtil.getEndDate(reserveDate, ticketCnt);
     reserve.buyerRate = new BigDecimal(0.0);
     reserve.sellerRate = new BigDecimal(0.0);
     System.out.println(reserve.toString());
@@ -82,6 +80,50 @@ public class ReserveService {
     purchaseHistDao.insertPurchaseHist(purchase, jdbcTemplate);
 
   }
+  
+  /**
+   * 終了してない特定の相手の予約一覧を取得する（購入者）
+   * @param id
+   * @param pid
+   * @param jdbcTemplate
+   * @return
+   * @throws Exception
+   */
+  public List<ReserveHist> getReserveListBuy(int id, int pid, JdbcTemplate jdbcTemplate) throws Exception {
+    
+    // 予約一覧を取得する（購入者）
+    return reserveHistDao.selectReserveListBuy(id, pid, jdbcTemplate);
+    
+  }
+
+  /**
+   * 終了してない予約一覧を取得する（購入者）
+   * @param id
+   * @param pid
+   * @param jdbcTemplate
+   * @return
+   * @throws Exception
+   */
+  public List<ReserveHist> getReserveListBuyAll(int id, JdbcTemplate jdbcTemplate) throws Exception {
+    
+    // 予約一覧を取得する（購入者）
+    return reserveHistDao.selectReserveListBuyAll(id, jdbcTemplate);
+    
+  }
+  /**
+   * 終了した予約一覧を取得する（購入者）
+   * @param id
+   * @param pid
+   * @param jdbcTemplate
+   * @return
+   * @throws Exception
+   */
+  public List<ReserveHist> getReserveListBuyCompAll(int id, JdbcTemplate jdbcTemplate) throws Exception {
+    
+    // 予約一覧を取得する（購入者）
+    return reserveHistDao.selectReserveListBuyCompAll(id, jdbcTemplate);
+    
+  }
 
   /**
    * 各値をチェック
@@ -101,27 +143,5 @@ public class ReserveService {
     return true;
 
   }
-  /**
-   * 文字列を日付に変換
-   * @return
-   */
-  private LocalDateTime changeStringDate (String str) throws Exception {
-    LocalDateTime ldt = LocalDateTime.parse
-        (str, DateTimeFormatter.ofPattern(FORMAT));
-    return ldt;
-  }
-  
-  /**
-   * 開始日時から終了日時を算出
-   * @param startDate
-   * @return
-   */
-  private LocalDateTime getEndDate(String str, int cnt) {
-    
-    LocalDateTime ldt = LocalDateTime.parse
-        (str, DateTimeFormatter.ofPattern(FORMAT));
-    LocalDateTime ldtp = ldt.plusMinutes(cnt * 15);
-    return ldtp;
-    
-  }
+
 }

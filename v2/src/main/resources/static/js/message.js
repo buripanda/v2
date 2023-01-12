@@ -12,7 +12,7 @@ $(function () {
   });
 });
 
-// 購入処理
+// 購入処理（モーダル）
 function restReserve(){
 	var ticket_cnt = document.getElementById('ticket_num').value;
 	var reserve_date = document.getElementById('datetime').value;
@@ -23,9 +23,9 @@ function restReserve(){
 		{pid: pid, ticket_cnt: ticket_cnt, reserve_date: reserve_date, price: price},
 		function(data){
 			if (data == "ok") {
-				loginMenu();
 			    //リクエストが成功した際に実行する関数
 			    $('#overlay, .modal-reserve').fadeOut(100);
+			    location.href = "/messagePartnerList?pid=" + pid;
 			} else {
 			document.getElementById('reserve_error').style.backgroundColor = "#f08080";
 			document.getElementById('reserve_error').style.display = "block";
