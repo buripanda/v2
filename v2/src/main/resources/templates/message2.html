@@ -66,7 +66,24 @@
         function () {
         });
     }
+    // iframeに送信
+    function testIframe(id) {
 
+    	const form = document.createElement('form');
+    	form.method = 'post';
+    	form.target = 'message_contents';
+    	form.action = 'testIframe';
+
+    	const hiddenField = document.createElement('input');
+    	hiddenField.type = 'hidden';
+    	hiddenField.name = 'pid';
+    	hiddenField.value = id;
+    	form.appendChild(hiddenField);
+
+    	document.body.appendChild(form);
+    	form.submit();
+
+    }
 		// 左のユーザを選択した時
 		function viewMessage(selectId) {
 			console.log("sendId:" + selectId);
@@ -287,7 +304,8 @@
 				<div class="left_header"></div>
 				<div class="partner_list">
 					<th:blcok th:each="partner, partnerStat : ${partnerList}">
-						<div class="partner" th:onclick="|javascript:viewMessage(__${partner.id}__)|">
+						<!-- <div class="partner" th:onclick="|javascript:viewMessage(__${partner.id}__)|"> -->
+						<div class="partner" th:onclick="|javascript:testIframe(__${partner.id}__)|">
 							<div class="partner_inner" th:id="|pid__${partner.id}__|">
 								<div><img th:src="@{./getImgDefault?id=__${partner.id}__&name=__${partner.imageFile}__}"
 										class="img_mini"></div>
@@ -307,7 +325,7 @@
 			<div class="profile_content">
 				<div class="profile_header"></div>
 				<div class="profile_list" id="profile_list">
-					<div class="profile_body" id="profile_body"></div>
+					<iframe name="message_contents" src="http://localhost:8080/"></iframe>
 					<div class="reserve-open reserve_div" id="reserve_div">
 						<a class="reserve_button reserve_pushdown"><span>日程を予約する</span></a>
 					</div>

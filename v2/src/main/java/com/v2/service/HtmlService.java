@@ -139,7 +139,9 @@ public class HtmlService {
           sb.append("）");
           sb.append("</div></div>");
       }
-    }
+    }  
+    sb.append("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>");
+    sb.append("<script src=\"/js/message.js\"></script>");
     return sb.toString();
     
   }

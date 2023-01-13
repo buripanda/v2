@@ -55,6 +55,12 @@
 				"/getChatProfileData",
 				{selectId: sendId},
 				function () {
+					$("#profile_body").load(
+							"/getChatProfileData",
+							{selectId: sendId},
+							function () {
+								
+					});					
 				});
 		}
 
@@ -66,7 +72,6 @@
         function () {
         });
     }
-
 		// 左のユーザを選択した時
 		function viewMessage(selectId) {
 			console.log("sendId:" + selectId);

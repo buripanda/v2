@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.v2.bean.Chat;
 import com.v2.bean.User;
 import com.v2.controller.AbstractController;
+import com.v2.service.HtmlService;
 import com.v2.service.MessageService;
+import com.v2.service.ProfileService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +28,12 @@ public class MessageController extends AbstractController {
 	
 	@Autowired
 	MessageService messageService;
+	
+	@Autowired
+	ProfileService profileService;
+	
+	@Autowired
+	HtmlService htmlService;
 	
 	private final JdbcTemplate jdbcTemplate;
 
@@ -90,4 +98,23 @@ public class MessageController extends AbstractController {
 		return "message";
 		
 	}
+	
+	  @PostMapping("/testIframe")
+	  public String testIframe(@RequestParam("pid") int selectId) {
+		    // セッションからログインID取得
+		    if (!super.isLogin())
+		      return "";
+		    
+		    // プロフィール取得
+		    User user = new User();
+		    String ret = null;
+		    try {
+		      user = profileService.getProfile(selectId, jdbcTemplate);
+		      ret = htmlService.getProfile(user);
+		    } catch (Exception e) {
+		      e.printStackTrace();
+		      return "error";
+		    }
+		    return "message2";
+	  }
 }
