@@ -328,7 +328,7 @@
 				<div class="right_chat" id="content-frame">
 				</div>
 				<div class="right_buttom">
-					<textarea name="message" placeholder="メッセージを入力" id="textarea" rows="1"></textarea>
+					<textarea name="message" placeholder="メッセージを入力" id="textarea" rows="1" class="message_comment"></textarea>
 					<div class="soshin" onclick="javascript:sendMessage()">送信</div>
 				</div>
 			</div>
@@ -414,7 +414,7 @@
 					  <label for="star1">★</label>
 					</div>
 					<div>
-					  <textarea class="comment"></textarea>
+					  <textarea class="rate_comment"></textarea>
 					</div>
 	        <div>
 	          <a href="javascript:restRate()" class="rate_button rate_pushdown"><span>評価する</span></a>
@@ -422,7 +422,8 @@
 	      </div>
 	    </div>
 	  </div>
-		<div id="reserve-overlay" class="reserve-overlay"></div>
+	  <div id="rate-overlay" class="rate-overlay"></div>
+	  <div id="reserve-overlay" class="reserve-overlay"></div>
 	</div>
 	<script type="text/javascript">
 		viewMessage("[[${session.cpid}]]");

@@ -1,19 +1,29 @@
 $(function () {
   //チケット予約モーダルクローズ
-  $('.reserve-close').click(function () {
+  $('.reserve-close, #reserve-overlay').click(function () {
     $('.modal-reserve').fadeOut(100);
-	document.getElementById('ticket_num').value = "1";
-	document.getElementById('datetime').value = "";	
+    $('#reserve-overlay').fadeOut(100);
+    var ele1 = document.getElementById('ticket_num');
+    if (ele1 != null) {
+		document.getElementById('ticket_num').value = "1";
+	}
+	var ele2 = document.getElementById('datetime');	
+    if (ele2 != null) {
+		document.getElementById('datetime').value = "";	
+	}
+    var ele3 = getElementsByName('rate');
+    if (ele3 != null) {
+		document.getElementById('star5').checked = true;
+	}
+	var ele4 = document.getElementById('comment');	
+    if (ele4 != null) {
+		document.getElementById('comment').value = "";	
+	}
   });
   //評価モーダルクローズ
-  $('.rate-close').click(function () {
+  $('.rate-close, #rate-overlay').click(function () {
     $('.modal-rate').fadeOut(100);
-    document.getElementById('star5').checked = true;
-	document.getElementById('comment').value = "";	
-  });
-  //オーバーレイクローズ
-  $('#reserve-overlay').click(function () {
-    $('#reserve-overlay').fadeOut(100);
+    $('#rate-overlay').fadeOut(100);
     var ele1 = document.getElementById('ticket_num');
     if (ele1 != null) {
 		document.getElementById('ticket_num').value = "1";
@@ -39,7 +49,7 @@ $(function () {
   // 評価モーダルオープン
   $('.rate-open').click(function () {
 	console.log("評価");
-    $('#reserve-overlay, .modal-rate').fadeIn(200);
+    $('#rate-overlay, .modal-rate').fadeIn(200);
   });
 });
 
