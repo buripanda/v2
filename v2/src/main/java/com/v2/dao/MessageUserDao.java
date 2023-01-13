@@ -131,7 +131,7 @@ public class MessageUserDao {
 		
 		// メッセージユーザーに登録
 		jdbcTemplate.update(
-				"INSERT INTO T_MESSAGE_USER VALUES (?, ?, null, 0, current_timestamp, current_timestamp)",
+				"INSERT INTO T_MESSAGE_USER VALUES (?, ?, null, 0, 0,  current_timestamp, current_timestamp)",
 				id, pid); 
 	}
 

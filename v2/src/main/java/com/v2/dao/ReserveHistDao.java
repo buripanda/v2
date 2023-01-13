@@ -16,7 +16,7 @@ import com.v2.bean.ReserveHist;
 public class ReserveHistDao {
   
   /**
-  * 終了してない特定の相手の予約一覧を取得する（購入者）
+  * 終了してない予約・オーダー一覧を取得する（購入者）
   * @param id
   * @param jdbcTemplate
   * @return
@@ -24,24 +24,40 @@ public class ReserveHistDao {
   */
  public List<ReserveHist> selectReserveListBuy(int id, int pid, JdbcTemplate jdbcTemplate) throws Exception {
    
-   List<Map<String, Object>> dataList = jdbcTemplate.queryForList(
-       "SELECT"
-       + " T1.RESERVE_ID, T1.BUYER_ID ,T1.SELLER_ID, T1.QUANTITY, T1.PRICE, "
-       + " T1.AMOUNT, T1.RESERVE_START_DATE, T1.RESERVE_END_DATE, T1.BUYER_COMMENT, "
-       + " T1.BUYER_RATE, T1.SELLER_COMMENT, T1.SELLER_RATE, T1.DELETE_FLG, "
-       + " T1.REGIST_DATE, T1.UPDATE_DATE, T2.ID, T2.IMAGE_PATH, T2.USER_NAME "
-       + "FROM"
-       + " T_RESERVE_HIST T1"
-       + " INNER JOIN T_USER T2"
-       + " ON T1.SELLER_ID = T2.ID"
-       + " WHERE"
-       + "  T1.BUYER_ID = ? "
-       + "  AND T1.SELLER_ID = ? "
-       + "  AND T1.BUYER_FLG = 0 "        
-       + "  AND T1.DELETE_FLG = 0 "        
-       + "ORDER BY"
-       + "  T1.RESERVE_START_DATE", 
-       id, pid); 
+	 String sql = 
+		       "SELECT * FROM (SELECT"
+		    	       + " T1.RESERVE_ID, T1.BUYER_ID ,T1.SELLER_ID, T1.QUANTITY, T1.PRICE, "
+		    	       + " T1.AMOUNT, T1.RESERVE_START_DATE, T1.RESERVE_END_DATE, T1.BUYER_COMMENT, "
+		    	       + " T1.BUYER_RATE, T1.SELLER_COMMENT, T1.SELLER_RATE, T1.DELETE_FLG, "
+		    	       + " T1.REGIST_DATE, T1.UPDATE_DATE, T2.ID, T2.IMAGE_PATH, T2.USER_NAME, 1 AS BUYSELL_FLG "
+		    	       + "FROM"
+		    	       + " T_RESERVE_HIST T1"
+		    	       + " INNER JOIN T_USER T2"
+		    	       + " ON T1.SELLER_ID = T2.ID"
+		    	       + " WHERE"
+		    	       + "  T1.BUYER_ID = ? "
+		    	       + "  AND T1.SELLER_ID = ? "
+		    	       + "  AND T1.BUYER_FLG = 0 "        
+		    	       + "  AND T1.DELETE_FLG = 0 "
+		    	       + " UNION ALL "
+		    	       + " SELECT"
+		    	       + " T1.RESERVE_ID, T1.BUYER_ID ,T1.SELLER_ID, T1.QUANTITY, T1.PRICE, "
+		    	       + " T1.AMOUNT, T1.RESERVE_START_DATE, T1.RESERVE_END_DATE, T1.BUYER_COMMENT, "
+		    	       + " T1.BUYER_RATE, T1.SELLER_COMMENT, T1.SELLER_RATE, T1.DELETE_FLG, "
+		    	       + " T1.REGIST_DATE, T1.UPDATE_DATE, T2.ID, T2.IMAGE_PATH, T2.USER_NAME,  2  AS BUYSELL_FLG "
+		    	       + " FROM"
+		    	       + " T_RESERVE_HIST T1"
+		    	       + " INNER JOIN T_USER T2"
+		    	       + " ON T1.BUYER_ID = T2.ID"
+		    	       + " WHERE"
+		    	       + "  T1.BUYER_ID = ? "
+		    	       + "  AND T1.SELLER_ID = ? "
+		    	       + "  AND T1.SELLER_FLG = 0 "        
+		    	       + "  AND T1.DELETE_FLG = 0) "
+		    	       + " ORDER BY"
+		    	       + "  RESERVE_START_DATE";
+  System.out.println(sql);
+   List<Map<String, Object>> dataList = jdbcTemplate.queryForList(sql, id, pid, pid, id); 
    
    List<ReserveHist> reserveList = new ArrayList<>();
    for (Map<String, Object> data : dataList) {
@@ -260,6 +276,7 @@ public class ReserveHistDao {
       reserve.userName = (String)data.get("USER_NAME");
     if (data.get("IMAGE_PATH") != null) 
       reserve.imageFile = (String)data.get("IMAGE_PATH");
+    reserve.buysellFlg = (int)data.get("BUYSELL_FLG");
     return reserve;
     
   }

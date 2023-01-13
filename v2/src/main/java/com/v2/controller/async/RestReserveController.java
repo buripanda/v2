@@ -16,6 +16,7 @@ import com.v2.bean.ReserveHist;
 import com.v2.bean.User;
 import com.v2.controller.AbstractController;
 import com.v2.service.HtmlService;
+import com.v2.service.MessageService;
 import com.v2.service.ReserveService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,9 @@ public class RestReserveController extends AbstractController {
   @Autowired
   ReserveService reserveService;
   
+  @Autowired
+  MessageService messageService;
+
   @Autowired
   HtmlService htmlService;
 
@@ -85,12 +89,14 @@ public class RestReserveController extends AbstractController {
    User user = super.getSessionBean();
    int id = user.id;
    
-   // プロフィール取得
    List<ReserveHist> reserveHist = new ArrayList<>();
    String ret = null;
    try {
+	 // 予約する
      reserveHist = reserveService.getReserveListBuy(id, pid, jdbcTemplate);
-     ret = htmlService.getReserveList(reserveHist);
+     // 初めての予約の場合、相手のチャット欄に自分を登録する
+     messageService.registPartner(pid, id, jdbcTemplate);
+     ret = htmlService.getReserveList(reserveHist, id);
    } catch (Exception e) {
      e.printStackTrace();
      return "error";
@@ -99,5 +105,4 @@ public class RestReserveController extends AbstractController {
    return ret;
    
  }
-
 }

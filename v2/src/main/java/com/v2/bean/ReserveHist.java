@@ -31,6 +31,7 @@ public class ReserveHist {
   public int id;
   public String userName;
   public String imageFile;
+  public int buysellFlg;
   
   public String getReserveStartDate() {
     return DateUtil.changeDateString(reserveStartDate);

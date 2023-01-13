@@ -215,4 +215,15 @@ public class IndexController extends AbstractController {
 		}
 		return new HttpEntity<byte[]>(byteImg, headers);
 	}
+	
+	/**
+	 * 評価ページ表示（仮）
+	 * @param modelMap
+	 * @return
+	 */
+	@GetMapping("/star")
+	public String starGet(ModelMap modelMap) {
+		return "star";
+	}
+
 }

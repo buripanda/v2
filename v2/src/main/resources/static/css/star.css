@@ -55,7 +55,7 @@
   transform: translate(-50%,-50%) rotate(-45deg);
 }
 /*--------------------------------
-ログイン文字
+評価する文字
 ---------------------------------*/
 .rate_title {
   font-size: 2rem;
@@ -66,41 +66,42 @@
 /*--------------------------------
 星
 ---------------------------------*/
-.rate-form {
+.rate-star {
   display: flex;
   flex-direction: row-reverse;
   justify-content: flex-end;
 }
-.rate-form input[type=radio] {
+.rate-star input[type=radio] {
   display: none;
 }
-.rate-form label {
+.rate-star label {
   position: relative;
   padding: 0 5px;
   color: #cccccc;
   cursor: pointer;
   font-size: 35px;
 }
-.rate-form label:hover {
+.rate-star label:hover {
   color: #cccccc;
 }
-.rate-form label:hover ~ label {
+.rate-star label:hover ~ label {
   color: #ffcc00;
 }
-.rate-form input[type=radio]:checked ~ label {
+.rate-star input[type=radio]:checked ~ label {
   color: #ffcc00;
 }
 /*--------------------------------
 コメント欄
 ---------------------------------*/
 .comment {
-	width: 300px;
+	width: 370px;
 	height: 100px;
+	margin:10px;
 }
 /*--------------------------------
 評価するボタン
 ---------------------------------*/
-.login_button {
+.rate_button {
   position: relative;
   text-decoration: none;
   display: inline-block;
@@ -113,7 +114,7 @@
   width: 200px;
 }
 /*ボタンの中のテキスト*/
-.login_button span {
+.rate_button span {
   position: relative;
   z-index: 2;/*z-indexの数値をあげて文字を背景よりも手前に表示*/
   display: block;
@@ -125,7 +126,7 @@
 }
 
 /*影の設定*/
-.login_pushdown:before {
+.rate_pushdown:before {
   content:"";
   position: absolute;
   z-index: -1;
@@ -138,7 +139,7 @@
 }
 
 /*hoverの際にY軸に4pxずらす*/
-.login_pushdown:hover span {
+.rate_pushdown:hover span {
   background-color: var(--shadow-color);
   color: #ffffff;
   transform: translateY(4px);

@@ -10,6 +10,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <link href="/css/root.css" rel="stylesheet">
 <link href="/css/star.css" rel="stylesheet">
+<link href="/css/modal.css" rel="stylesheet">
 <script>
 $(function () {
   // ログインモーダルオープン
@@ -27,17 +28,37 @@ $(function () {
     }
   });
 });
+//評価処理
+function restRate(){
+	var rate = document.getElementById('rate').value;
+	var comment = document.getElementById('comment').value;
+	$.post(
+		"/restRate", 
+		{rate: rate, comment: comment},
+		function(data){
+			if (data == "ok") {
+				loginMenu();
+			    //リクエストが成功した際に実行する関数
+			    $('#overlay, .modal-rate').fadeOut(100);
+			} else {
+			document.getElementById('rate_error').style.backgroundColor = "#f08080";
+			document.getElementById('rate_error').style.display = "block";
+			document.getElementById('rate_error').innerHTML = data;
+			}
+		}
+	);
+}
 </script>
 </head>
 <body>
-  <div class="rate-open">評価オープン</div>
+  <div class="rate-open"  id="rate-open">評価オープン</div>
   <div class="modal-rate" id="modal-rate">
     <div class="rate">
-      <span class="round_btn login-close"></span>
+      <span class="round_btn rate-close"></span>
       <div class="rate_title">評価</div>
-      <div class="error_message" id="login_error"></div>
+      <div class="error_message" id="rate_error"></div>
       <div class="rate_frame">
-				<div class="rate-form">
+				<div class="rate-star">
 				  <input id="star5" type="radio" name="rate" value="5" checked>
 				  <label for="star5">★</label>
 				  <input id="star4" type="radio" name="rate" value="4">
@@ -53,10 +74,11 @@ $(function () {
 				  <textarea class="comment"></textarea>
 				</div>
         <div>
-          <a href="javascript:restLogin()" class="rate_button rate_pushdown"><span>評価する</span></a>
+          <a href="javascript:restRate()" class="rate_button rate_pushdown"><span>評価する</span></a>
         </div>
       </div>
     </div>
   </div>
+  <div id="overlay" class="overlay"></div>
 </body>
 </html>

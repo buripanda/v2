@@ -59,15 +59,22 @@ public class HtmlService {
 	public String getProfile(User user) throws Exception {
 		
 		StringBuffer sb = new StringBuffer();
+		//sb.append("<div class=\"profile_body\" id=\"profile_body\">");
 		sb.append("<div class=\"profile_body_inner\">");
 		sb.append("<label class=\"image_select\">");
-		sb.append("<img src=\"/getImgDefault?id=").append(user.id).append("&name=").append(user.imageFile).append("\" width=\"300\">");
+		sb.append("<img src=\"/getImgDefault?id=").append(user.id).append("&name=").append(user.imageFile).append("\">");
 		sb.append("</label>");
 		sb.append("<div class=\"username\">").append(user.userName).append("</div>");
-		sb.append("<div class=\"very_frame\">");
-		sb.append("<div class=\"very_price\" id=\"very_price\">").append(user.price).append("</div><div class=\"very_tani\">Very</div>");
+		if (user.price != 0) {
+			sb.append("<div class=\"very_frame\">");
+			sb.append("<div class=\"very_price\" id=\"very_price\">").append(user.price).append("</div><div class=\"very_tani\">Very</div>");
+			sb.append("</div>");
+		}
 		sb.append("</div>");
-		sb.append("</div>");
+		//sb.append("<div class=\"reserve-open reserve_div\" id=\"reserve_div\">");
+		//sb.append("<a class=\"reserve_button reserve_pushdown\"><span>日程を予約する</span></a>");
+		//sb.append("</div>");
+		
 		return sb.toString();
 		
 	}
@@ -79,33 +86,59 @@ public class HtmlService {
    * @return
    * @throws Exception
    */
-  public String getReserveList(List<ReserveHist> reserveHist) throws Exception {
+  public String getReserveList(List<ReserveHist> reserveHist, int id) throws Exception {
     
     StringBuffer sb = new StringBuffer();
     DateTimeFormatter datetimeformatter = DateTimeFormatter.ofPattern("MM月dd日HH:mm");
     int totalm = 0;
     int hh = 0;
     int mm = 0;
-    sb.append("<div class=\"reserve_title\">予約一覧</div>");
+    sb.append("<div class=\"reserve_title\">予約/オーダー一覧</div>");
     for (ReserveHist reserve : reserveHist) {
-
-      sb.append("<div class=\"reserve_content\" onclick=\"javascript:postSchedule(")
-      .append(reserve.sellerId).append("\">");
-      sb.append("<img src=\"/image/pin_blue.png\" class=\"reserve_img\">");
-      sb.append("<div class=\"reserve_text\">");
-      
-      String datetimeformated = datetimeformatter.format(reserve.reserveStartDate);
-      sb.append(datetimeformated).append("開始（");
-      
-      totalm = reserve.quantity * 15;
-      hh = totalm / 60;
-      mm = totalm - (hh * 60);
-      sb.append(hh).append("時間");
-      if (mm > 0)
-        sb.append(totalm).append("分");
-      
-      sb.append("）");
-      sb.append("</div></div>");
+    	
+      if (reserve.buysellFlg == 1 && id == reserve.buyerId) {
+    	  //購入分
+    	  //sb.append("<div class=\"reserve_content rate-open\" onclick=\"javascript:restRate(").append(reserve.sellerId).append("\">");
+    	  sb.append("<div class=\"reserve_content rate-open\">");
+	      sb.append("<img src=\"/image/pin_blue.png\" class=\"reserve_img\">");
+	      sb.append("<div class=\"reserve_text\">");
+	      sb.append("予約<br>");
+	      String datetimeformated = datetimeformatter.format(reserve.reserveStartDate);
+	      sb.append(datetimeformated).append("開始（");
+	      
+	      totalm = reserve.quantity * 15;
+	      hh = totalm / 60;
+	      mm = totalm - (hh * 60);
+	      sb.append(hh).append("時間");
+	      if (mm > 0)
+	        sb.append(totalm).append("分");
+	      
+	      sb.append("）");
+	      sb.append("</div></div>");
+      }
+      if (reserve.buysellFlg == 2 && id == reserve.sellerId) {
+    	  //オーダー分
+    	  //sb.append("<div class=\"reserve_content reserve_irai rate-open\" onclick=\"javascript:restRate(").append(reserve.buyerId).append("\">");
+       	  sb.append("<div class=\"reserve_content reserve_irai rate-open\">");
+		  //sb.append("<img src=\"/getImgMini?id=").append(reserve.id).append("&name=").append(reserve.imageFile).append("\">");
+		  sb.append("<img src=\"/image/pin_blue.png\" class=\"reserve_img\">");
+          sb.append("<div class=\"reserve_text\">");
+          sb.append("オーダー　");
+          sb.append(reserve.userName);
+          sb.append("<br>");
+          String datetimeformated = datetimeformatter.format(reserve.reserveStartDate);
+          sb.append(datetimeformated).append("開始（");
+          
+          totalm = reserve.quantity * 15;
+          hh = totalm / 60;
+          mm = totalm - (hh * 60);
+          sb.append(hh).append("時間");
+          if (mm > 0)
+            sb.append(totalm).append("分");
+          
+          sb.append("）");
+          sb.append("</div></div>");
+      }
     }
     return sb.toString();
     
