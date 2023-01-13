@@ -40,8 +40,10 @@ public class RestRateController extends AbstractController {
    */
   @PostMapping("/restRate")
   public String restRate(
-      @RequestParam("star") String rate, 
-      @RequestParam(value="comment", required=false)  String comment) {
+      @RequestParam("pid") int pid,
+      @RequestParam("buysell_flg") int buysellFlg,
+      @RequestParam("star") int rate, 
+      @RequestParam(value="comment", required=false) String comment) {
     
     // セッションからログインID取得
     if (!super.isLogin())

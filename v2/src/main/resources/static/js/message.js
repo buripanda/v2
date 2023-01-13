@@ -11,7 +11,7 @@ $(function () {
     if (ele2 != null) {
 		document.getElementById('datetime').value = "";	
 	}
-    var ele3 = getElementsByName('rate');
+    var ele3 = document.getElementsByName('rate');
     if (ele3 != null) {
 		document.getElementById('star5').checked = true;
 	}
@@ -26,32 +26,44 @@ $(function () {
     $('#rate-overlay').fadeOut(100);
     var ele1 = document.getElementById('ticket_num');
     if (ele1 != null) {
-		document.getElementById('ticket_num').value = "1";
-	}
-	var ele2 = document.getElementById('datetime');	
-    if (ele2 != null) {
-		document.getElementById('datetime').value = "";	
-	}
-    var ele3 = getElementsByName('rate');
-    if (ele3 != null) {
-		document.getElementById('star5').checked = true;
-	}
-	var ele4 = document.getElementById('comment');	
-    if (ele4 != null) {
-		document.getElementById('comment').value = "";	
-	}
+		  document.getElementById('ticket_num').value = "1";
+  	}
+  	  var ele2 = document.getElementById('datetime');	
+      if (ele2 != null) {
+  		document.getElementById('datetime').value = "";	
+  	}
+      var ele3 = document.getElementsByName('rate');
+      if (ele3 != null) {
+  		document.getElementById('star5').checked = true;
+  	}
+  	  var ele4 = document.getElementById('comment');	
+      if (ele4 != null) {
+  		document.getElementById('comment').value = "";	
+  	}
   });
   // 日程予約モーダルオープン
   $('.reserve-open').click(function () {
-	console.log("日程予約");
+	 console.log("日程予約");
     $('#reserve-overlay, .modal-reserve').fadeIn(200);
+    
   });
   // 評価モーダルオープン
-  $('.rate-open').click(function () {
-	console.log("評価");
-    $('#rate-overlay, .modal-rate').fadeIn(200);
-  });
+  //$('.rate-open').click(function () {
+  //  console.log("評価");
+  //  $('#rate-overlay, .modal-rate').fadeIn(200);
+  //});
 });
+
+function rate_open(pid, buysell_flg) {
+  console.log(pid);
+  console.log(buysell_flg);
+  // 評価モーダルオープン
+  $(function () {
+    $('#rate-overlay, .modal-rate').fadeIn(200);
+  }); 
+  document.getElementById('reserve_pid').value = pid;
+  document.getElementById('buysell_flg').value = buysell_flg;
+}
 
 // 購入処理（モーダル）
 function restReserve(){
@@ -77,7 +89,7 @@ function restReserve(){
 }
 
 // 評価処理（モーダル）
-function restRate(pid){
+function restRate(){
 	var star;
 	var star1 = document.getElementById('star1').checked;
 	if (star1) {
@@ -99,19 +111,22 @@ function restRate(pid){
 	if (star5) {
 		star = 5;
 	}
-	var comment = document.getElementById('comment').value;
+	var comment = document.getElementById('rate_comment').value;
+	var reserve_pid = document.getElementById('reserve_pid').value;
+	var buysell_flg = document.getElementById('buysell_flg').value;
+	var pid = document.getElementById('hidden_pid').textContent;
 	$.post(
 		"/restRate", 
-		{pid: pid, star: star, comment: comment},
+		{pid: reserve_pid, star: star, comment: comment, buysell_flg:buysell_flg},
 		function(data){
 			if (data == "ok") {
 			    //リクエストが成功した際に実行する関数
 			    $('#overlay, .modal-reserve').fadeOut(100);
 			    location.href = "/messagePartnerList?pid=" + pid;
 			} else {
-			document.getElementById('rate_error').style.backgroundColor = "#f08080";
-			document.getElementById('rate_error').style.display = "block";
-			document.getElementById('rate_error').innerHTML = data;
+  			document.getElementById('rate_error').style.backgroundColor = "#f08080";
+  			document.getElementById('rate_error').style.display = "block";
+  			document.getElementById('rate_error').innerHTML = data;
 			}
 		}
 	);

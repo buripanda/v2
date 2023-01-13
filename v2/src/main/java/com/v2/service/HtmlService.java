@@ -98,8 +98,9 @@ public class HtmlService {
     	
       if (reserve.buysellFlg == 1 && id == reserve.buyerId) {
     	  //購入分
-    	  //sb.append("<div class=\"reserve_content rate-open\" onclick=\"javascript:restRate(").append(reserve.sellerId).append("\">");
-    	  sb.append("<div class=\"reserve_content rate-open\">");
+    	  sb.append("<div class=\"reserve_content\" onclick=\"javascript:rate_open(")
+    	    .append(reserve.sellerId).append(",").append("1)\">");
+    	  //sb.append("<div class=\"reserve_content rate-open\">");
 	      sb.append("<img src=\"/image/pin_blue.png\" class=\"reserve_img\">");
 	      sb.append("<div class=\"reserve_text\">");
 	      sb.append("予約<br>");
@@ -115,13 +116,16 @@ public class HtmlService {
 	      
 	      sb.append("）");
 	      sb.append("</div></div>");
+        sb.append("<input type=\"hidden\" name=\"reserve_list_pid\" value=\"").append(reserve.buyerId).append("\" id=\"reserve_list_pid\">");
+        sb.append("<input type=\"hidden\" name=\"reserve_list_flg\" value=\"1\" id=\"reserve_list_flg\">");
       }
       if (reserve.buysellFlg == 2 && id == reserve.sellerId) {
     	  //オーダー分
-    	  //sb.append("<div class=\"reserve_content reserve_irai rate-open\" onclick=\"javascript:restRate(").append(reserve.buyerId).append("\">");
-       	  sb.append("<div class=\"reserve_content reserve_irai rate-open\">");
-		  //sb.append("<img src=\"/getImgMini?id=").append(reserve.id).append("&name=").append(reserve.imageFile).append("\">");
-		  sb.append("<img src=\"/image/pin_blue.png\" class=\"reserve_img\">");
+        sb.append("<div class=\"reserve_content reserve_irai\" onclick=\"javascript:rate_open(")
+        .append(reserve.buyerId).append(",").append("2)\">");
+          //sb.append("<div class=\"reserve_content reserve_irai rate-open\">");
+       	  //sb.append("<img src=\"/getImgMini?id=").append(reserve.id).append("&name=").append(reserve.imageFile).append("\">");
+       	  sb.append("<img src=\"/image/pin_blue.png\" class=\"reserve_img\">");
           sb.append("<div class=\"reserve_text\">");
           sb.append("オーダー　");
           sb.append(reserve.userName);
@@ -138,8 +142,10 @@ public class HtmlService {
           
           sb.append("）");
           sb.append("</div></div>");
+          sb.append("<input type=\"hidden\" name=\"reserve_list_pid\" value=\"").append(reserve.sellerId).append("\" id=\"reserve_list_pid\">");
+          sb.append("<input type=\"hidden\" name=\"reserve_list_flg\" value=\"2\" id=\"reserve_list_flg\">");
       }
-    }  
+    }
     sb.append("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>");
     sb.append("<script src=\"/js/message.js\"></script>");
     return sb.toString();
