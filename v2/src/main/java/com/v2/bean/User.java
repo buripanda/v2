@@ -34,10 +34,18 @@ public class User {
     public int price;
     /** 残高 */
     public int amount;
-    /** 評価 */
+    /** 評価平均（出品者） */
     public BigDecimal rate;
-    /** オーダー数 */
+    /** 評価合計（出品者） */
+    public int rateSum;
+    /** オーダー数（出品者） */
     public int orderSum;
+    /** 評価平均（購入者） */
+    public BigDecimal rateBuy;
+    /** 評価合計（購入者） */
+    public int rateSumBuy;
+    /** オーダー数（購入者） */
+    public int orderSumBuy;
     /** インスタ */
     public String insta;
     /** ツイッター */

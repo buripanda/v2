@@ -4,9 +4,13 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.v2.bean.User;
+import com.v2.dao.UserDao;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +24,9 @@ public class HttpSessionDestroyedEventHandler implements HttpSessionListener {
 	public HttpSessionDestroyedEventHandler(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
-
+	
+	@Autowired
+  UserDao userDao;
 	
 	@Override
   public void sessionCreated(HttpSessionEvent se) {
@@ -39,6 +45,16 @@ public class HttpSessionDestroyedEventHandler implements HttpSessionListener {
 		HttpSession session = se.getSession();
 		System.out.println("セッションが破棄されました");
 		System.out.println("セッションID：" + session.getId());		
+		Object obj = session.getAttribute("v2bean");
+		if (obj != null) {
+		  User user = (User)obj;
+		  // オンラインステータスをOFFにする
+		  try {
+		    userDao.updateOnlineOff(user.id, jdbcTemplate);
+		  } catch (Exception e) {
+		    System.out.println(e.toString());
+		  }
+		}
 		
   }
 }

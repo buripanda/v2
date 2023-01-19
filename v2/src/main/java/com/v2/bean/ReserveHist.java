@@ -21,9 +21,11 @@ public class ReserveHist {
   public LocalDateTime reserveEndDate;
   public String buyerComment;
   public BigDecimal buyerRate;
+  public int buyerFlg;
   public String sellerComment;
   public BigDecimal sellerRate;
   public String deleteFlg;
+  public int sellerFlg;
   /** 更新日時 */
   public Date updateDate;
   /** 登録日時 */

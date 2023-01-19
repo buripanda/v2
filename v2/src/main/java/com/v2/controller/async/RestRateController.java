@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.v2.bean.User;
 import com.v2.controller.AbstractController;
 import com.v2.service.HtmlService;
-import com.v2.service.ReserveService;
+import com.v2.service.RateService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RestRateController extends AbstractController {
  
   @Autowired
-  ReserveService reserveService;
+  RateService rateService;
   
   @Autowired
   HtmlService htmlService;
@@ -41,6 +41,7 @@ public class RestRateController extends AbstractController {
   @PostMapping("/restRate")
   public String restRate(
       @RequestParam("pid") int pid,
+      @RequestParam("reserve_id") int reserveId,
       @RequestParam("buysell_flg") int buysellFlg,
       @RequestParam("star") int rate, 
       @RequestParam(value="comment", required=false) String comment) {
@@ -55,6 +56,7 @@ public class RestRateController extends AbstractController {
     
     try {    
       //評価処理
+      rateService.doRate(id, pid, rate, comment, buysellFlg, reserveId, jdbcTemplate);
     } catch (Exception e) {
       e.printStackTrace();
       return "エラーが発生しました";

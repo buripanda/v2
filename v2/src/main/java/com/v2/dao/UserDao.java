@@ -360,6 +360,44 @@ public class UserDao {
   }
 
   /**
+   * 購入者の評価を更新する
+   * @param emal
+   * @param password
+   * @param jdbcTemplate
+   * @return
+   */
+  public int updateRateBuy(int id, BigDecimal reteBuy, int rateSumBuy, 
+      int orderSumBuy, JdbcTemplate jdbcTemplate) throws Exception {
+    
+    int cnt = jdbcTemplate.update(
+        "UPDATE T_USER SET " +
+            "RATE_BUY=?, RATE_SUM_BUY=?, ORDER_SUM_BUY=?, UPDATE_DATE=current_timestamp " +
+            "WHERE ID=?",
+            reteBuy, rateSumBuy, orderSumBuy, id);
+    return cnt;
+  
+  }
+
+  /**
+   * 出品者の評価を更新する
+   * @param emal
+   * @param password
+   * @param jdbcTemplate
+   * @return
+   */
+  public int updateRate(int id, BigDecimal rete, int rateSum, 
+      int orderSum, JdbcTemplate jdbcTemplate) throws Exception {
+    
+    int cnt = jdbcTemplate.update(
+        "UPDATE T_USER SET " +
+            "RATE=?, RATE_SUM=?, ORDER_SUM=?, UPDATE_DATE=current_timestamp " +
+            "WHERE ID=?",
+            rete, rateSum, orderSum, id);
+    return cnt;
+  
+  }
+
+  /**
    * ユーザIDのシーケンス取得
    * @param jdbcTemplate
    * @return
@@ -428,7 +466,11 @@ public class UserDao {
 		user.price = (int) data.get("PRICE");
     user.amount = (int) data.get("AMOUNT");
 		user.rate = (BigDecimal) data.get("RATE");
+    user.rateSum = (int) data.get("RATE_SUM");
 		user.orderSum = (int) data.get("ORDER_SUM");
+    user.rateBuy = (BigDecimal) data.get("RATE_BUY");
+    user.rateSumBuy = (int) data.get("RATE_SUM_BUY");
+    user.orderSumBuy = (int) data.get("ORDER_SUM_BUY");
 		if (data.get("INSTA_URL") != null) 
 			user.insta = (String) data.get("INSTA_URL");
 		if (data.get("TWITTER_URL") != null) 

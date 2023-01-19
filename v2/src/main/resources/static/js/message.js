@@ -54,13 +54,14 @@ $(function () {
   //});
 });
 
-function rate_open(pid, buysell_flg) {
+function rate_open(reserve_id, pid, buysell_flg) {
   console.log(pid);
   console.log(buysell_flg);
   // 評価モーダルオープン
   $(function () {
     $('#rate-overlay, .modal-rate').fadeIn(200);
   }); 
+  document.getElementById('reserve_id').value = reserve_id;
   document.getElementById('reserve_pid').value = pid;
   document.getElementById('buysell_flg').value = buysell_flg;
 }
@@ -112,12 +113,13 @@ function restRate(){
 		star = 5;
 	}
 	var comment = document.getElementById('rate_comment').value;
+	var reserve_id = document.getElementById('reserve_id').value;
 	var reserve_pid = document.getElementById('reserve_pid').value;
 	var buysell_flg = document.getElementById('buysell_flg').value;
 	var pid = document.getElementById('hidden_pid').textContent;
 	$.post(
 		"/restRate", 
-		{pid: reserve_pid, star: star, comment: comment, buysell_flg:buysell_flg},
+		{pid: reserve_pid, star: star, comment: comment, buysell_flg:buysell_flg, reserve_id: reserve_id},
 		function(data){
 			if (data == "ok") {
 			    //リクエストが成功した際に実行する関数

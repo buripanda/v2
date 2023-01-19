@@ -99,7 +99,7 @@ public class HtmlService {
       if (reserve.buysellFlg == 1 && id == reserve.buyerId) {
     	  //購入分
     	  sb.append("<div class=\"reserve_content\" onclick=\"javascript:rate_open(")
-    	    .append(reserve.sellerId).append(",").append("1)\">");
+    	  .append(reserve.reserveId).append(",").append(reserve.sellerId).append(",").append("1)\">");
     	  //sb.append("<div class=\"reserve_content rate-open\">");
 	      sb.append("<img src=\"/image/pin_blue.png\" class=\"reserve_img\">");
 	      sb.append("<div class=\"reserve_text\">");
@@ -122,7 +122,7 @@ public class HtmlService {
       if (reserve.buysellFlg == 2 && id == reserve.sellerId) {
     	  //オーダー分
         sb.append("<div class=\"reserve_content reserve_irai\" onclick=\"javascript:rate_open(")
-        .append(reserve.buyerId).append(",").append("2)\">");
+        .append(reserve.reserveId).append(",").append(reserve.buyerId).append(",").append("2)\">");
           //sb.append("<div class=\"reserve_content reserve_irai rate-open\">");
        	  //sb.append("<img src=\"/getImgMini?id=").append(reserve.id).append("&name=").append(reserve.imageFile).append("\">");
        	  sb.append("<img src=\"/image/pin_blue.png\" class=\"reserve_img\">");

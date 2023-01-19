@@ -165,7 +165,7 @@ public class RestInOutController extends AbstractController {
 		
 		try {
 			// ログアウト処理
-			//loginService.doLogout(id, jdbcTemplate);
+			loginService.doLogout(id, jdbcTemplate);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "ok";

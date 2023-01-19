@@ -16,6 +16,24 @@ import com.v2.bean.ReserveHist;
 public class ReserveHistDao {
   
   /**
+  * 予約履歴を1件取得する
+  * @param id
+  * @param jdbcTemplate
+  * @return
+  * @throws Exception
+  */
+ public ReserveHist selectReserveHist(int reserveId, JdbcTemplate jdbcTemplate) throws Exception {
+   
+   List<Map<String, Object>> dataList = jdbcTemplate.queryForList(
+       "SELECT * FROM T_RESERVE_HIST WHERE RESERVE_ID = ?", reserveId); 
+   
+   if (dataList.size() == 1) 
+     return setReserveHist(dataList.get(0));
+   return new ReserveHist();
+
+ }
+
+  /**
   * 終了してない予約・オーダー一覧を取得する（購入者）
   * @param id
   * @param jdbcTemplate
@@ -232,6 +250,42 @@ public class ReserveHistDao {
 	}
 	
   /**
+   * 出品者が購入者の評価をする
+   * @param emal
+   * @param password
+   * @param jdbcTemplate
+   * @return
+   */
+  public int updateRateBuyer(int reserveId, int rate, String comment, JdbcTemplate jdbcTemplate) throws Exception {
+    
+    int cnt = jdbcTemplate.update(
+        "UPDATE T_RESERVE_HIST SET " +
+        "SELLER_RATE=? ,SELLER_COMMENT=?, SELLER_FLG=1, UPDATE_DATE=current_timestamp " +
+        "WHERE  RESERVE_ID=?",
+        rate, comment, reserveId);    
+    return cnt;
+  
+  }
+  /**
+   * 購入者が出品者の評価をする
+   * @param emal
+   * @param password
+   * @param jdbcTemplate
+   * @return
+   */
+  public int updateRateSeller(int reserveId, int rate, String comment, JdbcTemplate jdbcTemplate) throws Exception {
+    
+    int cnt = jdbcTemplate.update(
+        "UPDATE T_RESERVE_HIST SET " +
+        "BUYER_RATE=? ,BUYER_COMMENT=?, BUYER_FLG=1, UPDATE_DATE=current_timestamp " +
+        "WHERE  RESERVE_ID=?",
+        rate, comment, reserveId);    
+    return cnt;
+  
+  }
+
+	
+  /**
    * シーケンス取得
    * @param jdbcTemplate
    * @return
@@ -264,9 +318,13 @@ public class ReserveHistDao {
     if (data.get("BUYER_COMMENT") != null) 
       reserve.buyerComment = (String)data.get("BUYER_COMMENT");
     reserve.buyerRate = (BigDecimal)data.get("BUYER_RATE");
+    if (data.get("BUYER_FLG") != null)     
+      reserve.buyerFlg = (int)data.get("BUYER_FLG");
     if (data.get("SELLER_COMMENT") != null) 
       reserve.sellerComment = (String)data.get("SELLER_COMMENT");
     reserve.sellerRate = (BigDecimal)data.get("SELLER_RATE");
+    if (data.get("SELLER_FLG") != null)     
+      reserve.sellerFlg = (int)data.get("SELLER_FLG");
     reserve.deleteFlg = (String)data.get("DELETE_FLG");
     reserve.registDate = (Date)data.get("REGIST_DATE");
     reserve.updateDate = (Date)data.get("UPDATE_DATE");
@@ -276,7 +334,8 @@ public class ReserveHistDao {
       reserve.userName = (String)data.get("USER_NAME");
     if (data.get("IMAGE_PATH") != null) 
       reserve.imageFile = (String)data.get("IMAGE_PATH");
-    reserve.buysellFlg = (int)data.get("BUYSELL_FLG");
+    if (data.get("BUYSELL_FLG") != null)
+      reserve.buysellFlg = (int)data.get("BUYSELL_FLG");
     return reserve;
     
   }

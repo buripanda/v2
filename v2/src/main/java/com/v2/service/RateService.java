@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
-import com.v2.bean.PurchaseHist;
 import com.v2.bean.ReserveHist;
+import com.v2.bean.User;
 import com.v2.dao.PurchaseHistDao;
 import com.v2.dao.ReserveHistDao;
-import com.v2.util.DateUtil;
+import com.v2.dao.UserDao;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -31,54 +31,53 @@ public class RateService {
 
   @Autowired
   PurchaseHistDao purchaseHistDao;
+  
+  @Autowired
+  UserDao userDao;
 
   /**
-   * 評価予約する
+   * 評価する
    * @param jdbcTemplate
    * @return
    * @throws Exception
    */
-  public void doRate(int id, int pid, int ticketCnt, int price, String reserveDate,
+  public void doRate(int id, int pid, int rate, String comment, int buysellFlg, int reserveId,
       JdbcTemplate jdbcTemplate) throws Exception {
-    
-    // 予約履歴シーケンス取得
-    int rseq = reserveHistDao.getSequenceReserveId(jdbcTemplate);
-    
-    // 予約履歴マッピング
-    ReserveHist reserve = new ReserveHist();
-    reserve.reserveId = rseq;
-    reserve.buyerId = id;
-    reserve.sellerId = pid;
-    reserve.quantity = ticketCnt;
-    reserve.price = price;
-    reserve.amount = ticketCnt * price;
-    reserve.reserveStartDate = DateUtil.changeStringDate(reserveDate);
-    reserve.reserveEndDate = DateUtil.getEndDate(reserveDate, ticketCnt);
-    reserve.buyerRate = new BigDecimal(0.0);
-    reserve.sellerRate = new BigDecimal(0.0);
-    System.out.println(reserve.toString());
-    
-    // 予約履歴を登録する
-    reserveHistDao.insertReserveHist(reserve, jdbcTemplate);
+     
+    if (buysellFlg == 1) {
+      // 購入者が出品者の評価をする
+      ReserveHist reserveHist = reserveHistDao.selectReserveHist(reserveId, jdbcTemplate);
+      User user = userDao.selectUser(pid, jdbcTemplate);
+      rate = reserveHist.quantity * 
+      reserveHistDao.updateRateSeller(reserveId, rate, comment, jdbcTemplate);
 
-    // 購入履歴シーケンス取得
-    int pseq = purchaseHistDao.getSequencePurchaseId(jdbcTemplate);
-
-    // 購入履歴マッピング
-    PurchaseHist purchase = new PurchaseHist();
-    purchase.purchaseId = pseq;
-    purchase.buyerId = id;
-    purchase.sellerId = pid;
-    purchase.purchaseKbn = 1;
-    purchase.quantity = ticketCnt;
-    purchase.amount = ticketCnt * price;
-    System.out.println(purchase.toString());
-    
-    
-
-    // 購入履歴を登録する
-    purchaseHistDao.insertPurchaseHist(purchase, jdbcTemplate);
-
+      // 評価総数はチケット枚数ｘ評価とする
+      int rateSum = (reserveHist.quantity * rate) + user.rateSum;
+      int orderSum = user.orderSum + reserveHist.quantity;
+      int i = rateSum / orderSum;
+      int j = rateSum % orderSum;
+      int rateSel = i;
+      if (j != 0)
+        rateSel++;
+      //出品者のトータル評価を更新する      
+      userDao.updateRate(pid, BigDecimal.valueOf(rateSel), rateSum, orderSum, jdbcTemplate);
+    }
+    if (buysellFlg == 2) {
+      // 出品者が購入者の評価をする
+      reserveHistDao.updateRateBuyer(reserveId, rate, comment, jdbcTemplate);
+      // 評価再計算
+      User user = userDao.selectUser(pid, jdbcTemplate);
+      ReserveHist reserveHist = reserveHistDao.selectReserveHist(reserveId, jdbcTemplate);
+      int rateSumBuy = rate + user.rateSumBuy;
+      int orderSumBuy = user.orderSumBuy + reserveHist.quantity;
+      int i = rateSumBuy / orderSumBuy;
+      int j = rateSumBuy % orderSumBuy;
+      int rateBuy = i;
+      if (j != 0)
+        rateBuy++;
+      //購入者のトータル評価を更新する      
+      userDao.updateRateBuy(pid, BigDecimal.valueOf(rateBuy), rateSumBuy, orderSumBuy, jdbcTemplate);
+    }    
   }
   
   /**
