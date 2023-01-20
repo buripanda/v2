@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.v2.bean.Chat;
 import com.v2.bean.ReserveHist;
 import com.v2.bean.User;
+import com.v2.util.GlobalConst;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -168,30 +169,11 @@ public class HtmlService {
    * @return
    */
   private boolean checkStamp(String message) {
-	  for (Stamp stamp : Stamp.values()) {
+	  for (GlobalConst.Stamp stamp : GlobalConst.Stamp.values()) {
           if(stamp.getValue().equals(message)) {
         	  return true;
           }
        }
 	  return false;
   }
-  enum Stamp {
-	  Stamp1("stamp1"),
-	  Stamp2("stamp2"),
-	  Stamp3("stamp3"),
-	  Stamp4("stamp4"),
-	  Stamp5("stamp5"),
-	  Stamp6("stamp6");
-	    
-	  // フィールドの定義
-	  private String stamp;
-	    
-	  // コンストラクタの定義
-	  private Stamp(String stamp) {
-		  this.stamp = stamp;
-	  }
-	  public String getValue() {
-		  return this.stamp;
-	  }
-  };
 }

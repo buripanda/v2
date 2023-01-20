@@ -313,7 +313,7 @@
 								<div><img th:src="@{./getImgDefault?id=__${partner.id}__&name=__${partner.imageFile}__}"
 										class="img_mini"></div>
 								<div class="select_user" th:id="|select_user__${partner.id}__|"></div>
-								<div class="partner_name">[[${partner.userName}]]<BR>[[${partner.message}]]</div>
+								<div class="partner_name">[[${partner.userName}]]<BR>[[${partner.cutMessage}]]</div>
 								<div class="partner_price" th:id="|price__${partner.id}__|">[[${partner.price}]]</div>
 								<div class="user_login" th:id="|user__${partner.id}__|"
 									th:classappend="${partner.onlineStatus == 1} ? display_block : display_none"></div>

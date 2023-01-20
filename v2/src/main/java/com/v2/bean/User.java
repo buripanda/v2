@@ -3,6 +3,9 @@ package com.v2.bean;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
+
+import com.v2.util.GlobalConst;
 
 import lombok.Data;
 
@@ -81,5 +84,30 @@ public class User {
     }
     public String getPriceKanma() {
       return String.format("%,d", price);
-    }    
+    }
+    public String getCutMessage() {
+    	String ret = "";
+    	if (this.checkStamp(message))
+    		return ret;
+    	if (Objects.nonNull(message)) {
+    		if (message.length() > 8)
+    			ret = message.substring(0, 8);
+    		else
+    			ret = message;
+    	}
+    	return ret;
+    }
+    /**
+     * スタンプが送信されたかチェックする
+     * @param message
+     * @return
+     */
+    private boolean checkStamp(String message) {
+  	  for (GlobalConst.Stamp stamp : GlobalConst.Stamp.values()) {
+            if(stamp.getValue().equals(message)) {
+          	  return true;
+            }
+         }
+  	  return false;
+    }
 }
