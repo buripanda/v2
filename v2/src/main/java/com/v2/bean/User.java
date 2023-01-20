@@ -70,6 +70,8 @@ public class User {
     public Date updateDate;
     /** 登録日時 */
     public Date registDate;
+    /** 評価数 */
+    public int rateCount;
     
     public String getRegistDateYMD() {
     	return new SimpleDateFormat("yyyy年MM月dd日").format(registDate);

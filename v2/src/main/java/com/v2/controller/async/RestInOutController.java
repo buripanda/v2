@@ -73,8 +73,7 @@ public class RestInOutController extends AbstractController {
 		
 		try {			
 				// ログイン処理
-				if (uid == null)
-					uid = super.getCookieHash();
+				uid = super.getCookieHash();
 				user = loginService.doLogin(email, password, uid, jdbcTemplate);
 
 		} catch (Exception e) {

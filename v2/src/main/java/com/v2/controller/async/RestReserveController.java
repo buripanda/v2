@@ -92,7 +92,7 @@ public class RestReserveController extends AbstractController {
    List<ReserveHist> reserveHist = new ArrayList<>();
    String ret = null;
    try {
-	 // 予約する
+	 // 予約リストを取得する
      reserveHist = reserveService.getReserveListBuy(id, pid, jdbcTemplate);
      // 初めての予約の場合、相手のチャット欄に自分を登録する
      messageService.registPartner(pid, id, jdbcTemplate);

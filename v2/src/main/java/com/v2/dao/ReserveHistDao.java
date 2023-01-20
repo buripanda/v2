@@ -224,6 +224,40 @@ public class ReserveHistDao {
   
   }
 
+  /**
+  * 評価された一覧を取得する（出品者）
+  * @param id
+  * @param jdbcTemplate
+  * @return
+  * @throws Exception
+  */
+ public List<ReserveHist> selectReserveListSeller(int id, JdbcTemplate jdbcTemplate) throws Exception {
+   
+   List<Map<String, Object>> dataList = jdbcTemplate.queryForList(
+       "SELECT"
+       + " T1.RESERVE_ID, T1.BUYER_ID ,T1.SELLER_ID, T1.QUANTITY, T1.PRICE, "
+       + " T1.AMOUNT, T1.RESERVE_START_DATE, T1.RESERVE_END_DATE, T1.BUYER_COMMENT, "
+       + " T1.BUYER_RATE, T1.SELLER_COMMENT, T1.SELLER_RATE, T1.DELETE_FLG, "
+       + " T1.REGIST_DATE, T1.UPDATE_DATE, T2.ID, T2.IMAGE_PATH, T2.USER_NAME "
+       + "FROM"
+       + " T_RESERVE_HIST T1"
+       + " INNER JOIN T_USER T2"
+       + " ON T1.BUYER_ID = T2.ID"
+       + " WHERE"
+       + "  T1.SELLER_ID = ? "
+       + "  AND T1.BUYER_FLG = 1 "        
+       + "  AND T1.DELETE_FLG = 0 "        
+       + "ORDER BY"
+       + "  T1.RESERVE_START_DATE", 
+       id); 
+   
+   List<ReserveHist> reserveList = new ArrayList<>();
+   for (Map<String, Object> data : dataList) {
+     reserveList.add(this.setReserveHist(data));
+   }
+   return reserveList;
+ 
+ }
 
 	/**
 	 * 日程予約する

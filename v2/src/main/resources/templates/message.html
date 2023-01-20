@@ -27,11 +27,98 @@
 	<script src="/js/common.js"></script>
 	<script>
 
-		var stompClient = null;
 		var sendId = null;
 		var distId = "[[${session.v2bean.id}]]";
+		console.log("distId:" + distId);
 		var activeUser = null;
-    
+		var stompClient = null;
+
+		// 双方向通信開始
+		function connect() {
+			var socket = new SockJS('/v2-websocket');
+			stompClient = Stomp.over(socket);
+			stompClient.connect({}, function (after) {
+				//setConnected(true);
+				console.log('Connected: ' + after);
+				var toRecivePath = "/topic/greetings";
+				stompClient.subscribe(toRecivePath, function (ws_message) {
+					console.log(JSON.parse(ws_message.body));
+					const jsMessage = JSON.parse(ws_message.body);
+					// メッセージ一覧取得
+					if (jsMessage.mode == 0) {
+						loadPage();
+					} else {
+						onlineStatus(jsMessage.distId, jsMessage.mode);
+					}
+					// 対象ユーザを開いていない場合は新着ありにする
+					if (sendId != jsMessage.sendId) {
+						var userMessage = document.getElementById('user_message' + jsMessage.sendId);
+						if (userMessage != null) {
+							userMessage.style.display = "block";
+						}
+					}
+				});
+			});
+		}
+
+		// 双方向通信を閉じる
+		function disconnect() {
+			if (stompClient !== null) {
+				stompClient.disconnect();
+			}
+			console.log("Disconnected");
+		}
+
+		// メッセージを送る
+		async function sendMessage(stamp) {
+			console.log('stamp: ' + stamp);
+			var toSendPath = "/v2/chat";
+			var textarea_element = document.getElementById("textarea");
+			var message = textarea_element.value;
+			textarea_element.style.height = "24px";
+
+			if (message != "" || stamp != "") {
+				if (stamp != "") {
+					message = stamp;
+				}
+				// wsで相手に通知＆メッセージ登録
+				stompClient.send(toSendPath, {}, JSON.stringify(
+					{'sendId': sendId, 'distId': distId, 'mode': 0, 'message': message}));
+				// 入力欄クリア
+				document.getElementById("textarea").value = "";
+				await new Promise(s => setTimeout(s, 200));
+				// 画面リロード
+				loadPage();
+			}
+		}
+
+		var so = async function sendOnlineStatus() {
+			var toSendPath = "/v2/login";
+			//wsで相手に通知
+			stompClient.send(toSendPath, {}, JSON.stringify(
+				{'sendId': sendId, 'distId': distId, 'mode': 1, 'message': ""}));
+		}
+
+		async function sendOfflineStatus() {
+			var toSendPath = "/v2/login";
+			//wsで相手に通知
+			stompClient.send(toSendPath, {}, JSON.stringify(
+				{'sendId': sendId, 'distId': distId, 'mode': 2, 'message': ""}));
+		}
+
+		function onlineStatus(id, status) {
+			var element = document.getElementById("user" + id);
+			console.log("element:" + element);
+			if (element != null) {
+				if (status == 1) {
+					element.style.display = "block";
+				} else {
+					element.style.display = "none";
+				}
+			}
+		}
+		
+		
     // チャット欄データ取得
 		function loadPage() {
 			$("#content-frame").load(
@@ -134,75 +221,6 @@
 			}
 		}
 		*/
-		function connect() {
-			var socket = new SockJS('/v2-websocket');
-			stompClient = Stomp.over(socket);
-			stompClient.connect({}, function (after) {
-				//setConnected(true);
-				console.log('Connected: ' + after);
-				var toRecivePath = "/topic/greetings";
-				stompClient.subscribe(toRecivePath, function (ws_message) {
-					console.log(JSON.parse(ws_message.body));
-					const jsMessage = JSON.parse(ws_message.body);
-					// メッセージ一覧取得
-					if (jsMessage.mode == 0) {
-						loadPage();
-					} else {
-						onlineStatus(jsMessage.distId, 1);
-					}
-					// 対象ユーザを開いていない場合は新着ありにする
-					if (sendId != jsMessage.sendId) {
-						var userMessage = document.getElementById('user_message' + jsMessage.sendId);
-						if (userMessage != null) {
-							userMessage.style.display = "block";
-						}
-					}
-				});
-			});
-		}
-
-		function disconnect() {
-			if (stompClient !== null) {
-				stompClient.disconnect();
-			}
-			console.log("Disconnected");
-		}
-
-		async function sendMessage() {
-			var toSendPath = "/v2/chat";
-			var textarea_element = document.getElementById("textarea");
-			var message = textarea_element.value;
-			textarea_element.style.height = "24px";
-
-			if (message != "") {
-				// wsで相手に通知＆メッセージ登録
-				stompClient.send(toSendPath, {}, JSON.stringify(
-					{'sendId': sendId, 'distId': distId, 'mode': 0, 'message': message}));
-				// 入力欄クリア
-				document.getElementById("textarea").value = "";
-				await new Promise(s => setTimeout(s, 200));
-				// 画面リロード
-				loadPage();
-			}
-		}
-
-		var so = function sendOnlineStatus() {
-			var toSendPath = "/v2/login";
-			//wsで相手に通知
-			stompClient.send(toSendPath, {}, JSON.stringify(
-				{'sendId': sendId, 'distId': 21, 'mode': 1, 'message': ""}));
-		}
-
-		function onlineStatus(id, status) {
-			var element = document.getElementById("user" + id);
-			if (element != null) {
-				if (status == 1) {
-					element.style.display = "block";
-				} else {
-					element.style.display = "none";
-				}
-			}
-		}
 
 		$(function () {
 			// チケット枚数を減らす
@@ -252,34 +270,32 @@
 				step: 15,
 			});
 
-		});
-		// ページ読み込み後、0.5秒後に双方向通信
-		window.addEventListener("load", function () {
-			connect();
-			setTimeout(so, 500);
-		});
-		// ページを離れる時、双方向通信終了
-		window.addEventListener('unload', function () {
-			disconnect();
-		});
-		
+		});		
 		function postReserve() {
-
-      const form = document.createElement('form');
-      form.method = 'post';
-      form.action = ac;
-    
-      const hiddenField = document.createElement('input');
-      hiddenField.type = 'hidden';
-      hiddenField.name = 'pid';
-      hiddenField.value = id;
-      form.appendChild(hiddenField);
-    
-      document.body.appendChild(form);
-      form.submit();
-
-    }
-
+	      const form = document.createElement('form');
+	      form.method = 'post';
+	      form.action = ac;
+	    
+	      const hiddenField = document.createElement('input');
+	      hiddenField.type = 'hidden';
+	      hiddenField.name = 'pid';
+	      hiddenField.value = id;
+	      form.appendChild(hiddenField);
+	    
+	      document.body.appendChild(form);
+	      form.submit();
+	    }
+	
+	// スタンプメニューON/OFF
+	function stampOpen() {
+		var status = document.getElementById('stamp_list').style.display;
+		console.log("status:" + status);
+		if (status == "none" || status == "") {
+			document.getElementById('stamp_list').style.display = "flex";
+		} else {
+			document.getElementById('stamp_list').style.display = "none";			
+		}
+	}
 	</script>
 </head>
 
@@ -328,7 +344,36 @@
 				<div class="right_chat" id="content-frame">
 				</div>
 				<div class="right_buttom">
-					<textarea name="message" placeholder="メッセージを入力" id="textarea" rows="1" class="message_comment"></textarea>
+					<div class="stamp_list" id="stamp_list">
+						<div class="stamp_line1">
+							<div class="stamp1" onclick="javascript:sendMessage('stamp1')">
+								<img src="/image/stamp/stamp1.png" class="stamp_img">
+							</div>
+							<div class="stamp2" onclick="javascript:sendMessage('stamp2')">
+								<img src="/image/stamp/stamp2.png" class="stamp_img">
+							</div>
+							<div class="stamp3" onclick="javascript:sendMessage('stamp3')">
+								<img src="/image/stamp/stamp3.png" class="stamp_img">
+							</div>
+						</div>
+						<div class="stamp_line2">
+							<div class="stamp4" onclick="javascript:sendMessage('stamp4')">
+								<img src="/image/stamp/stamp4.png" class="stamp_img">
+							</div>
+							<div class="stamp5" onclick="javascript:sendMessage('stamp5')">
+								<img src="/image/stamp/stamp5.png" class="stamp_img">
+							</div>
+							<div class="stamp6" onclick="javascript:sendMessage('stamp6')">
+								<img src="/image/stamp/stamp6.png" class="stamp_img">
+							</div>
+						</div>
+					</div>
+					<div class="stamp_button" onclick="javascript:stampOpen()">
+				 		<img src="/image/stamp/stamp.png" class="stamp_button_img" >
+					</div>
+					<div class="message_comment">
+						<textarea name="message" placeholder="メッセージを入力" id="textarea" rows="1" class="message_comment_textarea"></textarea>
+					</div>
 					<div class="soshin" onclick="javascript:sendMessage()">送信</div>
 				</div>
 			</div>
@@ -430,6 +475,18 @@
 	</div>
 	<script type="text/javascript">
 		viewMessage("[[${session.cpid}]]");
+		// ページ読み込み後、0.5秒後に双方向通信
+		window.addEventListener("load", function () {
+			connect();
+			setTimeout(so, 1000);
+		});
+		// ページを離れる時、双方向通信終了
+		window.addEventListener('unload', function () {
+			disconnect();
+		});
+		window.addEventListener('beforeunload', function() {
+			sendOfflineStatus();
+		});
 	</script>
 </body>
 

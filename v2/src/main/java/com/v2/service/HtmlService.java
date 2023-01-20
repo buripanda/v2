@@ -29,8 +29,13 @@ public class HtmlService {
 				//sb.append("<img src=\"/getImgMini?id=").append(chat.sendId).append("&name=").append(chat.sendImagePath).append("\">");
 				//sb.append("</div>");
 				sb.append("<div class=\"chatting\">");
-				sb.append("<div class=\"says\">");
-				tmp = chat.message.replaceAll("\r\n|\r|\n", "<BR>");
+				if (this.checkStamp(chat.message)) {
+					sb.append("<div class=\"says_img\">");
+					tmp = "<img src=\"/image/stamp/" + chat.message + ".png\" class=\"stamp_message_img\">";
+				} else {
+					sb.append("<div class=\"says\">");
+					tmp = chat.message.replaceAll("\r\n|\r|\n", "<BR>");					
+				}
 				sb.append("<div>").append(tmp).append("</div>");
 				sb.append("</div>");
 				sb.append("</div>");
@@ -39,8 +44,13 @@ public class HtmlService {
 				
 			// 自分が送信者の場合
 			} else if (id == chat.sendId) {
-				sb.append("<div class=\"mycomment\">");
-				tmp = chat.message.replaceAll("\r\n|\r|\n", "<BR>");
+				if (this.checkStamp(chat.message)) {
+					sb.append("<div class=\"mycomment_img\">");
+					tmp = "<img src=\"/image/stamp/" + chat.message + ".png\" class=\"stamp_message_img\">";
+				} else {
+					sb.append("<div class=\"mycomment\">");
+					tmp = chat.message.replaceAll("\r\n|\r|\n", "<BR>");					
+				}
 				sb.append("<div>").append(tmp).append("</div>");
 				sb.append("</div>");
 				sb.append("<div class=\"my_time\">").append(chat.registDate).append("</div>");
@@ -128,7 +138,7 @@ public class HtmlService {
        	  sb.append("<img src=\"/image/pin_blue.png\" class=\"reserve_img\">");
           sb.append("<div class=\"reserve_text\">");
           sb.append("オーダー　");
-          sb.append(reserve.userName);
+          //sb.append(reserve.userName);
           sb.append("<br>");
           String datetimeformated = datetimeformatter.format(reserve.reserveStartDate);
           sb.append(datetimeformated).append("開始（");
@@ -151,5 +161,37 @@ public class HtmlService {
     return sb.toString();
     
   }
-
+  
+  /**
+   * スタンプが送信されたかチェックする
+   * @param message
+   * @return
+   */
+  private boolean checkStamp(String message) {
+	  for (Stamp stamp : Stamp.values()) {
+          if(stamp.getValue().equals(message)) {
+        	  return true;
+          }
+       }
+	  return false;
+  }
+  enum Stamp {
+	  Stamp1("stamp1"),
+	  Stamp2("stamp2"),
+	  Stamp3("stamp3"),
+	  Stamp4("stamp4"),
+	  Stamp5("stamp5"),
+	  Stamp6("stamp6");
+	    
+	  // フィールドの定義
+	  private String stamp;
+	    
+	  // コンストラクタの定義
+	  private Stamp(String stamp) {
+		  this.stamp = stamp;
+	  }
+	  public String getValue() {
+		  return this.stamp;
+	  }
+  };
 }

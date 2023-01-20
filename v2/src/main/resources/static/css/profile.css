@@ -58,8 +58,53 @@
   top:10px;
   left:70px;
 }
-.evaluation_list {
+/*-------------------------------------
+評価一覧
+-------------------------------------*/
+.rate_header {
+	font-weight:700;
+	padding: 10px 10px 5px 10px;
+}
+.rate_list {
+  display:flex;
+  flex-flow: column;
+  overflow: hidden;
+  border-radius: 8px;
+  width: 300px;
+  background-color: #FFFFFF;
+  filter: drop-shadow(0px 0px 5px rgba(222,120,144,.5));
+  margin: 10px 0;
+}
+.rate_user {
+	display:flex;
+	width:300px;
+	margin:5px 0;
+}
+.rate_img {
+  padding:5px;
+}
+.rate_img img {
+  width:50px;
+  height:50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.rate_detail {
+  display:flex;
+  flex-flow: column;
+}
+.rate_detail_name {
+}	
+}.rate_detail_star {
 	
+}
+.rate_detail_com {
+	
+}
+.style_90 {
+  width: 90%;
+  border-top: 1px solid  #EEEEEE;
+  margin: 5px 10px;;
 }
 /*-------------------------------------
 プロフィール画面　右側
@@ -194,6 +239,35 @@
   height: 300px;
   padding: 5px 10px 10px 10px;
 }
+/*-------------------------------------
+メディアアイコン
+-------------------------------------*/
+.icons {
+	display:flex;
+}
+.icons a {
+	text-decoration: none;
+	display: inline;
+}
+.icon1 {
+  width:35px;
+  height:24px;
+  margin:5px 10px;
+  padding-top:5px;
+}
+.icon2 {
+  height:35px;
+  margin:5px 10px;
+}
+.icon3 {
+  height:35px;
+  margin:5px 10px;
+}
+.icon4 {
+  height:35px;
+  margin:5px 10px;
+}
+
 
 /*--------------------------------
 タイトル

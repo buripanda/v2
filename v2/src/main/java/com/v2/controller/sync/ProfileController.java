@@ -1,5 +1,8 @@
 package com.v2.controller.sync;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,9 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.v2.bean.ReserveHist;
 import com.v2.bean.User;
 import com.v2.controller.AbstractController;
 import com.v2.service.ProfileService;
+import com.v2.service.RateService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +29,9 @@ public class ProfileController extends AbstractController {
 	@Autowired
 	ProfileService profileService;
 	
+	@Autowired
+	RateService rateService;
+
 	private final JdbcTemplate jdbcTemplate;
 
 	public ProfileController(JdbcTemplate jdbcTemplate) {
@@ -48,8 +56,9 @@ public class ProfileController extends AbstractController {
 			return "redirect:/";
 		
 		// pidを渡して画面表示
-		User user = super.getSessionBean();
 		int pid = super.getSessionBeanInt("pid");
+		if (pid == 0)
+			return "redirect:/";
 		return this.profileView(pid, modelMap);
 		
 	}
@@ -68,9 +77,14 @@ public class ProfileController extends AbstractController {
 		if (pid > 0) 
 			searchId = pid;
 		
-		// プロフィール取得
-		try {
+		List<ReserveHist> rateList = new ArrayList<>();
+		try {			
+			// プロフィール取得
 			user = profileService.getProfilePlusMessage(searchId, jdbcTemplate);
+			// 購入者評価一覧取得
+			rateList = rateService.getReserveListRateSeller(searchId, jdbcTemplate);
+			// 評価数設定
+			user.rateCount = rateList.size();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
@@ -81,8 +95,8 @@ public class ProfileController extends AbstractController {
 		// pidが0なら自分のIDをセット
 		if (pid == 0)
 			super.setSessionBeanInt("pid", user.id);
-		super.setSessionBean(user);
 		modelMap.addAttribute("user", user);
+		modelMap.addAttribute("rateList", rateList);
 		return "profile";
 		
 	}

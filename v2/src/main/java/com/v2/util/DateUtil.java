@@ -41,7 +41,7 @@ public class DateUtil {
     
     LocalDateTime ldt = LocalDateTime.parse
         (str, DateTimeFormatter.ofPattern(FORMAT));
-    LocalDateTime ldtp = ldt.plusMinutes(cnt * 15);
+    LocalDateTime ldtp = ldt.plusMinutes(cnt * GlobalConst.reserveTime);
     return ldtp;
     
   }

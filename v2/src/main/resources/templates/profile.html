@@ -48,7 +48,34 @@ function previewImage(obj)
 				</div>
 			</div>
 		</div>
-		<div class="evaluation_list">
+		<div class="rate_list">
+			<div class="rate_header">
+				ユーザ評価（[[${user.rateCount}]]）
+			</div>
+			<th:blcok th:each="rate,  rateStat : ${rateList}">
+			<hr class="style_90">
+			<div class="rate_user">
+				<div class="rate_img">
+				<img th:src="@{./getImgDefault?id=__${rate.id}__&name=__${rate.imageFile}__}">
+				</div>
+				<div class="rate_detail">
+					<div class="rate_detail_name">
+					[[${rate.userName}]]
+					</div>
+					<div class="rate_detail_star">
+					<span class="star5_rating" data-rate="__[[${rate.buyerRate}]]__"></span>
+					</div>
+					<div class="rate_detail_com">
+					<th:block th:if="${rate.buyerComment}">
+						<th:block th:each="line: ${rate.buyerComment.split('\r\n|\r|\n', -1)}">
+							<th:block th:text="${line}" />
+							<br />
+						</th:block>
+					</th:block>
+					</div>
+				</div>
+			</div>
+			</th:blcok>
 		</div>
 	</div>
 	<div class="profile_right">
@@ -67,8 +94,8 @@ function previewImage(obj)
   		<div class="price">[[${user.price}]]</div><div class="price_str">Very/15分</div>
 		</div>
 		<div class="evaluate">
-		  <div class="evaluate_stars"><span class="star5_rating" data-rate="5"></span></div>
-		  <div class="evaluate_str">[[${user.rate}]]　([[${user.orderSum}]])</div>
+		  <div class="evaluate_stars"><span class="star5_rating" data-rate="__[[${user.rate}]]__"></span></div>
+		  <div class="evaluate_str">　([[${user.orderSum}]])</div>
 		</div>
 		<hr class="style_100">
 		<div class="profile_message_title"><i class="fa-solid fa-user-pen"></i>　自己紹介</div>
@@ -80,20 +107,36 @@ function previewImage(obj)
 				</th:block>
 			</th:block>
 		</div>
-		<div class="profile_right01_dev01">バッジ</div>
-		<div class="profile_badge">
-			<div class="profile_badge_img"><i class="fa-regular fa-gem"></i></div>
-			<div class="profile_badge_txt01">ダイヤ</div>
-			<div class="profile_badge_txt02">購入回数10回以上達成</div>
-		</div>
-		<div class="profile_right01_dev01">概要</div>
-		<div class="profile_right01_dev01">ファンバッチ</div>
 		<hr class="style_100">
-		<div class="profile_media">
-			<div class="icon"><i class="fa-brands fa-youtube"></i>　Youtube</div>
-			<div class="icon"><i class="fa-brands fa-twitter"></i>　未公開</div>
-			<div class="icon"><i class="fa-brands fa-tiktok"></i>　未公開</div>
-			<div class="icon"><i class="fa-brands fa-instagram"></i>　未公開</div>
+		<div class="icons">
+			<th:block th:if="${user.youtube != null}">
+			<div>
+				<a th:href="@{http://www.youtube.com/channel/__${user.youtube}__?sub_confirmation=1}">
+				<img src="/image/youtube.png" alt="" class="icon1">
+				</a>
+			</div>
+			</th:block>
+			<th:block th:if="${user.twitter != null}">
+			<div>
+				<a th:href="@{https://twitter.com/intent/follow?screen_name=__${user.twitter }__}">
+				<img src="/image/twitter.png" alt="" class="icon2">
+				</a>
+			</div>
+			</th:block>
+			<th:block th:if="${user.tiktok != null}">
+			<div>
+				<a th:href="@{__${user.tiktok}__}">
+				<img src="/image/tiktok.png" alt="" class="icon3">
+				</a>
+			</div>
+			</th:block>
+			<th:block th:if="${user.insta != null}">
+			<div>
+				<a th:href="@{__${user.insta}__}">
+				<img src="/image/instagram.jpg" alt="" class="icon4">
+				</a>
+			</div>
+			</th:block>
 		</div>
 	</div>
 </div>

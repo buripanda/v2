@@ -282,6 +282,7 @@
   display:flex;
   flex-flow: column;
   border-left: 1px solid #FFFFFF;
+  border-right: 1px solid #FFFFFF;
 }
 
 /*相手部分*/
@@ -317,6 +318,13 @@
   border-radius: 12px 12px 12px 0;
   background: #edf1ee;
 }
+.says_img {
+  display: inline-block;
+  position: relative; 
+  margin: 0 0 3px 0px;
+  padding: 8px 15px;
+  max-width: 80%;
+}
 .says div {
   text-align:left
 }
@@ -334,12 +342,22 @@
   background: var(--shadow-color);
   color: #FFFFFF;
 }
+.mycomment_img {
+  display: inline-block;
+  margin: 0 0 3px auto;
+  padding: 8px 15px;
+}
 .mycomment div {
   text-align:left
 }
 .my_time {
   	margin: 2px 5px 5px 0;
   	font-size: 0.7rem;
+}
+.stamp_message_img {
+	width:100px;
+	height:100px;
+	object-fit: cover;
 }
 /*-------------------------------------
 メッセージ送信
@@ -356,9 +374,49 @@
   bottom: 0;
   background-color: #FFFFFF;
 }
+.stamp_list {
+	/*display:none;*/
+	width:300px;
+	height:300px;
+	border: 1px solid #CCCCCC;
+	background-color:#FFFFFF;
+	position:relative;
+	top: -305px;
+	left:620px;
+	display:none;
+	flex-flow: column;
+}
+
+.stamp_img {
+	width:100px;
+	height:100px;
+	object-fit: cover;
+	cursor: pointer;
+}
+.stamp_line1 {
+	position:relative;
+	display:flex;
+}
+.stamp_line2 {
+	display:flex;
+}
+.stamp_button {
+  cursor: pointer;
+  position:absolute;
+  left:610px;
+  padding:5px 10px;
+}
+.stamp_button_img {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
 .message_comment {
   position:absolute;
-  margin: 8px 8px;
+  left:650px;
+  padding: 5px;
+}
+.message_comment_textarea {
   font-size: 16px;
   line-height: 18px;
   text-decoration: none;
@@ -367,13 +425,13 @@
   outline: none;
   color:var(--font-coler);
   resize:none;
-  left:610px;
-  width: 460px;
+  width: 400px;
   height:22px;
   min-height: 22px;
   max-height: 96px;
   padding: 4px;
 }
+
 textarea::-webkit-scrollbar{
   display:none;
 }
@@ -383,8 +441,8 @@ textarea::-webkit-scrollbar{
   font-weight: 700;
   cursor: pointer;
   border: none;
-  top: 20px;
-  left: 1100px;
+  left: 1070px;
+  padding:5px;
 }
 
 /*-------------------------------------

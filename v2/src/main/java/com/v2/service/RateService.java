@@ -48,7 +48,6 @@ public class RateService {
       // 購入者が出品者の評価をする
       ReserveHist reserveHist = reserveHistDao.selectReserveHist(reserveId, jdbcTemplate);
       User user = userDao.selectUser(pid, jdbcTemplate);
-      rate = reserveHist.quantity * 
       reserveHistDao.updateRateSeller(reserveId, rate, comment, jdbcTemplate);
 
       // 評価総数はチケット枚数ｘ評価とする
@@ -56,11 +55,11 @@ public class RateService {
       int orderSum = user.orderSum + reserveHist.quantity;
       int i = rateSum / orderSum;
       int j = rateSum % orderSum;
-      int rateSel = i;
+      int totalRate = i;
       if (j != 0)
-        rateSel++;
+    	  totalRate++;
       //出品者のトータル評価を更新する      
-      userDao.updateRate(pid, BigDecimal.valueOf(rateSel), rateSum, orderSum, jdbcTemplate);
+      userDao.updateRate(pid, BigDecimal.valueOf(totalRate), rateSum, orderSum, jdbcTemplate);
     }
     if (buysellFlg == 2) {
       // 出品者が購入者の評価をする
@@ -121,6 +120,21 @@ public class RateService {
     
     // 予約一覧を取得する（購入者）
     return reserveHistDao.selectReserveListBuyCompAll(id, jdbcTemplate);
+    
+  }
+  
+  /**
+   * 評価された一覧を取得する（出品者）
+   * @param id
+   * @param pid
+   * @param jdbcTemplate
+   * @return
+   * @throws Exception
+   */
+  public List<ReserveHist> getReserveListRateSeller(int id, JdbcTemplate jdbcTemplate) throws Exception {
+    
+    // 評価された一覧を取得する（出品者）
+    return reserveHistDao.selectReserveListSeller(id, jdbcTemplate);
     
   }
 

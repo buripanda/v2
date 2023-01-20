@@ -71,7 +71,10 @@ public class RestWsController {
 
 		try {
 			// ログインステータスをONにする
-			loginService.onlineStatusOn(Integer.parseInt(wsMessage.distId), jdbcTemplate);
+			if ("1".equals(wsMessage.mode))
+				loginService.onlineStatusOn(Integer.parseInt(wsMessage.distId), jdbcTemplate);
+			if ("2".equals(wsMessage.mode))
+				loginService.onlineStatusOff(Integer.parseInt(wsMessage.distId), jdbcTemplate);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
