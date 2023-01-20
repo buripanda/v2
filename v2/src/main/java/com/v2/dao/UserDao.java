@@ -242,6 +242,24 @@ public class UserDao {
   	return cnt;
   
   }
+  
+  /**
+   * チャット通知をON/OFFにする
+   * @param emal
+   * @param password
+   * @param jdbcTemplate
+   * @return
+   */
+  public int updateChatStatus(int id, int status, JdbcTemplate jdbcTemplate) throws Exception {
+  	
+  	int cnt = jdbcTemplate.update(
+  			"UPDATE T_USER SET " +
+  			"CHAT_TUCHI=? ,UPDATE_DATE=current_timestamp " +
+  			"WHERE  ID=?",
+  			status, id);		
+  	return cnt;
+  
+  }
 
   /**
    * プロフィールを更新する（画像含む）

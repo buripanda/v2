@@ -56,6 +56,9 @@
 						if (userMessage != null) {
 							userMessage.style.display = "block";
 						}
+					} else {
+						// 開いてる場合は通知OFF
+						
 					}
 				});
 			});
@@ -75,6 +78,8 @@
 			var toSendPath = "/v2/chat";
 			var textarea_element = document.getElementById("textarea");
 			var message = textarea_element.value;
+			console.log("message:" + message);
+			
 			textarea_element.style.height = "24px";
 
 			if (message != "" || stamp != "") {
@@ -86,6 +91,7 @@
 					{'sendId': sendId, 'distId': distId, 'mode': 0, 'message': message}));
 				// 入力欄クリア
 				document.getElementById("textarea").value = "";
+				stampClose();
 				await new Promise(s => setTimeout(s, 200));
 				// 画面リロード
 				loadPage();
@@ -296,6 +302,13 @@
 			document.getElementById('stamp_list').style.display = "none";			
 		}
 	}
+	// スタンプメニューOFF
+	function stampClose() {
+		var status = document.getElementById('stamp_list').style.display;
+		if (status == "flex") {
+			document.getElementById('stamp_list').style.display = "none";			
+		}
+	}
 	</script>
 </head>
 
@@ -374,7 +387,7 @@
 					<div class="message_comment">
 						<textarea name="message" placeholder="メッセージを入力" id="textarea" rows="1" class="message_comment_textarea"></textarea>
 					</div>
-					<div class="soshin" onclick="javascript:sendMessage()">送信</div>
+					<div class="soshin" onclick="javascript:sendMessage('')">送信</div>
 				</div>
 			</div>
 		</div>

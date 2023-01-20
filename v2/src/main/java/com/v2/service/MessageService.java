@@ -13,6 +13,7 @@ import com.v2.bean.Chat;
 import com.v2.bean.User;
 import com.v2.dao.MessageHistDao;
 import com.v2.dao.MessageUserDao;
+import com.v2.dao.UserDao;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,6 +30,9 @@ public class MessageService {
 	@Autowired
 	MessageHistDao messageHistDao;
 	
+	@Autowired
+	UserDao userDao;
+
 	/**
 	 * パートナーリストを取得する
 	 * @param id
@@ -76,6 +80,8 @@ public class MessageService {
 		// 最新メッセージを登録
 		messageUserDao.updateMessage(id, pid, message, jdbcTemplate);
 		
+		// チャット通知をONにする
+		userDao.updateChatStatus(pid, 1, jdbcTemplate);
 	}
 
 	/**
