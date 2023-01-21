@@ -40,8 +40,8 @@
   opacity:0.3;  
 }
 .very_img_outline {
-  width:30px;
-  height:30px;	
+  width:40px;
+  height:40px;	
   border-radius: 50%;
   padding:4px;
   background: linear-gradient(45deg, #B67B03 0%, #DAAF08 45%, #FEE9A0 70%, #DAAF08 85%, #B67B03 90% 100%);
@@ -49,8 +49,9 @@
   margin:15px;
 }
 .very_img {
-	width:30px;
-	height:30px;
+	width:40px;
+	height:40px;
+	object-fit: cover;
 	border-radius: 50%;
 	background-color: #FFFFFF;
 }

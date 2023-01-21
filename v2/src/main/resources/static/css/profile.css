@@ -48,22 +48,21 @@
   position:relative;
 }
 .badge img {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   object-fit: cover;  
   margin:0 20px;
 }
 .badge_info {
   position:absolute;
-  top:10px;
-  left:70px;
+  top:8px;
+  left:60px;
 }
 /*-------------------------------------
 評価一覧
 -------------------------------------*/
 .rate_header {
-	font-weight:700;
-	padding: 10px 10px 5px 10px;
+	padding: 10px 10px 10px 15px;
 }
 .rate_list {
   display:flex;
@@ -95,7 +94,7 @@
 }
 .rate_detail_name {
 }	
-}.rate_detail_star {
+.rate_detail_star {
 	
 }
 .rate_detail_com {
