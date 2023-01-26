@@ -127,7 +127,7 @@ public class UserDao {
     List<Map<String, Object>> dataList = jdbcTemplate.queryForList(
         "SELECT * FROM "
         + " T_USER T1"
-        + " INNER JOIN T_USER_INTRODUCTION T2"
+        + " LEFT OUTER JOIN T_USER_INTRODUCTION T2"
         + " ON T1.ID = T2.ID "
         + " WHERE"
         + " T1.ID = ? "
