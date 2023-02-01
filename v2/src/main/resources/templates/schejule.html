@@ -20,9 +20,9 @@
 </script>
 </head>
 <body>
-<th:block th:replace="sidemenu::sidemenu"></th:block>
+<th:block th:replace="include/sidemenu::sidemenu"></th:block>
 <div class="contents">
-  <th:block th:replace="header::header"></th:block>
+  <th:block th:replace="include/header::header"></th:block>
   <div class="schejule_main">
     <div>予約一覧</div>
 	  <div class="schejule_uncomp_list">
@@ -48,7 +48,7 @@
     </th:blcok>
     </div>
 	</div>
-  <th:block th:replace="footer::footer"></th:block>
+  <th:block th:replace="include/footer::footer"></th:block>
 </div>
 </body>
 </html>

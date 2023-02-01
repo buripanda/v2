@@ -95,13 +95,14 @@ function loginMenu() {
 	document.getElementById('login_03').style.display = "flex";
 	document.getElementById('login_04').style.display = "flex";
 	document.getElementById('login_05').style.display = "flex";
+	document.getElementById('login_06').style.display = "flex";
 	document.getElementById('menu01').style.display = "block";
 	document.getElementById('menu02').style.display = "block";
 	document.getElementById('menu03').style.display = "block";
 	document.getElementById('menu04').style.display = "block";
 	document.getElementById('menu05').style.display = "block";
 	document.getElementById('menu06').style.display = "block";
-  document.getElementById('menu07').style.display = "block";
+    document.getElementById('menu07').style.display = "block";
 }
 // ログアウト中のメニュー
 function logoutMenu() {
@@ -110,12 +111,13 @@ function logoutMenu() {
 	document.getElementById('login_03').style.display = "none";
 	document.getElementById('login_04').style.display = "none";
 	document.getElementById('login_05').style.display = "none";
+	document.getElementById('login_06').style.display = "none";
 	document.getElementById('menu01').style.display = "none";
 	document.getElementById('menu02').style.display = "none";
 	document.getElementById('menu03').style.display = "none";
 	document.getElementById('menu04').style.display = "none";
 	document.getElementById('menu05').style.display = "none";
 	document.getElementById('menu06').style.display = "none";
-  document.getElementById('menu07').style.display = "none";
+    document.getElementById('menu07').style.display = "none";
 }
 

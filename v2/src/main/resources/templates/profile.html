@@ -28,9 +28,9 @@ function previewImage(obj)
 </script>
 </head>
 <body>
-<th:block th:replace="sidemenu::sidemenu"></th:block>
+<th:block th:replace="include/sidemenu::sidemenu"></th:block>
 <div class="contents">
-<th:block th:replace="header::header"></th:block>
+<th:block th:replace="include/header::header"></th:block>
 <form method="post" name="form1" enctype="multipart/form-data" action="profile">
 <div class="profile01">
 	<div class="profile_left">
@@ -43,8 +43,8 @@ function previewImage(obj)
 				<div class="username">[[${user.userName}]]</div>
 				<hr class="hr90">
 				<div class="badge">
-				<img src="/image/badge/badge_legend_diamond.png" class="badge_img">
-				<div class="badge_info">購入回数10回以上達成</div>
+					<img th:src="@{/image/badge/__${user.badgeImg}__}" class="badge_img">
+					<div class="badge_info">[[${user.badgeTxt}]]</div>
 				</div>
 			</div>
 		</div>
@@ -141,7 +141,7 @@ function previewImage(obj)
 	</div>
 </div>
 </form>
-<th:block th:replace="footer::footer"></th:block>
+<th:block th:replace="include/footer::footer"></th:block>
 </div>
 </body>
 </html>

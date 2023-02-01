@@ -54,9 +54,8 @@ $(function () {
   //});
 });
 
-function rate_open(reserve_id, pid, buysell_flg) {
-  console.log(pid);
-  console.log(buysell_flg);
+function rate_open(reserve_id, pid, buysell_flg, ticket_time) {
+  console.log(ticket_time);
   // 評価モーダルオープン
   $(function () {
     $('#rate-overlay, .modal-rate').fadeIn(200);
@@ -64,6 +63,9 @@ function rate_open(reserve_id, pid, buysell_flg) {
   document.getElementById('reserve_id').value = reserve_id;
   document.getElementById('reserve_pid').value = pid;
   document.getElementById('buysell_flg').value = buysell_flg;
+  document.getElementById('select_ticket').textContent = ticket_time;  
+  // コメント欄初期化
+  document.getElementById('rate_comment').value="";
 }
 
 // 購入処理（モーダル）

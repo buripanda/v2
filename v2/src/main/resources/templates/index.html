@@ -10,14 +10,14 @@
 	<title>ホーム</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<link th:href="@{/css/root.css}" rel="stylesheet">
-	<link th:href="@{/css/header.css}" rel="stylesheet">
+	<link th:href="@{/css/include/header.css}" rel="stylesheet">
 	<link th:href="@{/css/index.css}" rel="stylesheet">
 	<link th:href="@{/css/login.css}" rel="stylesheet">
 	<link th:href="@{/css/signup.css}" rel="stylesheet">
 	<link th:href="@{/css/modal.css}" rel="stylesheet">
-	<link th:href="@{/css/sidemenu.css}" rel="stylesheet">
-	<link th:href="@{/css/slider.css}" rel="stylesheet">
-	<link th:href="@{/css/footer.css}" rel="stylesheet">
+	<link th:href="@{/css/include/sidemenu.css}" rel="stylesheet">
+	<link th:href="@{/css/include/slider.css}" rel="stylesheet">
+	<link th:href="@{/css/include/footer.css}" rel="stylesheet">
 	<link type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css" rel="stylesheet" >
 	<script src="/js/common.js"></script>
 	<script src="/js/header.js"></script>
@@ -29,42 +29,56 @@
 </head>
 
 <body>
-<th:block th:replace="sidemenu::sidemenu"></th:block>
+
+<th:block th:replace="include/sidemenu::sidemenu"></th:block>
 <div class="contents">
-	<th:block th:replace="header::header"></th:block>
+	<th:block th:replace="include/header::header"></th:block>
+	<div class="banner_video-wrap">
+		<video autoplay muted playsinline loop class="banner_video">
+			<source src="/video/banner2.mp4" type="video/mp4">
+		</video>
+	</div>
+	<!-- 
 	<div class="banner">
 		<p class="banner_font_big">Vtuberと交流、支援</p>
 		<p class="banner_font_small">活動を応援したいリスナーと、<br>より幅広く活動するVtuberのために。</p>
-	
-		<!-- <img src="/image/banaer2.jpg"> -->
-		<video src="/video/banner.mp4" autoplay loop muted playsinlin></video>
+		<video src="/video/banner2.mp4" autoplay loop muted playsinlin></video>
 	</div>
+	 -->
 	<ul class="slider">
 		<li>
 			<div class="slider_div">
-			<!--<div class="sild_img01" id="sild_img01"><img src="/getImgCommon?name=neko1.jpg"></div>-->
+			<div class="sild_img01" id="sild_img01"><img src="/getImgCommon?name=neko1.jpg"></div>
+			<!-- 
 			<iframe width="545" height="305" src="https://www.youtube.com/embed/7M5yHLKwdng?rel=0&autoplay=1&mute=1&loop=1&playlist=7M5yHLKwdng&controls=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-			</div>
+			 -->
+			 </div>
 			<div class="slider_text">PICK UP</div>
 		</li>
 		<li>
 			<div class="slider_div">
 			<!--<div class="sild_img02" id="sild_img02"><img src="/getImgCommon?name=neko2.jpg"></div>-->
+			<!--
 			<iframe width="545" height="305" src="https://www.youtube.com/embed/qda5RRVhmS8?rel=0&autoplay=1&mute=1&loop=1&playlist=qda5RRVhmS8&controls=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-			</div>
+			 -->
+			 </div>
 			<div class="slider_text">PICK UP</div>
 		</li>
 		<li>
 			<div class="slider_div">
 			<!--<div class="sild_img03" id="sild_img03"><img src="/getImgCommon?name=neko3.jpg"></div>-->
+			<!--
 			<iframe width="545" height="305" src="https://www.youtube.com/embed/vqmh-8qU5Wg?rel=0&autoplay=1&mute=1&loop=1&playlist=vqmh-8qU5Wg&controls=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-			</div>
+			 -->
+			 </div>
 			<div class="slider_text">PICK UP</div>
 		</li>		
 		<li>
 			<div class="slider_div">
+			<!--
 			<iframe width="545" height="305" src="https://www.youtube.com/embed/tlLo7jypqDI?rel=0&autoplay=1&mute=1&loop=1&playlist=tlLo7jypqDI&controls=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-			</div>
+			 -->
+			 </div>
 			<div class="slider_text">PICK UP</div>
 		</li>
 	</ul>
@@ -169,9 +183,16 @@
 				<p>15分</p>
 				<p th:text="${order.priceKanma + 'Very'}" />
 			</div>
-			<div class="chat_01" th:onclick="|javascript:postSelectId(__${order.id}__, 'messagePartnerList')|">
-				<dev herf="#" class="chat_text_01">チャットをする</dev>
-			</div>
+			<th:block th:if="${session.v2bean.id != 0}">
+				<th:block th:if="${session.v2bean.id != order.id}">
+					<div class="chat_01" th:onclick="|javascript:postSelectId(__${order.id}__, 'messagePartnerList')|">
+						<div class="chat_text_01">チャットをする</div>
+					</div>
+				</th:block>
+			</th:block>
+			<th:block th:if="${session.v2bean.id == 0}">
+				<div class="chat_01"></div>
+			</th:block>
 		</div>
 		<div class="ranking_footer">
 			<div class="blank"></div>
@@ -191,7 +212,6 @@
 		</div>
 	</th:block>
 	<hr class="style1">
-	<th:block th:replace="footer::footer"></th:block>
 	<div class="modal-login" id="modal-login">
 		<div class="login_01">
 			<span class="round_btn login-close"></span>
@@ -255,5 +275,6 @@
 	<div id="overlay" class="overlay"></div>
 </div>
 <script src="/js/slider.js"></script>
+<th:block th:replace="include/footer::footer"></th:block>
 </body >
 </html >

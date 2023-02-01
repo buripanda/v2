@@ -63,13 +63,20 @@ public class IndexController extends AbstractController {
 		try {
 			// 古い順
 			List<User> userList =indexService.getProfileListOderRegist(jdbcTemplate);
-  		modelMap.addAttribute("userList", userList);
+			modelMap.addAttribute("userList", userList);
 			// 新着順
 			List<User> newUserList =indexService.getProfileListOderRegistDesc(jdbcTemplate);
-  		modelMap.addAttribute("newUserList", newUserList);
+			modelMap.addAttribute("newUserList", newUserList);
 			// オーダーの多い順
-  		List<User> orderSumList = indexService.getProfileListOderSum(jdbcTemplate);
-  		modelMap.addAttribute("orderSumList", orderSumList);
+			List<User> orderSumList = indexService.getProfileListOderSum(jdbcTemplate);
+			modelMap.addAttribute("orderSumList", orderSumList);
+  		
+			// ログイン中でない場合は空で作成する
+			if (!super.isLogin()) {
+				User user = new User();
+				super.setSessionBean(user);
+			}
+  		
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
@@ -90,13 +97,20 @@ public class IndexController extends AbstractController {
 		try {
 			// 古い順
 			List<User> userList =indexService.getProfileListOderRegist(jdbcTemplate);
-  		modelMap.addAttribute("userList", userList);
+			modelMap.addAttribute("userList", userList);
 			// 新着順
 			List<User> newUserList =indexService.getProfileListOderRegistDesc(jdbcTemplate);
-  		modelMap.addAttribute("newUserList", newUserList);
+			modelMap.addAttribute("newUserList", newUserList);
 			// オーダーの多い順
-  		List<User> orderSumList =indexService.getProfileListOderSum(jdbcTemplate);
-  		modelMap.addAttribute("orderSumList", orderSumList);
+			List<User> orderSumList =indexService.getProfileListOderSum(jdbcTemplate);
+			modelMap.addAttribute("orderSumList", orderSumList);
+
+			// ログイン中でない場合は空で作成する
+			if (!super.isLogin()) {
+				User user = new User();
+				super.setSessionBean(user);
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
@@ -221,9 +235,9 @@ public class IndexController extends AbstractController {
 	 * @param modelMap
 	 * @return
 	 */
-	@GetMapping("/star")
+	@GetMapping("/test")
 	public String starGet(ModelMap modelMap) {
-		return "star";
+		return "test";
 	}
 
 }

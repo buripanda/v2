@@ -100,10 +100,12 @@ public class HtmlService {
   public String getReserveList(List<ReserveHist> reserveHist, int id) throws Exception {
     
     StringBuffer sb = new StringBuffer();
+    StringBuffer sb2 = new StringBuffer();
     DateTimeFormatter datetimeformatter = DateTimeFormatter.ofPattern("MM月dd日HH:mm");
     int totalm = 0;
     int hh = 0;
     int mm = 0;
+    sb.append("<hr class=\"hr90\">");
     sb.append("<div class=\"reserve_title\">予約/オーダー一覧</div>");
     for (ReserveHist reserve : reserveHist) {
     	
@@ -131,27 +133,30 @@ public class HtmlService {
         sb.append("<input type=\"hidden\" name=\"reserve_list_flg\" value=\"1\" id=\"reserve_list_flg\">");
       }
       if (reserve.buysellFlg == 2 && id == reserve.sellerId) {
-    	  //オーダー分
+    	  // 開始時間と所要時間を計算
+	      String datetimeformated = datetimeformatter.format(reserve.reserveStartDate);
+	      sb2.setLength(0);
+	      sb2.append(datetimeformated).append("開始（");
+	      
+	      totalm = reserve.quantity * 15;
+	      hh = totalm / 60;
+	      mm = totalm - (hh * 60);
+	      sb2.append(hh).append("時間");
+	      if (mm > 0)
+	        sb2.append(totalm).append("分");
+	      sb2.append("）");
+
+    	//オーダー分
         sb.append("<div class=\"reserve_content reserve_irai\" onclick=\"javascript:rate_open(")
-        .append(reserve.reserveId).append(",").append(reserve.buyerId).append(",").append("2)\">");
+        .append(reserve.reserveId).append(",").append(reserve.buyerId).append(",").append("2,'").append(sb2.toString()).append("')\">");
           //sb.append("<div class=\"reserve_content reserve_irai rate-open\">");
        	  //sb.append("<img src=\"/getImgMini?id=").append(reserve.id).append("&name=").append(reserve.imageFile).append("\">");
        	  sb.append("<img src=\"/image/pin_blue.png\" class=\"reserve_img\">");
-          sb.append("<div class=\"reserve_text\">");
+          sb.append("<div class=\"reserve_text\" id=\"reserve_text\">");
           sb.append("オーダー　");
           //sb.append(reserve.userName);
           sb.append("<br>");
-          String datetimeformated = datetimeformatter.format(reserve.reserveStartDate);
-          sb.append(datetimeformated).append("開始（");
-          
-          totalm = reserve.quantity * 15;
-          hh = totalm / 60;
-          mm = totalm - (hh * 60);
-          sb.append(hh).append("時間");
-          if (mm > 0)
-            sb.append(totalm).append("分");
-          
-          sb.append("）");
+          sb.append(sb2.toString());
           sb.append("</div></div>");
           sb.append("<input type=\"hidden\" name=\"reserve_list_pid\" value=\"").append(reserve.sellerId).append("\" id=\"reserve_list_pid\">");
           sb.append("<input type=\"hidden\" name=\"reserve_list_flg\" value=\"2\" id=\"reserve_list_flg\">");
@@ -159,6 +164,7 @@ public class HtmlService {
     }
     sb.append("<script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>");
     sb.append("<script src=\"/js/message.js\"></script>");
+    System.out.print(sb.toString());
     return sb.toString();
     
   }

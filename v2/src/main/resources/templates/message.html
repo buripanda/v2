@@ -204,12 +204,15 @@
 				console.log("単価2：" + document.getElementById('price2').textContent);
 				if (ticket_price != 0) {
 					document.getElementById('reserve_div').style.display = "block";
+					document.getElementById('no_shop').style.display = "none";
 				} else {
 					document.getElementById('reserve_div').style.display = "none";
+					document.getElementById('no_shop').style.display = "block";
 				}
 
 			} else {
 				document.getElementById('reserve_div').style.display = "none";
+				document.getElementById('no_shop').style.display = "block";
 			}
 
 		}
@@ -345,6 +348,7 @@
 					<div class="reserve-open reserve_div" id="reserve_div">
 						<a class="reserve_button reserve_pushdown"><span>日程を予約する</span></a>
 					</div>
+					<div class="no_shop" id="no_shop">出品していないため予約できません</div>
 					<div class="reserve_list" id="reserve_list">
 					</div>
 				</div>
@@ -456,21 +460,22 @@
 	      <div class="rate_title">評価</div>
 	      <div class="error_message" id="rate_error"></div>
 	      <div class="rate_frame">
-					<div class="rate-star">
-					  <input id="star5" type="radio" name="rate" value="5" checked>
-					  <label for="star5">★</label>
-					  <input id="star4" type="radio" name="rate" value="4">
-					  <label for="star4">★</label>
-					  <input id="star3" type="radio" name="rate" value="3">
-					  <label for="star3">★</label>
-					  <input id="star2" type="radio" name="rate" value="2">
-					  <label for="star2">★</label>
-					  <input id="star1" type="radio" name="rate" value="1">
-					  <label for="star1">★</label>
-					</div>
-					<div>
-					  <textarea class="rate_comment" id="rate_comment"></textarea>
-					</div>
+	      	<div class="select_ticket_time" id="select_ticket"></div>
+			<div class="rate-star">
+			  <input id="star5" type="radio" name="rate" value="5" checked>
+			  <label for="star5">★</label>
+			  <input id="star4" type="radio" name="rate" value="4">
+			  <label for="star4">★</label>
+			  <input id="star3" type="radio" name="rate" value="3">
+			  <label for="star3">★</label>
+			  <input id="star2" type="radio" name="rate" value="2">
+			  <label for="star2">★</label>
+			  <input id="star1" type="radio" name="rate" value="1">
+			  <label for="star1">★</label>
+			</div>
+			<div>
+			  <textarea class="rate_comment" id="rate_comment" placeholder="評価をお願いします"></textarea>
+			</div>
 	        <div>
 	          <a href="javascript:restRate()" class="rate_button rate_pushdown"><span>評価する</span></a>
 	        </div>

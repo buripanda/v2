@@ -72,27 +72,28 @@
 .right_div {
   margin-left: auto;	
 }
-.bell_tushi {
-  position:relative;
-  top:-35px;
-  left:25px;
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  border: 2px solid #FFFFFF;
-  background-color: #FF0000;
-  z-index: 2;
+/* ログインイメージアイコン */
+.login_icon {
+  width:45px;
+  height:60px;
+  padding-top:10px;
 }
-.chat_tuchi {
+.login_icon_img {
+  width:35px;
+  height:35px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.login_tuchi {
   position:relative;
-  top:-35px;
-  left:25px;
   width: 15px;
   height: 15px;
+  top:-15px;
+  left:25px;
   border-radius: 50%;
   border: 2px solid #FFFFFF;
-  background-color: #FF0000;
-  z-index: 2;	
+  background-color: #00CC00;
+  z-index: 2;
 }
 /* ベルアイコン */
 .bell_icon {
@@ -106,8 +107,20 @@
   cursor:pointer;
   top: 0;
   bottom:0;
-  padding:15px 10px 10px 10px;
+  padding-top:15px;
 }
+.bell_tushi {
+  position:relative;
+  top:-35px;
+  left:25px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+  background-color: #FF0000;
+  z-index: 2;
+}
+/* チャットアイコン */
 .chat_icon {
   display:flex;
   flex-flow: column;
@@ -119,7 +132,19 @@
   cursor:pointer;
   top: 0;
   bottom:0;
-  padding:15px 10px 10px 10px;
+  padding-top:15px;
+  padding-right:5px;
+}
+.chat_tuchi {
+  position:relative;
+  top:-35px;
+  left:25px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+  background-color: #FF0000;
+  z-index: 2;	
 }
 /* ログイン */
 .login_div {

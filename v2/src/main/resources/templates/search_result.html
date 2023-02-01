@@ -142,9 +142,9 @@
 </head>
 
 <body>
-<th:block th:replace="sidemenu::sidemenu"></th:block>
+<th:block th:replace="include/sidemenu::sidemenu"></th:block>
 <div class="contents">
-	<th:block th:replace="header::header"></th:block>
+	<th:block th:replace="include/header::header"></th:block>
 	<div class="midashi_02">検索結果一覧</div>
 	<div class="profile">
 	<th:block th:with="size=${#lists.size(userList)}">
@@ -189,7 +189,7 @@
 		</th:block>
 	</th:block>
 	</div>
-	<th:block th:replace="footer::footer"></th:block>
+	<th:block th:replace="include/footer::footer"></th:block>
 </div>
 </body >
 </html >

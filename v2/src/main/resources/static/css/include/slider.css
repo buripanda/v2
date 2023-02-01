@@ -3,7 +3,7 @@
 ===================================*/
 .slider {/*横幅94%で左右に余白を持たせて中央寄せ*/
   width:98%;
-  margin: 20px 0 20px 0px;
+  margin: 10px 0 20px 0px;
 }
 
 li {
@@ -14,7 +14,7 @@ li {
   height: 300px;
   overflow:hidden;
   border-radius: 30px;
-  margin: 20zpx;
+  margin: 5px 20px;
   object-fit: cover;
 }
 .slider_text {

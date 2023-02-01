@@ -97,6 +97,51 @@ public class User {
     	}
     	return ret;
     }
+    public String getBadgeImg() {
+    	String ret = "";
+    	if (orderSum < 10)
+    		ret = "badge_bronze.png";
+    	else if (orderSum < 20)
+    		ret = "badge_sapphire.png";
+    	else if (orderSum < 30)
+    		ret = "badge_silver.png";
+    	else if (orderSum < 40)
+    		ret = "badge_ruby.png";
+    	else if (orderSum < 50)
+    		ret = "badge_emerald.png";
+    	else if (orderSum < 60)
+    		ret = "badge_gold.png";
+    	else if (orderSum < 70)
+    		ret = "badge_purple_diamond.png";
+    	else if (orderSum < 80)
+    		ret = "badge_red_diamond.png";
+    	else 
+    		ret = "badge_legend_diamond.png";
+    	return ret;
+     }
+    public String getBadgeTxt() {
+    	String ret = "";
+    	if (orderSum < 10)
+    		ret = "購入回数10回未満";
+    	else if (orderSum < 20)
+    		ret = "購入回数10回以上達成";
+    	else if (orderSum < 30)
+    		ret = "購入回数20回以上達成";
+    	else if (orderSum < 40)
+    		ret = "購入回数30回以上達成";
+    	else if (orderSum < 50)
+    		ret = "購入回数40回以上達成";
+    	else if (orderSum < 60)
+    		ret = "購入回数50回以上達成";
+    	else if (orderSum < 70)
+    		ret = "購入回数60回以上達成";
+    	else if (orderSum < 80)
+    		ret = "購入回数70回以上達成";
+    	else 
+    		ret = "購入回数80回以上達成";
+    	return ret;
+     }
+    
     /**
      * スタンプが送信されたかチェックする
      * @param message
