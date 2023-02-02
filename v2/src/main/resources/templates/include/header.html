@@ -8,12 +8,9 @@
 		</form>
 	</div>
 	<div class="right_div"></div>
-	[[${session.v2bean.id}]]
 	<div class="login_icon" th:classappend="${session.v2bean.id == 0} ? display_none : display_block" id="login_06">
-		<th:block th:if="${session.v2bean.id != 0}">
 			<img th:src="@{./getImgDefault?id=__${session.v2bean.id}__&name=__${session.v2bean.imageFile}__}" class="login_icon_img">
 			<div class="login_tuchi"></div>
-		</th:block>
 	</div>
 	<div class="bell_icon" th:classappend="${session.v2bean.id == 0} ? display_none : display_block" id="login_04" >
 		<i class="fa-regular fa-bell"></i>
