@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="Content-Style-Type" content="text/css" />
+	<meta http-equiv="Content-Script-Type" content="text/javascript" />
+	<meta name="auther" content="v2.com" />
+	<meta name="copyright" content="Copyright (C) v2.com All Rights Reserved." />
+	<title>募集登録</title>
+	<link th:href="@{/css/root.css}" rel="stylesheet">
+	<link th:href="@{/css/include/header.css}" rel="stylesheet">
+	<link th:href="@{/css/profile.css}" rel="stylesheet">
+	<link th:href="@{/css/recruit.css}" rel="stylesheet">
+	<link th:href="@{/css/include/sidemenu.css}" rel="stylesheet">
+	<link th:href="@{/css/include/footer.css}" rel="stylesheet">
+	<link th:href="@{/css/jquery.datetimepicker.min.css}" rel="stylesheet">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+			integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw=="
+			crossorigin="anonymous"></script>
+	<script src="/js/common.js"></script>
+	<script src="/js/header.js"></script>
+	<script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
+	<script>
+	$(function () {
+		// 日時カレンダー（FROM)
+		$.datetimepicker.setLocale('ja');
+		$('#datetimefrom').datetimepicker({
+			step: 15,
+		});
+		// 日時カレンダー（TO)
+		$.datetimepicker.setLocale('ja');
+		$('#datetimeto').datetimepicker({
+			step: 15,
+		});
+	});		
+
+	function previewImage(obj)
+	{
+		var fileReader = new FileReader();
+		fileReader.onload = (function() {
+			document.getElementById('preview').src = fileReader.result;
+		});
+		fileReader.readAsDataURL(obj.files[0]);
+	}
+	function submitFunc(action) {
+	
+		const form = document.createElement('form');
+		form.method = 'post';
+		form.action = '/' + action;
+		document.body.appendChild(form);
+		form.submit();
+	
+		//document.location="view/" + id
+	}
+	</script>
+</head>
+<body>
+<th:block th:replace="include/sidemenu::sidemenu"></th:block>
+<div class="contents">
+	<th:block th:replace="include/header::header"></th:block>
+	<form method="post" name="form1" enctype="multipart/form-data" action="recruit_regist">
+	<div class="recruit_frame">
+		<div class="recruit_left">
+			<div class="recruit_inner">
+				<div>
+					<img th:src="@{./getImgDefault?id=__${user.id}__&name=__${user.imageFile}__}" width="300">
+				</div>
+				<div class="username">[[${user.userName}]]</div>
+			</div>
+		</div>
+		<div class="recruit_right">
+			<th:block th:if="${recruit.id != 0}">
+				<div class="recruit_titile">現在、募集しています</div>
+				<div class="recuruit_card">
+					<div class="recuruit_card_inner">
+						<div class="card_img">
+							<img th:src="@{./getImgDefault?id=__${user.id}__&name=__${user.imageFile}__}">
+						</div>
+						<div class="card_name">[[${user.userName}]]</div>
+						<div class="card_datetime">[[${recruit.recruitStartDate}]]～[[${recruit.recruitEndDate}]]</div>
+						<div class="card_message">[[${recruit.message}]]</div>
+						<div class="card_message">[[${recruit.price}]]/15分</div>
+					</div>
+				</div>
+			</th:block>
+			<th:block th:if="${recruit.id == 0}">
+				<div class="recruit_titile">現在、募集していません</div>
+			</th:block>
+			<hr class="style_100">
+			募集時間
+			<div class="datetime_div">
+				<input type="text" name="datetimefrom" id="datetimefrom" class="datetime" readonly>から<input type="text" name="datetimeto"  id="datetimeto" class="datetime" readonly>
+			</div>
+			募集内容
+			<div>
+				<textarea name="message" cols="50" rows="10" placeholder="募集内容をいれてください" class="input_message"></textarea>
+			</div>
+			<div class="check01">
+				<input type="checkbox" name="agree" id="agree">
+				<label for="agree">※チェックすると今すぐ遊べることが表示されます</label>
+			</div>
+			<div class="regist_div">
+			<a href="javascript:document.form1.submit()" class="regist_button regist_pushdown"><span>募集する</span></a>
+			</div>
+		</div>
+	</div>
+	</form>
+	<th:block th:replace="include/footer::footer"></th:block>
+</div>
+</body>
+</html>

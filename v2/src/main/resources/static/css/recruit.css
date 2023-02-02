@@ -1,0 +1,257 @@
+.recruit_frame {
+	padding: 30px;
+	display: flex;
+}
+/*-------------------------------------
+プロフィール画面　左側
+-------------------------------------*/
+.recruit_left {
+  overflow: hidden;
+  border-radius: 8px;
+  width: 300px;
+  height: 500px;
+  /*background: linear-gradient(135deg, #fc00ff 0, #00dbde 100%);*/
+  /*background-color: var(--font-coler--input-border-color);*/
+  /* ここが枠になる */
+  /*padding: 4px;*/
+  background-color: var(--card-border-coloer);
+  filter: drop-shadow(0px 0px 5px rgba(222,120,144,.5));	
+}
+.recruit_inner {
+  overflow: hidden;
+  text-align:center;
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  height: 500px
+}
+
+.recruit_inner img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+}
+.username {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+/*-------------------------------------
+プロフィール画面　右側
+-------------------------------------*/
+.recruit_right {
+	padding: 10px;
+	margin-left: 20px;
+	width: 800px;
+}
+
+.recruit_titile {
+  margin: 0 0 5px 0;
+}
+.recuruit_card {
+  overflow: hidden;
+  border-radius: 8px;
+  width: 800px;
+  height: 120px;
+  /*background: linear-gradient(135deg, #fc00ff 0, #00dbde 100%);*/
+  /*background-color: var(--font-coler--input-border-color);*/
+  /* ここが枠になる */
+  /*padding: 4px;*/
+  background-color: var(--card-border-coloer);
+  filter: drop-shadow(0px 0px 5px rgba(222,120,144,.5));
+}
+.recuruit_card_inner {
+  overflow: hidden;
+  text-align:center;
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  width: 800px;
+  height: 120px;
+  display:grid;
+  grid-template-rows: 40px 40px 40px;
+  grid-template-columns: 60px 1fr;
+}
+.card_img {
+	grid-row: 1 / 4;
+    grid-column: 1 / 2;
+}
+.card_img img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.card_name {
+	grid-row: 1 / 2;
+    grid-column: 2 / 3;
+}
+.card_datetime {
+	grid-row: 2 /3;
+    grid-column: 2 / 3;
+}
+.card_message {
+	grid-row: 3 / 4;
+    grid-column: 2 / 3;
+}
+
+/* 区切り線 */
+.style_100 {
+  width: 100%;
+  border-top: 1px solid  var(--shadow-color);
+  margin: 20px 0px;;
+}
+/* 日時入力欄 */
+.datetime_div {
+	margin-bottom:10px;
+}
+.datetime {
+  border: 1px solid var( --input-border-color);
+  width:200px;
+  padding: 4px;
+  border-radius: 5px;
+  font-size: 16px;
+  color: var(--font-coler);
+  outline: none;
+  cursor:pointer;
+}
+/* 紹介文入力欄 */
+.input_message {
+  font-size: 1.0rem;
+  margin: 20px 0;
+  padding: 5px;
+  border: 1px solid var(--font-coler);
+  border-radius: 5px;
+  color:var(--font-coler);
+  width: 100%;
+  height: 200px;  	
+}
+
+/* 紹介文入力欄（入力中） */
+.input_message:focus {
+  border: 1px solid var(--font-coler);
+  outline: 0;
+}
+.profile_media {
+  display:flex;
+  flex-flow: column;
+}
+.icon {
+  display: flex;
+  margin: 5px;
+  font-size: 1.5rem;
+  align-items: center;
+  
+}
+/*-------------------------------
+チェックボックス
+------------------------------*/
+.check01 {
+	position: relative;
+}
+
+/* 元々のチェックボックス（非表示） */
+.check01 input[type="checkbox"]{
+    display: none;
+}
+/* チェックボックスの代わりを成すラベル */
+.check01 input[type="checkbox"]+label{
+    display: none;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    padding-left: 25px;
+    padding-right: 10px;
+    text-align: left;
+}
+/* ラベルの左に表示させるチェックボックス */
+.check01 input[type="checkbox"]+label::before{
+    content: "";
+    position: absolute;
+    display: block;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    left: 0;
+    top: 50%;
+    border: 1px solid;
+    border-color:  var(--input-border-color); /* 枠の色変更 お好きな色を */
+    background-color: #FFFFFF; /* 背景の色変更 お好きな色を */
+    border-radius: 50%;
+    
+}
+/* チェックが入った時のレ点 */
+.check01 input[type="checkbox"]:checked+label::after{
+    content: "";
+    position: absolute;
+    display: block;
+    box-sizing: border-box;
+    width: 18px;
+    height: 9px;
+    margin-top: -9px;
+    border-bottom: 3px solid;
+    border-left: 3px solid;
+    border-color:  var(--input-border-color); /* チェックの色変更 お好きな色を */
+}
+
+/*--------------------------------
+登録するボタン
+---------------------------------*/
+.regist_div {
+  margin: 30px 0;
+}
+.regist_button {
+  /*影の基点とするためrelativeを指定*/
+  position: relative;
+  /*ボタンの形状*/
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  border-radius: 10px;
+  /*border: solid 1px #333;*/
+  outline: none;
+  /*アニメーションの指定*/
+  transition: all 0.1s ease;
+  background-color: #ffffff;
+  width: 200px;
+}
+
+/*hoverをした後のボタンの形状*/
+.regist_button:hover{
+  /*border-color:transparent;*/ 
+}
+
+/*ボタンの中のテキスト*/
+.regist_button span {
+  position: relative;
+  z-index: 2;/*z-indexの数値をあげて文字を背景よりも手前に表示*/
+  /*テキストの形状*/
+  display: block;
+  padding: 10px 30px;
+  background: var(--shadow-color);
+  border-radius: 10px;
+  color:#ffffff;
+  /*アニメーションの指定*/
+  transition: all 0.1s ease;
+}
+
+/*影の設定*/
+.regist_pushdown:before {
+  content:"";
+  /*絶対配置で影の位置を決める*/
+  position: absolute;
+  z-index: -1;
+  top:4px;
+  left:0;
+  /*影の形状*/
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: #ffe4e1;
+}
+
+/*hoverの際にY軸に4pxずらす*/
+.regist_pushdown:hover span {
+  background-color: var(--shadow-color);
+  color: #ffffff;
+  transform: translateY(4px);
+}
