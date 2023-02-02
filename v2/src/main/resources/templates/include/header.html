@@ -8,10 +8,12 @@
 		</form>
 	</div>
 	<div class="right_div"></div>
+	<!-- 
 	<div class="login_icon" th:classappend="${session.v2bean.id == 0} ? display_none : display_block" id="login_06">
 			<img th:src="@{./getImgDefault?id=__${session.v2bean.id}__&name=__${session.v2bean.imageFile}__}" class="login_icon_img">
 			<div class="login_tuchi"></div>
 	</div>
+	 -->
 	<div class="bell_icon" th:classappend="${session.v2bean.id == 0} ? display_none : display_block" id="login_04" >
 		<i class="fa-regular fa-bell"></i>
 		<th:block th:if="${session.v2bean.id != 0}">
@@ -32,8 +34,66 @@
 	<div class="shinki_div" th:classappend="${session.v2bean.id == 0} ? display_block : display_none" id="login_02">
 		<div class="signup-open shinki_a">新規登録</div>
 	</div>
-	<div  class="shinki_div" th:classappend="${session.v2bean.id == 0} ? display_none : display_block" id="login_03" onclick="javascript:restLogout()">
+	<div  class="shinki_div" th:classappend="${session.v2bean.id == 0} ? display_none : display_block" id="login_03" onclick="javascript:postSelectAc('logout')">
 		<div class="login_a"><span class="logout_text">ログアウト</span></div>
 	</div>
 </div>
+	<div class="modal-login" id="modal-login">
+		<div class="login_01">
+			<span class="round_btn login-close"></span>
+			<div class="login_title">ログイン</div>
+			<div class="error_message" id="login_error"></div>
+			<div class="login_frame">
+				<div class="login_input pushdown">
+					<input type="text" name="email" placeholder="E-Mailアドレス" size="40" id="email">
+				</div>
+				<div class="login_input pushdown">
+					<input type="text" name="password" placeholder="パスワード" size="40" id="password">
+				</div>
+				<div class="check01">
+					<label class="CheckboxInput">
+					<input class="CheckboxInput-Input" type="checkbox" name="agree" id="agree">
+					<span class="CheckboxInput-DummyInput"></span>
+					<span class="CheckboxInput-LabelText">ログイン状態を保持する</span>
+					</label>
+				</div>
+				<div>
+					<a href="javascript:restLogin()" class="login_button login_pushdown"><span>ログインする</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-signup" id="modal-signup">
+		<div class="signup_01">
+			<span class="round_btn signup-close"></span>
+			<div class="login_title">新規登録</div>
+			<div class="error_message" id="signup_error"></div>
+			<div class="signup_frame">
+				<div class="login_input pushdown">
+					<input type="text" name="s_userName" placeholder="ユーザー名"  id="s_userName">
+				</div>
+				<div class="login_input pushdown">
+					<input type="text" name="s_email" placeholder="E-Mailアドレス"  id="s_email">
+				</div>
+				<div class="login_input pushdown">
+					<input type="text" name="s_password" placeholder="パスワード" id="s_password">
+				</div>
+				<div class="radio01">
+				<input name="s_sex" value="1" checked type="radio" id="s_sex_1"><label for="s_sex_1">女性</label>
+				<input name="s_sex" value="2"  type="radio" id="s_sex_2"><label for="s_sex_2">男性</label>
+				</div>
+				<div class="check01">
+	     				<label class="CheckboxInput">
+	     				<input class="CheckboxInput-Input" type="checkbox" name="s_agree" id="s_agree">
+	     				<span class="CheckboxInput-DummyInput"></span>
+	     				<span class="CheckboxInput-LabelText">利用規約に同意する</span>
+	     				</label>
+	   			</div>
+				<div>
+					<a href="javascript:restSignup()" class="login_button login_pushdown"><span>登録する</span></a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="overlay" class="overlay"></div>
 </th:block>

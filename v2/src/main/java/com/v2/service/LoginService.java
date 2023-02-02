@@ -150,6 +150,17 @@ public class LoginService {
 	}
 	
 	/**
+	 * COOKIEを削除する
+	 * @param id
+	 * @param jdbcTemplate
+	 * @return
+	 * @throws Exception
+	 */
+	public int delCookie(int id, JdbcTemplate jdbcTemplate) throws Exception {
+		return tUser.updateDelCookie(id, jdbcTemplate);
+	}
+	
+	/**
 	 * 各値をチェック
 	 * @param email
 	 * @param password

@@ -39,20 +39,23 @@
   filter: none;  
   opacity:0.3;  
 }
+
 .very_img_outline {
-  width:40px;
-  height:40px;	
-  border-radius: 50%;
+  width:50px;
+  height:50px;	
+ /* border-radius: 50%;
   padding:4px;
   background: linear-gradient(45deg, #B67B03 0%, #DAAF08 45%, #FEE9A0 70%, #DAAF08 85%, #B67B03 90% 100%);
   filter: drop-shadow(0px 0px 5px rgba(125,125,125,.5));
-  margin:15px;
+  */
+  margin:5px 15px;
 }
+
 .very_img {
-	width:40px;
-	height:40px;
+	width:50px;
+	height:50px;
 	object-fit: cover;
-	border-radius: 50%;
+	/*border-radius: 50%;*/
 	background-color: #FFFFFF;
 }
 .very_money {

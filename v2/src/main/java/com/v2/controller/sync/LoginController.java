@@ -85,10 +85,6 @@ public class LoginController extends AbstractController {
             response.addCookie(cookie);
         }
     }
-
-		
 		return "redirect:/";
-	
 	}
-
 }

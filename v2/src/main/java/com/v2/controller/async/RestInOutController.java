@@ -60,6 +60,7 @@ public class RestInOutController extends AbstractController {
 	@PostMapping("/restLogin")
 	public String restLogin(@RequestParam("email") String email, 
 			@RequestParam("password") String password,
+			@RequestParam("agree") String agree,
 			@CookieValue(value="uid", required=false) String uid,
 			HttpServletResponse response) {
 		
@@ -76,6 +77,14 @@ public class RestInOutController extends AbstractController {
 				uid = super.getCookieHash();
 				user = loginService.doLogin(email, password, uid, jdbcTemplate);
 
+				// Cookieを埋め込む
+				if ("true".equals(agree)) {
+					Cookie cookie = new Cookie("uid", uid);
+					System.out.println("Cookie埋め込み：" + uid);
+					response.addCookie(cookie);
+				} else {
+					loginService.delCookie(user.id, jdbcTemplate);
+				}
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "エラーが発生しました";
@@ -91,14 +100,7 @@ public class RestInOutController extends AbstractController {
 
 		// ログイン成功時セッションにid保持
 		super.setSessionBean(user);
-		
-		// Cookieを埋め込む
-		Cookie cookie = new Cookie("uid", uid);
-		System.out.println("Cookie埋め込み：" + uid);
-		response.addCookie(cookie);
-		
-		return "ok";
-	
+		return "ok";	
 	}
 
 	/**

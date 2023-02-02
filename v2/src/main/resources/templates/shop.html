@@ -4,13 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
-<meta name="auther" content="株式会社BURIPANDA" />
-<meta name="copyright" content="Copyright &copy; BURIPANDA CO., LTD. " />
+<meta name="auther" content="v2.com" />
+<meta name="copyright" content="Copyright (C) v2.com All Rights Reserved." />
 <title>出品ページ</title>
 <link th:href="@{/css/root.css}" rel="stylesheet">
-<link th:href="@{/css/profile_edit.css}" rel="stylesheet">
-<link th:href="@{/css/sidemenu.css}" rel="stylesheet">
+<link th:href="@{/css/include/header.css}" rel="stylesheet">
+<link th:href="@{/css/profile.css}" rel="stylesheet">
+<link th:href="@{/css/include/sidemenu.css}" rel="stylesheet">
+<link th:href="@{/css/include/footer.css}" rel="stylesheet">
 <script src="/js/common.js"></script>
+<script src="/js/header.js"></script>
 <script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
 <script>
 function previewImage(obj)
@@ -36,39 +39,41 @@ function submitFunc(action) {
 <body>
 <th:block th:replace="include/sidemenu::sidemenu"></th:block>
 <div class="contents">
-<form method="post" name="form1" enctype="multipart/form-data" action="shop_regist">
-<div class="profile01">
-	<div class="profile_left_div01">
-		<div class="profile_left_div01_inner">
-			<div>
-			<label class="image_select">
-					<!--<img src="http://localhost:8383/images/thumbnail/icon_user_1.png" width="250" id="preview">-->
-					<img th:src="@{./getImgDefault?id=__${user.id}__&name=__${user.imageFile}__}" width="300" id="preview">
-					<input type="file" name="image_file" onchange="previewImage(this);" />
-			</label>
+	<th:block th:replace="include/header::header"></th:block>
+	<form method="post" name="form1" enctype="multipart/form-data" action="shop_regist">
+	<div class="profile01">
+		<div class="profile_left_div01">
+			<div class="profile_left_div01_inner">
+				<div>
+				<label class="image_select">
+						<!--<img src="http://localhost:8383/images/thumbnail/icon_user_1.png" width="250" id="preview">-->
+						<img th:src="@{./getImgDefault?id=__${user.id}__&name=__${user.imageFile}__}" width="300" id="preview">
+						<input type="file" name="image_file" onchange="previewImage(this);" />
+				</label>
+				</div>
+				<div class="upload_txt">[[${user.userName}]]</div>
 			</div>
-			<div class="upload_txt">[[${user.userName}]]</div>
+		</div>
+		<div class="profile_right_div01">
+			<div class="profile_right01">
+				<div class="profile_right01_dev01">出品情報の編集</div>
+			</div>
+			<hr class="style_100">
+			出品タイトル
+			<div>
+				<input type="text" name="title" placeholder="出品タイトルをいれてください" size="40" th:value="${user.title}" class="input_username">
+			</div>
+			出品価格
+			<div>
+				<input type="text" name="price" placeholder="出品価格をいれてください" size="40" th:value="${user.price}" class="input_username">
+			</div>
+			<div class="regist_div">
+			<a href="javascript:document.form1.submit()" class="regist_button regist_pushdown"><span>出品する</span></a>
+			</div>
 		</div>
 	</div>
-	<div class="profile_right_div01">
-		<div class="profile_right01">
-			<div class="profile_right01_dev01">出品情報の編集</div>
-		</div>
-		<hr class="style_100">
-		出品タイトル
-		<div>
-			<input type="text" name="title" placeholder="出品タイトルをいれてください" size="40" th:value="${user.title}" class="input_username">
-		</div>
-		出品価格
-		<div>
-			<input type="text" name="price" placeholder="出品価格をいれてください" size="40" th:value="${user.price}" class="input_username">
-		</div>
-		<div class="regist_div">
-		<a href="javascript:document.form1.submit()" class="regist_button regist_pushdown"><span>出品する</span></a>
-		</div>
-	</div>
-</div>
-</form>
+	</form>
+	<th:block th:replace="include/footer::footer"></th:block>
 </div>
 </body>
 </html>

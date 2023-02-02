@@ -9,8 +9,8 @@
 	<meta name="copyright" content="Copyright &copy; BURIPANDA CO., LTD. " />
 	<title>メッセージ一覧画面</title>
 	<link th:href="@{/css/root.css}" rel="stylesheet">
-	<link th:href="@{/css/header.css}" rel="stylesheet">
-	<link th:href="@{/css/sidemenu.css}" rel="stylesheet">
+	<link th:href="@{/css/include/header.css}" rel="stylesheet">
+	<link th:href="@{/css/include/sidemenu.css}" rel="stylesheet">
 	<link th:href="@{/css/message.css}" rel="stylesheet">
 	<link th:href="@{/css/login.css}" rel="stylesheet">
 	<link th:href="@{/css/modal.css}" rel="stylesheet">
@@ -97,14 +97,15 @@
 				loadPage();
 			}
 		}
-
+		// オンライン中にする
 		var so = async function sendOnlineStatus() {
 			var toSendPath = "/v2/login";
 			//wsで相手に通知
 			stompClient.send(toSendPath, {}, JSON.stringify(
 				{'sendId': sendId, 'distId': distId, 'mode': 1, 'message': ""}));
 		}
-
+		
+		// オフラインにする
 		async function sendOfflineStatus() {
 			var toSendPath = "/v2/login";
 			//wsで相手に通知
@@ -148,12 +149,6 @@
 				"/getChatProfileData",
 				{selectId: sendId},
 				function () {
-					$("#profile_body").load(
-							"/getChatProfileData",
-							{selectId: sendId},
-							function () {
-								
-					});					
 				});
 		}
 
@@ -212,7 +207,7 @@
 
 			} else {
 				document.getElementById('reserve_div').style.display = "none";
-				document.getElementById('no_shop').style.display = "block";
+				document.getElementById('no_shop').style.display = "none";
 			}
 
 		}
@@ -316,9 +311,9 @@
 </head>
 
 <body>
-	<th:block th:replace="sidemenu::sidemenu"></th:block>
+	<th:block th:replace="include/sidemenu::sidemenu"></th:block>
 	<div class="contents">
-		<th:block th:replace="header::header"></th:block>
+		<th:block th:replace="include/header::header"></th:block>
 		<div class="message">
 			<div class="left_content">
 				<div class="left_header"></div>

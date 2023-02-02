@@ -31,9 +31,10 @@ $(function () {
 function restLogin(){
 	var email = document.getElementById('email').value;
 	var password = document.getElementById('password').value;
+	var agree = document.getElementById('agree').checked;
 	$.post(
 		"/restLogin", 
-		{email: email, password: password},
+		{email: email, password: password, agree: agree},
 		function(data){
 			if (data == "ok") {
 				loginMenu();
@@ -87,6 +88,15 @@ function restLogout(){
 			logoutMenu();
 		});
 }
+// ログアウト処理
+function logout(){
+	$.post(
+		"/restLogout", 
+		{},
+		function(data){
+			logoutMenu();
+		});
+}
 
 // ログイン中のメニュー
 function loginMenu() {
@@ -95,7 +105,7 @@ function loginMenu() {
 	document.getElementById('login_03').style.display = "flex";
 	document.getElementById('login_04').style.display = "flex";
 	document.getElementById('login_05').style.display = "flex";
-	document.getElementById('login_06').style.display = "flex";
+	//document.getElementById('login_06').style.display = "flex";
 	document.getElementById('menu01').style.display = "block";
 	document.getElementById('menu02').style.display = "block";
 	document.getElementById('menu03').style.display = "block";
@@ -111,7 +121,7 @@ function logoutMenu() {
 	document.getElementById('login_03').style.display = "none";
 	document.getElementById('login_04').style.display = "none";
 	document.getElementById('login_05').style.display = "none";
-	document.getElementById('login_06').style.display = "none";
+	//document.getElementById('login_06').style.display = "none";
 	document.getElementById('menu01').style.display = "none";
 	document.getElementById('menu02').style.display = "none";
 	document.getElementById('menu03').style.display = "none";

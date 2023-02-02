@@ -460,6 +460,24 @@ public class UserDao {
   	return cnt;
   
   }
+  
+  /**
+   * Cookie情報を削除する
+   * @param emal
+   * @param password
+   * @param jdbcTemplate
+   * @return
+   */
+  public int updateDelCookie(int id, JdbcTemplate jdbcTemplate) throws Exception {
+	  String sql = 
+		"UPDATE T_USER SET " +
+		"COOKIE=null, UPDATE_DATE=current_timestamp " +
+		"WHERE  ID=?";
+	  System.out.println(sql);
+	  int cnt = jdbcTemplate.update(sql, id);
+  	return cnt;
+  
+  }
 
   /**
 	 * ユーザ情報をセットする
