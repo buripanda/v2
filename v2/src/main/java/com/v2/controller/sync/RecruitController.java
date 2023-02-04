@@ -5,14 +5,17 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.v2.bean.Recruit;
 import com.v2.bean.User;
 import com.v2.controller.AbstractController;
 import com.v2.service.ProfileService;
 import com.v2.service.RecruitService;
+import com.v2.util.DateUtil;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -65,6 +68,7 @@ public class RecruitController extends AbstractController {
 		int id = user.id;
 		
 		Recruit recruit = new Recruit();
+		Recruit param = new Recruit();
 		try {
 			// 募集メッセージ取得
 			recruit = recruitService.viewRecruit(id, jdbcTemplate);
@@ -76,6 +80,64 @@ public class RecruitController extends AbstractController {
 		}
 		modelMap.addAttribute("recruit", recruit);
 		modelMap.addAttribute("user", user);
+    modelMap.addAttribute("form", param);
 		return "recruit";
 	}
+  /**
+   * 募集登録
+   * @param id
+   * @param modelMap
+   * @return
+   */
+  @PostMapping("/recruitRegist")
+  public String recruitRegist(
+      @RequestParam("datetimefrom") String datetimefrom,
+      @RequestParam("datetimeto") String datetimeto,
+      @RequestParam("message") String message,
+      @RequestParam(value="agree", required=false) String agree,
+      ModelMap modelMap) {
+    
+    // セッションからログインID取得
+    if (!super.isLogin())
+      return "redirect:/";    
+    User user = super.getSessionBean();
+    int id = user.id;
+        
+    Recruit recruit = new Recruit();
+    Recruit param = new Recruit();
+    try {      
+      // パラメタチェック
+      if (StringUtils.hasLength(datetimefrom))
+        param.recruitStartDate = DateUtil.changeStringDate(datetimefrom);
+      if (StringUtils.hasLength(datetimeto))
+        param.recruitEndDate = DateUtil.changeStringDate( datetimeto);
+      param.message = message;
+      if (StringUtils.hasLength(agree))
+        param.nowFlg = 1;
+      else 
+        param.nowFlg = 0;        
+      param.id = id;
+      if (!recruitService.isParam(param)) {
+        // プロフィール取得
+        user = profileService.getProfilePlusMessage(id, jdbcTemplate);
+        modelMap.addAttribute("recruit", recruit);
+        modelMap.addAttribute("user", user);
+        modelMap.addAttribute("form", param);
+        return "recruit";
+      }
+      // 募集登録
+      recruitService.registRecruit(param, jdbcTemplate);
+      // 募集メッセージ取得
+      recruit = recruitService.viewRecruit(id, jdbcTemplate);
+      // プロフィール取得
+      user = profileService.getProfilePlusMessage(id, jdbcTemplate);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return "error";
+    }
+    modelMap.addAttribute("recruit", recruit);
+    modelMap.addAttribute("user", user);
+    modelMap.addAttribute("form", param);
+    return "recruit";
+  }
 }

@@ -3,7 +3,8 @@
 -------------------------------------*/
 .profile01 {
 	padding: 30px;
-	display: flex;
+  display: grid;
+  grid-template-columns: 300px 1fr;
 }
 .profile_left_div01 {
   overflow: hidden;
@@ -11,9 +12,9 @@
   /*box-shadow: 0 4px 15px rgba(0,0,0,.2);*/
   inset: 0;
   text-align:center;
-  width: 350px;
+  width: 300px;
   height: 500px;
-  padding: 4px;
+  /*padding: 4px;*/
   background-color: var(--card-border-coloer);
   filter: drop-shadow(0px 0px 5px rgba(222,120,144,.5));
 }
@@ -22,20 +23,17 @@
   text-align:center;
   background-color: #FFFFFF;
   border-radius: 8px;
-  padding: 8px;
-  height: 483px;
+  width:300px;
+  height: 500px
 }
 .upload_txt {
-  font-size: 1.5rem;
+  font-size: 20px;
   margin: 20px;
 }
 
-/*--------------------------------------
- 画像は中央でトリミング
---------------------------------------*/
 img {
-	width: 250px;
-	height: 250px;
+	width: 300px;
+	height: 300px;
 	object-fit: cover;
 }
 /*-------------------------------------
@@ -45,6 +43,7 @@ img {
 	padding: 10px;
 	vertical-align: top;
 	width: 800px;
+  margin-left: 20px;
 }
 .profile_right01 {
   display: flex;

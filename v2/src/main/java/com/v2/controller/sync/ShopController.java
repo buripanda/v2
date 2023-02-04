@@ -80,7 +80,7 @@ public class ShopController extends AbstractController {
 	public String shopRegist(
 			@RequestParam("image_file") MultipartFile imageFile,
 			@RequestParam("title") String title,
-			@RequestParam("price") int price,
+			@RequestParam("price") String price,
 			ModelMap modelMap) {
 				
 		User user = new User();
@@ -90,17 +90,25 @@ public class ShopController extends AbstractController {
   		// ログイン中か確認
   		if (!super.isLogin())
   			return "redirect:/login";
-  		
   		//セッションからユーザID取得
   		super.getSessionBean();
   		
+  		User param = new User();
   		//パラメタ格納
-			user.id = super.getSessionBean().id;
-  		user.imageFile = imageFile.getOriginalFilename();
-  		user.title = chgNull(title);
-  		user.price = price;
+  		param.id = super.getSessionBean().id;
+  		param.imageFile = imageFile.getOriginalFilename();
+  		param.title = chgNull(title);
+  		if (price.isEmpty())
+  		  param.price = 0;
+  		else
+  		  param.price = Integer.parseInt(price);  		  
   		// パラメタチェック
-  		if (!shopService.isShop(user)) {
+  		if (!shopService.isShop(param)) {
+        //プロフィール取得
+        user = tUser.selectUser(param.id, jdbcTemplate);
+        user.title = param.title;
+        user.price = param.price;
+        user.errorMessage = param.errorMessage;
   			modelMap.addAttribute("user", user);
   			return "shop";
   		}

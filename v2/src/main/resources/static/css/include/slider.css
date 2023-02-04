@@ -18,11 +18,16 @@ li {
   object-fit: cover;
 }
 .slider_text {
-  top: -100px;
-  left: 20px;
-  font-size: 3rem;
-  color: #888888;
+  top: -80px;
+  left: 40px;
+  font-size: 50px;
+  font-weight: 700;
+  color: #FFFFFF;
   position: relative;
+  text-shadow:1px 1px 0 #333333, -1px -1px 0 #333333,
+              -1px 1px 0 #333333, 1px -1px 0 #333333,
+              0px 1px 0 #333333,  0 -1px 0 #333333,
+              -1px 0 0 #333333, 1px 0 0 #333333;
 }
 .slider img {
   width: 500px;

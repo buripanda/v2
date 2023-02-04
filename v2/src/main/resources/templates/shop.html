@@ -9,7 +9,7 @@
 <title>出品ページ</title>
 <link th:href="@{/css/root.css}" rel="stylesheet">
 <link th:href="@{/css/include/header.css}" rel="stylesheet">
-<link th:href="@{/css/profile.css}" rel="stylesheet">
+<link th:href="@{/css/shop.css}" rel="stylesheet">
 <link th:href="@{/css/include/sidemenu.css}" rel="stylesheet">
 <link th:href="@{/css/include/footer.css}" rel="stylesheet">
 <script src="/js/common.js"></script>
@@ -40,7 +40,7 @@ function submitFunc(action) {
 <th:block th:replace="include/sidemenu::sidemenu"></th:block>
 <div class="contents">
 	<th:block th:replace="include/header::header"></th:block>
-	<form method="post" name="form1" enctype="multipart/form-data" action="shop_regist">
+	<form method="post" name="shopForm" enctype="multipart/form-data" action="shop_regist">
 	<div class="profile01">
 		<div class="profile_left_div01">
 			<div class="profile_left_div01_inner">
@@ -59,7 +59,9 @@ function submitFunc(action) {
 				<div class="profile_right01_dev01">出品情報の編集</div>
 			</div>
 			<hr class="style_100">
-			出品タイトル
+			<th:block th:if="${user.errorMessage} != null">
+			 <div class="error_message" id="error_message">[[${user.errorMessage}]]</div>
+			</th:block>出品タイトル
 			<div>
 				<input type="text" name="title" placeholder="出品タイトルをいれてください" size="40" th:value="${user.title}" class="input_username">
 			</div>
@@ -68,7 +70,7 @@ function submitFunc(action) {
 				<input type="text" name="price" placeholder="出品価格をいれてください" size="40" th:value="${user.price}" class="input_username">
 			</div>
 			<div class="regist_div">
-			<a href="javascript:document.form1.submit()" class="regist_button regist_pushdown"><span>出品する</span></a>
+			<a href="javascript:document.shopForm.submit()" class="regist_button regist_pushdown"><span>出品する</span></a>
 			</div>
 		</div>
 	</div>

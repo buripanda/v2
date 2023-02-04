@@ -42,7 +42,7 @@
 		<div class="login_01">
 			<span class="round_btn login-close"></span>
 			<div class="login_title">ログイン</div>
-			<div class="error_message" id="login_error"></div>
+			<div class="error_message_modal" id="login_error"></div>
 			<div class="login_frame">
 				<div class="login_input pushdown">
 					<input type="text" name="email" placeholder="E-Mailアドレス" size="40" id="email">
@@ -51,11 +51,8 @@
 					<input type="text" name="password" placeholder="パスワード" size="40" id="password">
 				</div>
 				<div class="check01">
-					<label class="CheckboxInput">
-					<input class="CheckboxInput-Input" type="checkbox" name="agree" id="agree">
-					<span class="CheckboxInput-DummyInput"></span>
-					<span class="CheckboxInput-LabelText">ログイン状態を保持する</span>
-					</label>
+          <input type="checkbox" name="agree" id="agree">
+          <label for="agree">ログイン状態を保持する</label>
 				</div>
 				<div>
 					<a href="javascript:restLogin()" class="login_button login_pushdown"><span>ログインする</span></a>
@@ -67,7 +64,7 @@
 		<div class="signup_01">
 			<span class="round_btn signup-close"></span>
 			<div class="login_title">新規登録</div>
-			<div class="error_message" id="signup_error"></div>
+			<div class="error_message_modal" id="signup_error"></div>
 			<div class="signup_frame">
 				<div class="login_input pushdown">
 					<input type="text" name="s_userName" placeholder="ユーザー名"  id="s_userName">
@@ -82,13 +79,10 @@
 				<input name="s_sex" value="1" checked type="radio" id="s_sex_1"><label for="s_sex_1">女性</label>
 				<input name="s_sex" value="2"  type="radio" id="s_sex_2"><label for="s_sex_2">男性</label>
 				</div>
-				<div class="check01">
-	     				<label class="CheckboxInput">
-	     				<input class="CheckboxInput-Input" type="checkbox" name="s_agree" id="s_agree">
-	     				<span class="CheckboxInput-DummyInput"></span>
-	     				<span class="CheckboxInput-LabelText">利用規約に同意する</span>
-	     				</label>
-	   			</div>
+				<div class="check02">
+          <input type="checkbox" name="s_agree" id="s_agree">
+          <label for="s_agree">利用規約に同意する</label>
+	   		</div>
 				<div>
 					<a href="javascript:restSignup()" class="login_button login_pushdown"><span>登録する</span></a>
 				</div>

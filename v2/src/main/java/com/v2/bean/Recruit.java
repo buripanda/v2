@@ -5,7 +5,7 @@ import java.util.Date;
 
 import com.v2.util.DateUtil;
 
-public class Recruit {
+public class Recruit extends Error {
 	
 	public int id;
 	public LocalDateTime recruitStartDate;
@@ -22,5 +22,9 @@ public class Recruit {
 	public String getRecruitEndDate() {
 		return DateUtil.changeDateString(recruitEndDate);
 	}
-
+	public boolean isAgree() {
+	  if (nowFlg == 1) 
+	    return true;
+	  return false;
+	}
 }

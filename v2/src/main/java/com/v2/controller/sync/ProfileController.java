@@ -159,9 +159,6 @@ public class ProfileController extends AbstractController {
   		if (!super.isLogin())
   			return "redirect:/";
   		
-  		//セッションからユーザID取得
-  		super.getSessionBean();
-  		
   		//パラメタ格納
 			user.id = super.getSessionBean().id;
   		user.userName = chgNull(userName);

@@ -139,7 +139,26 @@ public class UserDao {
   
   }
 
-	/**
+  /**
+  * ユーザ情報＋自己紹介メッセージ取得（ID指定）
+  * @param id
+  * @return
+  */
+ public int selectMessage(int id, JdbcTemplate jdbcTemplate) throws Exception {
+   
+   String sql = 
+       "SELECT COUNT(*) FROM "
+       + " T_USER_INTRODUCTION "
+       + " WHERE"
+       + " ID = ? "
+       + " AND DELETE_FLG = 0";
+   System.out.println(sql);
+   int cnt = jdbcTemplate.queryForObject(sql, Integer.class, id); 
+   return cnt;
+   
+ }
+
+ /**
 	 * ユーザ情報取得（Cookie指定）
 	 * @param id
 	 * @return
@@ -331,12 +350,13 @@ public class UserDao {
     // 改行コードを置換
     if (StringUtils.hasLength(user.message))
       messageRep = user.message.replaceAll("\r\n|\r|\n", "\n");
-
-    int cnt = jdbcTemplate.update(
+    
+    String sql = 
         "UPDATE T_USER_INTRODUCTION SET " +
             "MESSAGE=?,UPDATE_DATE=current_timestamp " +
-            "WHERE  ID=?",
-            messageRep, user.id);
+            "WHERE  ID=?";
+    System.out.println(sql);
+    int cnt = jdbcTemplate.update(sql,messageRep, user.id);
     return cnt;
   
   }

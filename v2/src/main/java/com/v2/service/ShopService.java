@@ -33,11 +33,15 @@ public class ShopService {
 	public boolean isShop(User user) throws Exception {
 		
 			// titleチェック
-			if (!StringUtils.hasLength(user.title))
+			if (!StringUtils.hasLength(user.title)) {
+			  user.errorMessage = "出品タイトルが入力されていません";
 				return false;
+			}
 			// priceチェック
-			if (user.price < 500)
+			if (user.price < 500) {
+        user.errorMessage = "出品価格は500円以上で設定してください";
 				return false;
+			}
 			return true;
 		
 	}

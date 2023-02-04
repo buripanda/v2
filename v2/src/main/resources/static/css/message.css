@@ -655,8 +655,7 @@ textarea::-webkit-scrollbar{
     border: 1px solid;
     border-color:  var(--input-border-color); /* 枠の色変更 お好きな色を */
     background-color: #FFFFFF; /* 背景の色変更 お好きな色を */
-    border-radius: 50%;
-    
+    border-radius: 50%;    
 }
 /* チェックが入った時のレ点 */
 .check01 input[type="checkbox"]:checked+label::after{

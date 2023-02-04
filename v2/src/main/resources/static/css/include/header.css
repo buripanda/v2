@@ -220,26 +220,6 @@
   z-index: 10;
 }
 /*--------------------------------------
- 新規登録モーダル
---------------------------------------*/
-.modal-signup {
-  display: none;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #FFFFFF;
-  z-index: 11;
-  width: 500px;
-  height: 600px;
-  position: fixed;
-  margin: auto;
-  overflow: hidden;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px var(--shadow-color);
-  text-align: center;
-  z-index: 10;
-}
-/*--------------------------------------
  モーダル　閉じるボタン
 --------------------------------------*/
 .button-close {
@@ -267,3 +247,443 @@
   height: 100%;
   z-index: 9;
 }
+/*-------------------------------------
+ログインモーダル　入れ物枠設定
+-------------------------------------*/
+.login_01 {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  overflow: hidden;
+  text-align: center;
+}
+
+/*-------------------------------------
+入力欄などの入れ物
+-------------------------------------*/
+.login_frame {
+  width: 400px;
+  height: 400px;  
+  position: relative; 
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-flow: column;
+}
+
+/*--------------------------------
+×アイコン
+---------------------------------*/
+.round_btn {
+  display: block;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;  /* 丸みの度合い */
+  background: var(--shadow-color); /* ボタンの背景色 */
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+}
+ 
+.round_btn::before, .round_btn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 21px;
+  background: #ffffff; /* バツ印の色 */
+}
+ 
+.round_btn::before {
+  transform: translate(-50%,-50%) rotate(45deg);
+}
+ 
+.round_btn::after {
+  transform: translate(-50%,-50%) rotate(-45deg);
+}
+/*--------------------------------
+ログイン文字
+---------------------------------*/
+.login_title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 30px auto 10px auto;
+  color: var(--shadow-color);
+}
+
+/*--------------------------------
+入力欄
+---------------------------------*/
+/* 入力欄の枠 */
+.login_input {
+  position: relative;
+  display: inline;
+  margin: 20px auto;
+}
+/*入力欄の中のテキスト*/
+.login_input input {
+  border: none;
+  position: relative;
+  z-index: 2;/*z-indexの数値をあげて文字を背景よりも手前に表示*/
+  /*テキストの形状*/
+  display: block;
+  padding: 10px 10px;
+  background-color: var(--input-coler);
+  border-radius: 10px;
+  color:var(--font-coler);
+  width: 380px;
+  /*アニメーションの指定*/
+  transition: all 0.1s ease;
+  text-decoration: none;
+  outline: none;
+}
+/*影の設定*/
+.pushdown:before {
+  content:"";
+  /*絶対配置で影の位置を決める*/
+  position: absolute;
+  z-index: -1;
+  top:3px;
+  left:0;
+  /*影の形状*/
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: var(--shadow-color);
+}
+
+/*hoverの際にY軸に4pxずらす*/
+.pushdown:hover input {
+  background-color: var(--input-coler);
+  color:  var(--font-color);
+  transform: translateY(3px);
+  outline: none;
+}
+
+.pushdown:active input {
+  background-color: var(--input-coler);
+  color: var(--font-color);
+  transform: translateY(3px);
+  outline: none;
+}
+/*-------------------------------
+チェックボックス
+------------------------------*/
+.check01 {
+  position: relative;
+  width: 380px;
+  text-align: left;
+  margin-left:5px;
+}
+/* 元々のチェックボックス（非表示） */
+.check01 input[type="checkbox"]{
+    display: none;
+}
+/* チェックボックスの代わりを成すラベル */
+.check01 input[type="checkbox"]+label{
+    display: none;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    padding-left: 25px;
+    padding-right: 10px;
+    text-align: left;
+}
+/* ラベルの左に表示させるチェックボックス */
+.check01 input[type="checkbox"]+label::before{
+    content: "";
+    position: absolute;
+    display: block;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    left: 0;
+    top: 50%;
+    border: 1px solid;
+    border-color:  var(--input-border-color); /* 枠の色変更 お好きな色を */
+    background-color: #FFFFFF; /* 背景の色変更 お好きな色を */
+    border-radius: 50%;
+}
+/* チェックが入った時のレ点 */
+.check01 input[type="checkbox"]:checked+label::after{
+    content: "";
+    position: absolute;
+    display: block;
+    box-sizing: border-box;
+    width: 18px;
+    height: 9px;
+    margin-top: -9px;
+    top: 50%;
+    left: 3px;
+    transform: rotate(-45deg);
+    border-bottom: 3px solid;
+    border-left: 3px solid;
+    border-color:  var(--input-border-color); /* チェックの色変更 お好きな色を */
+}
+
+/*--------------------------------
+ログインボタン
+---------------------------------*/
+.login_button {
+  /*影の基点とするためrelativeを指定*/
+  position: relative;
+  /*ボタンの形状*/
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  border-radius: 10px;
+  /*border: solid 1px #333;*/
+  outline: none;
+  /*アニメーションの指定*/
+  transition: all 0.1s ease;
+  background-color: #ffffff;
+  margin-top: 20px;
+  width: 200px;
+}
+
+/*hoverをした後のボタンの形状*/
+.login_button:hover{
+  /*border-color:transparent;*/ 
+}
+
+/*ボタンの中のテキスト*/
+.login_button span {
+  position: relative;
+  z-index: 2;/*z-indexの数値をあげて文字を背景よりも手前に表示*/
+  /*テキストの形状*/
+  display: block;
+  padding: 10px 30px;
+  background: var(--shadow-color);
+  border-radius: 10px;
+  color:#ffffff;
+  /*アニメーションの指定*/
+  transition: all 0.1s ease;
+}
+
+/*影の設定*/
+.login_pushdown:before {
+  content:"";
+  /*絶対配置で影の位置を決める*/
+  position: absolute;
+  z-index: -1;
+  top:4px;
+  left:0;
+  /*影の形状*/
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  background-color: #ffe4e1;
+}
+
+/*hoverの際にY軸に4pxずらす*/
+.login_pushdown:hover span {
+  background-color: var(--shadow-color);
+  color: #ffffff;
+  transform: translateY(4px);
+}
+/*  */
+
+
+
+/* モーダルを開いた時の外側のレイヤー */
+.over-lay {
+  content: '';
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #999;
+  opacity: 0.7;
+}
+
+.wrapper {
+  max-width: 400px;
+  margin: 0 auto;
+}
+/* モーダルウィンドウ */
+.modal {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 400px;
+  width: 80%;
+  padding: 30px;
+  background-color: #fff;
+}
+/* モーダルを開いたとき */
+.modal.active,
+.over-lay.active {
+  display: block;
+}
+
+/*--------------------------------------
+ エラーメッセージ
+--------------------------------------*/
+.error_message_modal {
+  display: hidden;
+  height: 20px;
+  /*background-color: var(--shadow-color);*/
+  color: #FFFFFF;
+  padding: 5px;
+  line-height: 20px;
+}
+/*--------------------------------------
+ 新規登録モーダル
+--------------------------------------*/
+.modal-signup {
+  display: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #FFFFFF;
+  z-index: 11;
+  width: 500px;
+  height: 600px;
+  position: fixed;
+  margin: auto;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px var(--shadow-color);
+  text-align: center;
+  z-index: 10;
+}
+
+/*-------------------------------------
+新規登録モーダル　入れ物枠設定
+-------------------------------------*/
+.signup_01 {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  overflow: hidden;
+  text-align: center;
+}
+/*-------------------------------------
+入力欄などの入れ物
+-------------------------------------*/
+.signup_frame {
+  width: 400px;
+  height: 500px;  
+  position: relative; 
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-flow: column;
+}
+/*--------------------------------
+ログイン文字
+---------------------------------*/
+.login_title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 10px auto;
+  color: var(--shadow-color);
+}
+
+/*--------------------------------
+性別
+---------------------------------*/
+.radio01{
+  display:flex;
+}
+.radio01 input{
+  display: none;
+}
+.radio01 label{
+  display: block;
+  float: left;
+  cursor: pointer;
+  width: 100px;
+  margin: 1px 0;
+  padding: 10px 0;
+  background: #ffffff;
+  color: var(--font-color);
+  font-size: 15px;
+  text-align: center;
+  line-height: 1;
+  transition: .1s;
+  border-radius: 10px;
+}
+.radio01 label:first-of-type{
+}
+.radio01 label:last-of-type{
+  border-right: 0px;
+}
+.radio01 input[type="radio"]:checked + label {
+  background-color: var(--shadow-color);
+  color: #ffffff;
+}
+/*-------------------------------
+利用規約同意
+------------------------------*/
+/*-------------------------------
+チェックボックス
+------------------------------*/
+.check02 {
+  position: relative;
+  width: 380px;
+  text-align: left;
+  margin-top:10px;
+  margin-left:5px;
+}
+/* 元々のチェックボックス（非表示） */
+.check02 input[type="checkbox"]{
+    display: none;
+}
+/* チェックボックスの代わりを成すラベル */
+.check02 input[type="checkbox"]+label{
+    display: none;
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    padding-left: 25px;
+    padding-right: 10px;
+    text-align: left;
+}
+/* ラベルの左に表示させるチェックボックス */
+.check02 input[type="checkbox"]+label::before{
+    content: "";
+    position: absolute;
+    display: block;
+    box-sizing: border-box;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    left: 0;
+    top: 50%;
+    border: 1px solid;
+    border-color:  var(--input-border-color); /* 枠の色変更 お好きな色を */
+    background-color: #FFFFFF; /* 背景の色変更 お好きな色を */
+    border-radius: 50%;
+}
+/* チェックが入った時のレ点 */
+.check02 input[type="checkbox"]:checked+label::after{
+    content: "";
+    position: absolute;
+    display: block;
+    box-sizing: border-box;
+    width: 18px;
+    height: 9px;
+    margin-top: -9px;
+    top: 50%;
+    left: 3px;
+    transform: rotate(-45deg);
+    border-bottom: 3px solid;
+    border-left: 3px solid;
+    border-color:  var(--input-border-color); /* チェックの色変更 お好きな色を */
+}
+
+/*--------------------------------
+アカウント持ちログイン
+---------------------------------*/
+.account_login {
+  margin: 10px auto; 
+}
+

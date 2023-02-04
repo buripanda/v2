@@ -10,7 +10,7 @@ import com.v2.util.GlobalConst;
 import lombok.Data;
 
 @Data
-public class User {
+public class User extends Error {
     /** ID */
     public int id;
     /** ユーザID　 */
@@ -97,6 +97,17 @@ public class User {
     	}
     	return ret;
     }
+    public String getCutTitle() {
+      String ret = "";
+      if (Objects.nonNull(title)) {
+        if (title.length() > GlobalConst.TITILE_LENGTH)
+          ret = title.substring(0, GlobalConst.TITILE_LENGTH - 1);
+        else
+          ret = title;
+      }
+      return ret;
+    }
+    
     public String getBadgeImg() {
     	String ret = "";
     	if (orderSum < 10)

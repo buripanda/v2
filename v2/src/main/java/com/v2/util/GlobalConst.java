@@ -4,6 +4,8 @@ public class GlobalConst {
 	
 	// チケット1枚あたりの基準時間
 	public static final int reserveTime = 15;
+	// タイトル表示文字数
+	public static int TITILE_LENGTH = 15;
 	
 	 public static enum Stamp {
 		  Stamp1("stamp1"),

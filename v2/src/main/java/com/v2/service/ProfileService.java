@@ -37,7 +37,7 @@ public class ProfileService {
 	ImageService imageService;
 	
 	@Autowired
-	UserDao tUser;
+	UserDao userDao;
 	
 	/**
 	 * プロフィール情報取得（自己紹介あり）
@@ -49,7 +49,7 @@ public class ProfileService {
 	public User getProfilePlusMessage(int id, JdbcTemplate jdbcTemplate) throws Exception {
 		
 		// プロフィール情報取得
-		return tUser.selectUserPlusMessage(id, jdbcTemplate);
+		return userDao.selectUserPlusMessage(id, jdbcTemplate);
 
 	}
   /**
@@ -62,7 +62,7 @@ public class ProfileService {
   public User getProfile(int id, JdbcTemplate jdbcTemplate) throws Exception {
     
     // プロフィール情報取得
-    return tUser.selectUser(id, jdbcTemplate);
+    return userDao.selectUser(id, jdbcTemplate);
 
   }
 	
@@ -94,13 +94,20 @@ public class ProfileService {
 		// 画像が変更された場合は画像保存
 		if (!imageFile.isEmpty()) {
 			imageService.saveImageFile(user, imageFile);
-			tUser.updateProfileDetail(user, jdbcTemplate);				
+			userDao.updateProfileDetail(user, jdbcTemplate);				
 		// 画像がない場合は画像に関して何もしない
 		} else {
-			tUser.updateProfileDetailNoImage(user, jdbcTemplate);
+		  userDao.updateProfileDetailNoImage(user, jdbcTemplate);
 		}
-		// 自己紹介文を更新する
-		tUser.updateUserMessage(user, jdbcTemplate);
+		// 自己紹介文があるか確認
+		int cnt = userDao.selectMessage(user.id, jdbcTemplate);
+		if (cnt > 0) {
+      // 自己紹介文を更新する
+      int i = userDao.updateUserMessage(user, jdbcTemplate);
+		} else {
+  		// 自己紹介文を登録する
+  		userDao.insertUserMessage(user, jdbcTemplate);
+		}
 		
 	}
 }

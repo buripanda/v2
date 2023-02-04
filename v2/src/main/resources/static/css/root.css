@@ -89,5 +89,16 @@ input:-webkit-autofill {
 .display_block {
 	display: block;
 }
+/*-------------------------------------
+ エラーメッセージ欄
+-------------------------------------*/
+.error_message {
+  height: 20px;
+  background-color: #dc143c;
+  color: #FFFFFF;
+  padding: 5px;
+  line-height: 20px;
+  margin:20px 0;
+}
 
 
