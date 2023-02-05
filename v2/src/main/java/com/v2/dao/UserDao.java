@@ -140,7 +140,7 @@ public class UserDao {
   }
 
   /**
-  * ユーザ情報＋自己紹介メッセージ取得（ID指定）
+  * 紹介情報が登録されているか確認する（ID指定）
   * @param id
   * @return
   */

@@ -40,8 +40,24 @@ public class RecruitService {
    * @throws Exception
    */
   public void registRecruit(Recruit param, JdbcTemplate jdbcTemplate) throws Exception {
+    // 募集中かどうか検索する
+    int cnt = recruitDao.selectRecruitCnt(param.id, jdbcTemplate);
+    if (cnt > 0) {
+      // 募集中データがあった場合は削除する
+      recruitDao.updateRecruit(param, jdbcTemplate);
+    }
     // 募集登録する
     recruitDao.insertRecruit(param, jdbcTemplate);
+  }
+  /**
+   * 募集を終了する
+   * @param jdbcTemplate
+   * @return
+   * @throws Exception
+   */
+  public void registStop(Recruit param, JdbcTemplate jdbcTemplate) throws Exception {
+    // 募集中データを削除する
+    recruitDao.updateRecruit(param, jdbcTemplate);
   }
   /**
    * パラメータチェック

@@ -28,7 +28,7 @@
 	</div>
 	<div  class="login_div" th:classappend="${session.v2bean.id == 0} ? display_block : display_none" id="login_01">
 		<div class="login-open  login_a">
-		<i class="fa-solid fa-circle-user"></i><span class="login_text">ログイン</span>
+		<i class="fa-solid fa-circle-user"></i><span class="login_text"> ログイン</span>
 		</div>
 	</div>
 	<div class="shinki_div" th:classappend="${session.v2bean.id == 0} ? display_block : display_none" id="login_02">
@@ -80,6 +80,8 @@
 				<input name="s_sex" value="2"  type="radio" id="s_sex_2"><label for="s_sex_2">男性</label>
 				</div>
 				<div class="check02">
+				  <div class="terms">利用規約・プライバシーポリシーをよく読んでください<BR>
+				  同意された方は利用規約に同意するにチェックをいれて登録してください</div>
           <input type="checkbox" name="s_agree" id="s_agree">
           <label for="s_agree">利用規約に同意する</label>
 	   		</div>

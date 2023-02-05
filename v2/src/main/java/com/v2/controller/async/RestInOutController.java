@@ -214,7 +214,7 @@ public class RestInOutController extends AbstractController {
 		// 各値チェック
 		if (!signupService.doCheck(user, agree)) {
 			modelMap.addAttribute("user", user);
-			return "入力情報が不足しています";
+			return user.errorMessage;
 		}
 		
 		//ユーザ登録

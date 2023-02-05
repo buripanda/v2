@@ -3,8 +3,7 @@
 --------------------------------------*/
 .footer {
   background-color:  var(--placefolder-color);
-  margin-top: 50px;
-  padding: 50px 0px;
+  padding: 30px 0px;
   margin-right: calc(50% - 50vw);
   margin-left: calc(50% - 50vw);
   color: #FFFFFF;

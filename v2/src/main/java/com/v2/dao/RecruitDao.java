@@ -23,8 +23,8 @@ public class RecruitDao {
  public Recruit selectRecruitMessage(int id, JdbcTemplate jdbcTemplate) throws Exception {
    
 	 String sql = 
-			 "SELECT T1.ID, T1.RECRUIT_START_DATE, T1.RECRUIT_END_DATE, T1.MESSAGE, T1.STOP_FLG, T1.NOW_FLG, T1.DELETE_FLG, "
-			 + "T2.USER_NAME, T2.PRICE"
+			 "SELECT T1.ID, T1.RECRUIT_START_DATE, T1.RECRUIT_END_DATE, T1.MESSAGE, T1.RECRUIT_FLG, T1.STOP_FLG, T1.NOW_FLG, T1.DELETE_FLG, "
+			 + "T2.USER_NAME, T2.PRICE, T2.IMAGE_PATH "
 			 + " FROM T_RECRUIT T1 INNER JOIN T_USER T2 ON T1.ID = T2.ID AND T2.DELETE_FLG = 0 "
 			 + "WHERE T1.ID = ? AND T1.STOP_FLG = 0 AND T1.DELETE_FLG =  0 AND T1.REGIST_DATE > CURRENT_TIMESTAMP - 3600";
 	 System.out.println(sql);
@@ -35,6 +35,24 @@ public class RecruitDao {
    return new Recruit();
 
  }
+ /**
+ * 募集情報が登録されているか確認する（ID指定）
+ * @param id
+ * @return
+ */
+public int selectRecruitCnt(int id, JdbcTemplate jdbcTemplate) throws Exception {
+  
+  String sql = 
+      "SELECT COUNT(*) FROM "
+      + " T_RECRUIT "
+      + " WHERE"
+      + " ID = ? "
+      + " AND DELETE_FLG = 0";
+  System.out.println(sql);
+  int cnt = jdbcTemplate.queryForObject(sql, Integer.class, id); 
+  return cnt;
+  
+}
 
 	/**
 	 * 募集する
@@ -46,69 +64,54 @@ public class RecruitDao {
 	 */
 	public void insertRecruit(Recruit recruit,
 	    JdbcTemplate jdbcTemplate) throws Exception {
+	  
+	  int seq = getSequenceRecruitId(jdbcTemplate);
 		
 		// 募集登録
 		String sql = 
 				"INSERT INTO T_RECRUIT ("
-					    +" ID, RECRUIT_START_DATE ,RECRUIT_END_DATE, MESSAGE, STOP_FLG, NOW_FLG, DELETE_FLG,"
+					    +" RECRUIT_ID, ID, RECRUIT_START_DATE ,RECRUIT_END_DATE, MESSAGE, RECRUIT_FLG, STOP_FLG, NOW_FLG, DELETE_FLG,"
 					    + " REGIST_DATE, UPDATE_DATE) "
-							+ " VALUES (?, ?, ?, ?, 0, ?, 0, current_timestamp, current_timestamp)";
+							+ " VALUES (?, ?, ?, ?, ?, ?, 0, ?, 0, current_timestamp, current_timestamp)";
 		 System.out.println(sql);
 		jdbcTemplate.update(sql,
-				recruit.id, recruit.recruitStartDate, recruit.recruitEndDate, recruit.message, recruit.nowFlg);
+		    seq, recruit.id, recruit.recruitStartDate, recruit.recruitEndDate, 
+		    recruit.message, recruit.recruitFlg, recruit.nowFlg);
 
 	}
 	
   /**
-   * 出品者が購入者の評価をする
+   * 募集情報を削除する
    * @param emal
    * @param password
    * @param jdbcTemplate
    * @return
    */
-  public int updateRateBuyer(int reserveId, int rate, String comment, JdbcTemplate jdbcTemplate) throws Exception {
+  public int updateRecruit(Recruit recruit, JdbcTemplate jdbcTemplate) throws Exception {
     
-    int cnt = jdbcTemplate.update(
-        "UPDATE T_RESERVE_HIST SET " +
-        "SELLER_RATE=? ,SELLER_COMMENT=?, SELLER_FLG=1, UPDATE_DATE=current_timestamp " +
-        "WHERE  RESERVE_ID=?",
-        rate, comment, reserveId);    
-    return cnt;
-  
-  }
-  /**
-   * 購入者が出品者の評価をする
-   * @param emal
-   * @param password
-   * @param jdbcTemplate
-   * @return
-   */
-  public int updateRateSeller(int reserveId, int rate, String comment, JdbcTemplate jdbcTemplate) throws Exception {
-    
-    int cnt = jdbcTemplate.update(
-        "UPDATE T_RESERVE_HIST SET " +
-        "BUYER_RATE=? ,BUYER_COMMENT=?, BUYER_FLG=1, UPDATE_DATE=current_timestamp " +
-        "WHERE  RESERVE_ID=?",
-        rate, comment, reserveId);    
+    String sql = 
+        "UPDATE T_RECRUIT SET " +
+        "STOP_FLG = 1, DELETE_FLG = 1, UPDATE_DATE=current_timestamp " +
+        "WHERE  ID = ? AND DELETE_FLG = 0";    
+    System.out.println(sql);
+    int cnt = jdbcTemplate.update(sql,recruit.id);    
     return cnt;
   
   }
 
-	
   /**
    * シーケンス取得
    * @param jdbcTemplate
    * @return
    */
-  public int getSequenceReserveId(JdbcTemplate jdbcTemplate) throws Exception {
+  public int getSequenceRecruitId(JdbcTemplate jdbcTemplate) throws Exception {
     
     // ユーザIDのシーケンス取得
-    return jdbcTemplate.queryForObject("SELECT NEXT VALUE FOR RESERVE_ID_SEQ", Integer.class);
+    return jdbcTemplate.queryForObject("SELECT NEXT VALUE FOR RECRUIT_ID_SEQ", Integer.class);
   
   }
-
   /**
-   * 予約履歴をセットする
+   * 募集情報を設定する
    * @param data
    * @return
    */
@@ -120,11 +123,12 @@ public class RecruitDao {
 	  recruit.recruitEndDate = ((Timestamp)data.get("RECRUIT_END_DATE")).toLocalDateTime();
 	  if (data.get("MESSAGE") != null) 
 		  recruit.message = (String)data.get("MESSAGE");
+	  recruit.recruitFlg = (int)data.get("RECRUIT_FLG");
 	  recruit.stopFlg = (int)data.get("STOP_FLG");
 	  recruit.nowFlg = (int)data.get("NOW_FLG");
-	  recruit.id = (int)data.get("ID");
-	  recruit.id = (int)data.get("ID");
-	  recruit.id = (int)data.get("ID");
+	  recruit.userName = (String)data.get("USER_NAME");
+	  recruit.price = (int)data.get("PRICE");
+	  recruit.imageFile = (String)data.get("IMAGE_PATH");
 	  recruit.deleteFlg = (String)data.get("DELETE_FLG");
 	  recruit.registDate = (Date)data.get("REGIST_DATE");
 	  recruit.updateDate = (Date)data.get("UPDATE_DATE");

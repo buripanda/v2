@@ -72,14 +72,11 @@ public class RecruitController extends AbstractController {
 		try {
 			// 募集メッセージ取得
 			recruit = recruitService.viewRecruit(id, jdbcTemplate);
-			// プロフィール取得
-			user = profileService.getProfilePlusMessage(id, jdbcTemplate);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
 		}
 		modelMap.addAttribute("recruit", recruit);
-		modelMap.addAttribute("user", user);
     modelMap.addAttribute("form", param);
 		return "recruit";
 	}
@@ -95,6 +92,7 @@ public class RecruitController extends AbstractController {
       @RequestParam("datetimeto") String datetimeto,
       @RequestParam("message") String message,
       @RequestParam(value="agree", required=false) String agree,
+      @RequestParam(value="recruit_select", required=false) String recruitSelect,
       ModelMap modelMap) {
     
     // セッションからログインID取得
@@ -116,12 +114,15 @@ public class RecruitController extends AbstractController {
         param.nowFlg = 1;
       else 
         param.nowFlg = 0;        
+      if ("1".equals(recruitSelect))
+        param.recruitFlg = 1;
+      if ("2".equals(recruitSelect))
+        param.recruitFlg = 2;        
       param.id = id;
       if (!recruitService.isParam(param)) {
-        // プロフィール取得
-        user = profileService.getProfilePlusMessage(id, jdbcTemplate);
+        // 募集メッセージ取得
+        recruit = recruitService.viewRecruit(id, jdbcTemplate);
         modelMap.addAttribute("recruit", recruit);
-        modelMap.addAttribute("user", user);
         modelMap.addAttribute("form", param);
         return "recruit";
       }
@@ -129,14 +130,42 @@ public class RecruitController extends AbstractController {
       recruitService.registRecruit(param, jdbcTemplate);
       // 募集メッセージ取得
       recruit = recruitService.viewRecruit(id, jdbcTemplate);
-      // プロフィール取得
-      user = profileService.getProfilePlusMessage(id, jdbcTemplate);
     } catch (Exception e) {
       e.printStackTrace();
       return "error";
     }
     modelMap.addAttribute("recruit", recruit);
-    modelMap.addAttribute("user", user);
+    modelMap.addAttribute("form", param);
+    return "recruit";
+  }
+  /**
+   * 募集登録
+   * @param id
+   * @param modelMap
+   * @return
+   */
+  @PostMapping("/recruitStop")
+  public String recruitStop(ModelMap modelMap) {
+    
+    // セッションからログインID取得
+    if (!super.isLogin())
+      return "redirect:/";    
+    User user = super.getSessionBean();
+    int id = user.id;
+        
+    Recruit recruit = new Recruit();
+    Recruit param = new Recruit();
+    param.id = id;
+    try {      
+      // 募集削除
+      recruitService.registStop(param, jdbcTemplate);
+      // 募集メッセージ取得
+      recruit = recruitService.viewRecruit(id, jdbcTemplate);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return "error";
+    }
+    modelMap.addAttribute("recruit", recruit);
     modelMap.addAttribute("form", param);
     return "recruit";
   }

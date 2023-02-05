@@ -6,7 +6,7 @@
 	<meta http-equiv="Content-Script-Type" content="text/javascript" />
 	<meta name="auther" content="v2.com" />
 	<meta name="copyright" content="Copyright (C) v2.com All Rights Reserved." />
-	<title>募集登録</title>
+	<title>募集管理</title>
 	<link th:href="@{/css/root.css}" rel="stylesheet">
 	<link th:href="@{/css/include/header.css}" rel="stylesheet">
 	<link th:href="@{/css/recruit.css}" rel="stylesheet">
@@ -56,39 +56,42 @@
 </head>
 <body>
 <th:block th:replace="include/sidemenu::sidemenu"></th:block>
+  <form method="post" name="recruitForm" enctype="multipart/form-data" action="recruitRegist">
 <div class="contents">
 	<th:block th:replace="include/header::header"></th:block>
-	<form method="post" name="recruitForm" enctype="multipart/form-data" action="recruitRegist">
-	<div class="recruit_frame">
-		<div class="recruit_left">
-			<div class="recruit_inner">
-				<div>
-					<img th:src="@{./getImgDefault?id=__${user.id}__&name=__${user.imageFile}__}" width="300">
-				</div>
-				<div class="username">[[${user.userName}]]</div>
-			</div>
-		</div>
+	<div class="recruit_contents">
 		<div class="recruit_right">
-		  <div class="recruit_titile">募集管理</div>
+		  <div class="page_title">募集管理</div>
 			<th:block th:if="${recruit.id != 0}">
 				<div class="recruit_nowflg">現在、募集しています</div>
 				<div class="recuruit_card">
 					<div class="recuruit_card_inner">
 						<div class="card_img">
-							<img th:src="@{./getImgDefault?id=__${user.id}__&name=__${user.imageFile}__}">
+							<img th:src="@{./getImgDefault?id=__${recruit.id}__&name=__${recruit.imageFile}__}">
 						</div>
-						<div class="card_name">[[${user.userName}]]</div>
-						<div class="card_datetime">[[${recruit.recruitStartDate}]]　～　[[${recruit.recruitEndDate}]]</div>
+						<div class="card_name">[[${recruit.userName}]]</div>
+						<div class="card_datetime">[[${recruit.reserveTime}]]</div>
 						<div class="card_message">[[${recruit.message}]]</div>
-						<div class="card_price">[[${user.price}]]<span class="price_inner">/15分</span></div>
+            <div class="card_hope">[[${recruit.hope}]]</div>
+						<div class="card_price">[[${recruit.price}]]<span class="price_inner">/15分</span></div>
 					</div>
 				</div>
+	      <div class="recruit_stop">
+          <a href="javascript:submitFunc('recruitStop');" class="regist_button regist_pushdown"><span>募集を終了する</span></a>
+        </div>
 			</th:block>
 			<th:block th:if="${recruit.id == 0}">
 				<div class="recruit_nowflg">現在、募集していません</div>
 			</th:block>
 			<hr class="style_100">
-      <th:block th:if="${form.errorMessage} != null">
+      <div class="headline_middle">募集希望</div>
+      <div class="recruit_select">
+        <input type="radio" name="recruit_select" id="recruit_select01" value="1" th:checked="${form.isRecruitFlg1}">
+        <label for="recruit_select01">出品希望</label>
+        <input type="radio" name="recruit_select" id="recruit_select02" value="2" th:checked="${form.isRecruitFlg2}">
+        <label for="recruit_select02">購入希望</label>
+      </div>
+     <th:block th:if="${form.errorMessage} != null">
        <div class="error_message" id="error_message">[[${form.errorMessage}]]</div>
       </th:block>
 			<div class="headline_middle">募集時間</div>
@@ -105,16 +108,16 @@
 				<span class="now_recruit">※チェックすると募集メッセージに今すぐ遊べることが通知されます</span>
         <div class="notes">
         今すぐ遊べるにチェックを入れると登録した募集時間は無視され、登録した時から1時間まで有効となります。<BR>
-        代わりに優先してトップページの募集中欄、および募集板の上部に表示されるようになります。
+        代わりに優先しておよび募集板の上部に表示されるようになります。（出品希望はトップページに表示されます）
         </div>
 			</div>
 			<div class="regist_div">
-			<a href="javascript:document.recruitForm.submit();" class="regist_button regist_pushdown"><span>募集する</span></a>
+			 <a href="javascript:document.recruitForm.submit();" class="regist_button regist_pushdown"><span>募集する</span></a>
 			</div>
 		</div>
 	</div>
-	</form>
 	<th:block th:replace="include/footer::footer"></th:block>
 </div>
+  </form>
 </body>
 </html>

@@ -1,9 +1,12 @@
 /*==================================================
 スライダーのためのcss
 ===================================*/
+.slide_frame {
+  
+}
 .slider {/*横幅94%で左右に余白を持たせて中央寄せ*/
-  width:98%;
-  margin: 10px 0 20px 0px;
+  width:97%;
+  margin: 10px 15px 10px 0;
 }
 
 li {
@@ -14,7 +17,7 @@ li {
   height: 300px;
   overflow:hidden;
   border-radius: 30px;
-  margin: 5px 20px;
+  margin: 5px 10px;
   object-fit: cover;
 }
 .slider_text {
@@ -22,12 +25,13 @@ li {
   left: 40px;
   font-size: 50px;
   font-weight: 700;
+  letter-spacing:3px;
   color: #FFFFFF;
   position: relative;
-  text-shadow:1px 1px 0 #333333, -1px -1px 0 #333333,
-              -1px 1px 0 #333333, 1px -1px 0 #333333,
-              0px 1px 0 #333333,  0 -1px 0 #333333,
-              -1px 0 0 #333333, 1px 0 0 #333333;
+  text-shadow:2px 2px 0 var(--shadow-color), -2px -2px 0 var(--shadow-color),
+              -2px 2px 0 var(--shadow-color), 2px -2px 0 var(--shadow-color),
+              0px 2px 0 var(--shadow-color),  0 -2px 0 var(--shadow-color),
+              -2px 0 0 var(--shadow-color), 2px 0 0 var(--shadow-color);
 }
 .slider img {
   width: 500px;

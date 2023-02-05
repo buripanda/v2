@@ -77,20 +77,37 @@ public class SignupService {
 	public boolean doCheck(User user, String agree) {
 		
 		// userNameチェック
-		if (!StringUtils.hasLength(user.userName))
+		if (!StringUtils.hasLength(user.userName)) {
+		  user.errorMessage = "ユーザ名を入力してください";
 			return false;
+		}
+    if (user.userName.length() > 20) {
+      user.errorMessage = "ユーザ名は20文字以内で入力してください";
+      return false;
+    }
+		
 		// passwordチェック
-		if (!StringUtils.hasLength(user.password))
+		if (!StringUtils.hasLength(user.password)) {
+      user.errorMessage = "パスワードを入力してください";
 			return false;
+		}
+    if (user.password.length() < 8 || user.password.length() >16) {
+      user.errorMessage = "パスワードは8文字以上16文字以下で入力してください";
+      return false;
+    }
 		// emailチェック
-		if (!StringUtils.hasLength(user.email))
+		if (!StringUtils.hasLength(user.email)) {
+      user.errorMessage = "メールアドレスを入力してください";
 			return false;
+		}
+    if (user.email.length() < 100) {
+      user.errorMessage = "メールアドレスは100文字以下で入力してください";
+      return false;
+    }
 		// agreeチェック
-		if (!StringUtils.hasLength(agree)) 
+		if (!StringUtils.hasLength(agree)) {
+      user.errorMessage = "利用規約に同意してください";		  
 			return false;
-		if (StringUtils.hasLength(agree)) {
-			if (agree.length() != 2) 
-				return false;
 		}
 		return true;
 

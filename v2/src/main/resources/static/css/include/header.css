@@ -133,7 +133,7 @@
   top: 0;
   bottom:0;
   padding-top:15px;
-  padding-right:5px;
+  padding-right:15px;
 }
 .chat_tuchi {
   position:relative;
@@ -150,8 +150,7 @@
 .login_div {
   position: relative;
   padding:5px;
-  top: 0;
-  bottom:0;
+  margin-top:3px;
 }
 
 .login_a {
@@ -166,12 +165,13 @@
   width: 100px;
   color: var(--button-coler);
   z-index:10;
+  font-size: 14px;
 }
 .shinki_div {
   position: relative;
   padding:5px 40px 5px 5px;
-  top: 0;
-  bottom:0;
+  margin-top:3px;
+
 }
 .shinki_a {
   border: 1px solid var(--button-coler);
@@ -186,12 +186,7 @@
   width: 100px;
   background-color:var(--button-coler);
   color: #ffffff;
-}
-.login_text {
-  font-size: 18px;
-}
-.logout_text {
-  font-size: 18px;
+  font-size: 14px;
 }
 /*
 .shinki_a:hover {
@@ -397,9 +392,9 @@
     position: absolute;
     display: block;
     box-sizing: border-box;
-    width: 20px;
-    height: 20px;
-    margin-top: -10px;
+    width: 16px;
+    height: 16px;
+    margin-top: -9px;
     left: 0;
     top: 50%;
     border: 1px solid;
@@ -413,7 +408,7 @@
     position: absolute;
     display: block;
     box-sizing: border-box;
-    width: 18px;
+    width: 16px;
     height: 9px;
     margin-top: -9px;
     top: 50%;
@@ -581,7 +576,7 @@
 ログイン文字
 ---------------------------------*/
 .login_title {
-  font-size: 2rem;
+  font-size: 20px;
   font-weight: 700;
   margin: 10px auto;
   color: var(--shadow-color);
@@ -623,6 +618,10 @@
 /*-------------------------------
 利用規約同意
 ------------------------------*/
+.terms {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
 /*-------------------------------
 チェックボックス
 ------------------------------*/
@@ -631,7 +630,7 @@
   width: 380px;
   text-align: left;
   margin-top:10px;
-  margin-left:5px;
+  margin-left:10px;
 }
 /* 元々のチェックボックス（非表示） */
 .check02 input[type="checkbox"]{
@@ -653,9 +652,9 @@
     position: absolute;
     display: block;
     box-sizing: border-box;
-    width: 20px;
-    height: 20px;
-    margin-top: -10px;
+    width: 16px;
+    height: 16px;
+    margin-top: -9px;
     left: 0;
     top: 50%;
     border: 1px solid;
@@ -669,7 +668,7 @@
     position: absolute;
     display: block;
     box-sizing: border-box;
-    width: 18px;
+    width: 16px;
     height: 9px;
     margin-top: -9px;
     top: 50%;

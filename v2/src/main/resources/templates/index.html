@@ -9,6 +9,7 @@
 	<meta name="copyright" content="Copyright (C) v2.com All Rights Reserved." />
 	<title>ホーム</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<link rel="icon" type="image/x-icon" href="/image/favicon.ico">
 	<link th:href="@{/css/root.css}" rel="stylesheet">
 	<link th:href="@{/css/include/header.css}" rel="stylesheet">
 	<link th:href="@{/css/index.css}" rel="stylesheet">
@@ -50,7 +51,7 @@
 			<iframe width="545" height="305" src="https://www.youtube.com/embed/7M5yHLKwdng?rel=0&autoplay=1&mute=1&loop=1&playlist=7M5yHLKwdng&controls=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			 -->
 			 </div>
-			<div class="slider_text">PICK UP</div>
+			<div class="slider_text">PICKUP</div>
 		</li>
 		<li>
 			<div class="slider_div">
@@ -59,7 +60,7 @@
 			<iframe width="545" height="305" src="https://www.youtube.com/embed/qda5RRVhmS8?rel=0&autoplay=1&mute=1&loop=1&playlist=qda5RRVhmS8&controls=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			 -->
 			 </div>
-			<div class="slider_text">PICK UP</div>
+			<div class="slider_text">PICKUP</div>
 		</li>
 		<li>
 			<div class="slider_div">
@@ -68,7 +69,7 @@
 			<iframe width="545" height="305" src="https://www.youtube.com/embed/vqmh-8qU5Wg?rel=0&autoplay=1&mute=1&loop=1&playlist=vqmh-8qU5Wg&controls=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			 -->
 			 </div>
-			<div class="slider_text">PICK UP</div>
+			<div class="slider_text">PICKUP</div>
 		</li>		
 		<li>
 			<div class="slider_div">
@@ -77,7 +78,7 @@
 			<iframe width="545" height="305" src="https://www.youtube.com/embed/tlLo7jypqDI?rel=0&autoplay=1&mute=1&loop=1&playlist=tlLo7jypqDI&controls=0&modestbranding=1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 			 -->
 			 </div>
-			<div class="slider_text">PICK UP</div>
+			<div class="slider_text">PICKUP</div>
 		</li>
 	</ul>
 	<div class="midashi_01">Vtuber一覧</div>
@@ -169,46 +170,48 @@
 	</th:block>
 	</div>
 	<div class="midashi_03">人気急上昇Vtuberランキング</div>
-	<th:block th:each="order: ${orderSumList}">
-		<hr class="style1">
-		<div class="order">
-			<div class="order_div"><img th:src="@{./getImgDefault?id=__${order.id}__&name=__${order.imageFile}__}" class="order_img"></div>
-			<div>
-				<div class="name_02" th:text="${order.userName}"></div>
-				<div class="message_01" th:text="${order.title}"></div>
-        <div class="chat_01">[[${order.priceKanma}]]Very/15分</div>
-			</div>
-			<th:block th:if="${session.v2bean.id != 0}">
-				<th:block th:if="${session.v2bean.id != order.id}">
-					<div class="chat_01" th:onclick="|javascript:postSelectId(__${order.id}__, 'messagePartnerList')|">
-						<div class="chat_text_01">チャットをする</div>
-					</div>
-				</th:block>
-			</th:block>
-			<th:block th:if="${session.v2bean.id == 0}">
-				<div class="chat_01"></div>
-			</th:block>
-		</div>
-		<div class="ranking_footer">
-			<div class="blank"></div>
-			<th:block th:if="${order.twitter != null}">
-				<a th:href="@{https://twitter.com/intent/follow?screen_name=__${order.twitter}__}" target="_blank">
-					<div class="twitter_button">
-						<img src="/image/twitter_toka.png" class="twitter_img">
-						<div class="twitter_text">フォローする</div>
-					</div>
-				</a>
-			</th:block>
-			<th:block th:if="${order.youtube != null}">
-				<div class="g-ytsubscribe youtube_button" th:data-channel="${order.youtube}" data-layout="default"
-					data-count="default">
-				</div>
-			</th:block>
-		</div>
-	</th:block>
-	<hr class="style1">
-	<script src="/js/slider.js"></script>
+	<div class="ranking">
+  	<th:block th:each="order: ${orderSumList}">
+  		<hr class="style1">
+  		<div class="order">
+  			<div class="order_div"><img th:src="@{./getImgDefault?id=__${order.id}__&name=__${order.imageFile}__}" class="order_img"></div>
+  			<div>
+  				<div class="name_02" th:text="${order.userName}"></div>
+  				<div class="message_01" th:text="${order.title}"></div>
+          <div class="chat_01">[[${order.priceKanma}]]Very/15分</div>
+  			</div>
+  			<th:block th:if="${session.v2bean.id != 0}">
+  				<th:block th:if="${session.v2bean.id != order.id}">
+  					<div class="chat_01" th:onclick="|javascript:postSelectId(__${order.id}__, 'messagePartnerList')|">
+  						<div class="chat_text_01">チャットをする</div>
+  					</div>
+  				</th:block>
+  			</th:block>
+  			<th:block th:if="${session.v2bean.id == 0}">
+  				<div class="chat_01"></div>
+  			</th:block>
+  		</div>
+  		<div class="ranking_footer">
+  			<div class="blank"></div>
+  			<th:block th:if="${order.twitter != null}">
+  				<a th:href="@{https://twitter.com/intent/follow?screen_name=__${order.twitter}__}" target="_blank">
+  					<div class="twitter_button">
+  						<img src="/image/twitter_toka.png" class="twitter_img">
+  						<div class="twitter_text">フォローする</div>
+  					</div>
+  				</a>
+  			</th:block>
+  			<th:block th:if="${order.youtube != null}">
+  				<div class="g-ytsubscribe youtube_button" th:data-channel="${order.youtube}" data-layout="default"
+  					data-count="default">
+  				</div>
+  			</th:block>
+  		</div>
+  	</th:block>
+  	<hr class="style1">
+  </div>
 	<th:block th:replace="include/footer::footer"></th:block>
 </div>
+<script src="/js/slider.js"></script>
 </body >
 </html >
