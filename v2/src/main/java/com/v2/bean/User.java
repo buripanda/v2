@@ -75,6 +75,11 @@ public class User extends Error {
     public Date registDate;
     /** 評価数 */
     public int rateCount;
+    public int salesSum;
+    public int salesCashSum;
+    public String recommentUrl1;
+    public String recommentUrl2;
+    public String recommentUrl3;
     
     public String getRegistDateYMD() {
     	return new SimpleDateFormat("yyyy年MM月dd日").format(registDate);
