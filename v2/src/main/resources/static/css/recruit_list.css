@@ -1,0 +1,138 @@
+/*-------------------------------------
+見出し
+-------------------------------------*/
+.page_title {
+  font-size: 20px;
+  font-weight: 700;;
+  letter-spacing:2px;
+  margin: 0 0 30px 0;
+  padding-left:5px;
+  text-align: center;
+}
+.headline_middle {
+  font-weight: 700;
+  letter-spacing:2px;
+  padding-left:5px;
+  margin-top:30px;
+  margin-bottom:2px;
+  border-left:2px solid var(--font-coler);
+}
+
+/*-------------------------------------
+ 募集管理画面
+-------------------------------------*/
+.recruit_frame {
+  display: flex;
+}
+.recruit_contents {
+	padding:30px 100px;
+	margin-left:auto;
+  margin-right:auto;
+  margin-top:0;
+  margin-bottom:0;
+  width: 800px;
+  border-left:1px solid #CCCCCC;
+  border-right:1px solid #CCCCCC;
+}
+
+/*-------------------------------------
+ 現在募集中カード
+-------------------------------------*/
+
+.recruit_nowflg {
+  margin: 0 0 5px 0;
+  color: #dc143c;
+  font-weight: 700;
+}
+.recuruit_card {
+  overflow: hidden;
+  border-radius: 8px;
+  width: 800px;
+  height: 160px;
+  /*background: linear-gradient(135deg, #fc00ff 0, #00dbde 100%);*/
+  /*background-color: var(--font-coler--input-border-color);*/
+  /* ここが枠になる */
+  /*padding: 4px;*/
+  background-color: var(--card-border-coloer);
+  filter: drop-shadow(0px 0px 2px rgba(204,202,196,.5));
+}
+.recuruit_card_inner {
+  overflow: hidden;
+  text-align:center;
+  background-color: #FFFFFF;
+  border-radius: 8px;
+  width: 800px;
+  height: 160px;
+  display:grid;
+  grid-template-rows: 60px 20px 20px 60px;
+  grid-template-columns: 150px 500px 150px;
+  text-align: left;
+  position: relative;
+}
+.card_img {
+	grid-row: 1 / 3;
+  grid-column: 1 / 2;
+  padding-top: 10px;
+  padding-left: 20px;
+}
+.card_img img {
+  width: 60px;
+  height:60px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+.card_name {
+	grid-row: 3 / 4;
+  grid-column: 1 / 2;
+  padding-left: 20px;
+
+}
+.card_datetime {
+	grid-row: 4 /5;
+  grid-column: 1 / 4;
+  color:chocolate;
+  font-size:20px;
+  font-weight: 700;
+  padding:20px 0px 20px 20px;
+  background-color: #fff0f5;
+
+}
+.card_message {
+	grid-row: 1 / 2;
+  grid-column: 2 / 3;
+  padding-top: 10px;
+  font-size: 14px;
+
+}
+.card_hope {
+  grid-row: 1 / 2;
+  grid-column: 3 / 4;
+  color:#dc143c;
+  font-size: 25px;
+  font-weight: 700;
+  text-align: right;
+  padding-top: 10px;
+  padding-right: 20px;
+  letter-spacing:2px;
+}
+
+.card_price {
+  grid-row: 2 / 4;
+  grid-column: 3 / 4;
+  color:chocolate;
+  font-size: 30px;
+  font-weight: 700;
+  text-align: right;
+  padding-right: 10px;
+
+}
+.price_inner {
+    font-size: 14px;
+}
+.no_user {
+  letter-spacing:1px;
+  margin: 0 0 30px 0;
+  padding-left:5px;
+  text-align: center;
+
+}

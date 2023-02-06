@@ -1,54 +1,55 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
-<meta name="auther" content="v2.com" />
-<meta name="copyright" content="Copyright (C) v2.com All Rights Reserved." />
-<title>予定一覧</title>
-<link th:href="@{/css/root.css}" rel="stylesheet">
-<link th:href="@{/css/include/header.css}" rel="stylesheet">
-<link th:href="@{/css/profile.css}" rel="stylesheet">
-<link th:href="@{/css/include/sidemenu.css}" rel="stylesheet">
-<link th:href="@{/css/include/footer.css}" rel="stylesheet">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/js/common.js"></script>
-<script src="/js/header.js"></script>
-<script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
-<script>
-</script>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <meta name="auther" content="v2.com" />
+  <meta name="copyright" content="Copyright (C) v2.com All Rights Reserved." />
+  <title>予約/購入一覧</title>
+  <link th:href="@{/css/root.css}" rel="stylesheet">
+  <link th:href="@{/css/include/header.css}" rel="stylesheet">
+  <link th:href="@{/css/schejule.css}" rel="stylesheet">
+  <link th:href="@{/css/include/sidemenu.css}" rel="stylesheet">
+  <link th:href="@{/css/include/footer.css}" rel="stylesheet">
+  <link th:href="@{/css/jquery.datetimepicker.min.css}" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+      integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw=="
+      crossorigin="anonymous"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/header.js"></script>
+  <script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
+  <script>
+  </script>
 </head>
 <body>
 <th:block th:replace="include/sidemenu::sidemenu"></th:block>
+<form method="post" name="recruitForm" enctype="multipart/form-data" action="recruitRegist">
 <div class="contents">
   <th:block th:replace="include/header::header"></th:block>
-  <div class="schejule_main">
-    <div>予約一覧</div>
-	  <div class="schejule_uncomp_list">
-	  <th:blcok th:each="schejule, schejuleStat : ${schejuleList}">
-		  <div class="schejule_uncomp">		  
-				<img th:src="@{./getImgDefault?id=__${schejule.id}__&name=__${schejule.imageFile}__}">
-				<div class="username">[[${schejule.userName}]]</div>
-        <div class="reserve_date">[[${schejule.reserveStartDate}]]-[[${schejule.reserveEndDate}]]</div>
-			</div>
-	  </th:blcok>
-		</div>
-    <div>終了した予約一覧</div>
-    <div class="schejule_comp_list">
-    <th:blcok th:each="schejuleComp, schejuleCompStat : ${schejuleCompList}">
-      <div class="schejule_comp">     
-        <img th:src="@{./getImgDefault?id=__${schejuleComp.id}__&name=__${schejuleComp.imageFile}__}">
-        <div class="username">[[${schejuleComp.userName}]]</div>
-        <div class="reserve_date">[[${schejuleComp.reserveStartDate}]]-[[${reserveComp.reserveEndDate}]]</div>
-        <div class="evaluate">
-          <div class="evaluate_stars"><span class="star5_rating" th:data-rate="${schejuleComp.buyerRate}"></span></div>
+  <div class="schejule_contents">
+    <div class="page_title">予約/購入一覧</div>
+    <th:block th:each="schejule, cnt: ${schejuleList}">
+      <div class="schejule_card">
+        <div class="schejule_card_inner">
+          <div class="card_img">
+            <img th:src="@{./getImgDefault?id=__${schejule.id}__&name=__${schejule.imageFile}__}">
+          </div>
+          <div class="card_name">[[${schejule.userName}]]</div>
+          <div class="card_datetime">[[${schejule.reserveTime}]]</div>
+          <div class="card_message"></div>
+          <div class="card_hope"></div>
+          <div class="card_price">[[${schejule.price}]]<span class="price_inner">/15分</span></div>
         </div>
       </div>
-    </th:blcok>
-    </div>
-	</div>
+      <th:block th:if="${schejuleList.size == 0}">
+       <div class="no_user">現在予約/購入はありません</div>
+      </th:block>
+    </th:block>
+  </div>
   <th:block th:replace="include/footer::footer"></th:block>
 </div>
+</form>
 </body>
 </html>

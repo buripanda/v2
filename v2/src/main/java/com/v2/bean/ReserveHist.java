@@ -41,4 +41,10 @@ public class ReserveHist {
   public String getReserveEndDate() {
     return DateUtil.changeDateString(reserveEndDate);
   }
+  public String reserveTime() {
+    return DateUtil.changeDateString(reserveStartDate) 
+        + "　～　" 
+        + DateUtil.changeDateString(reserveEndDate);
+  }
+
 }
