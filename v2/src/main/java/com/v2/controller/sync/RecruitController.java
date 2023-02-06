@@ -1,5 +1,8 @@
 package com.v2.controller.sync;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -139,7 +142,7 @@ public class RecruitController extends AbstractController {
     return "recruit";
   }
   /**
-   * 募集登録
+   * 募集削除
    * @param id
    * @param modelMap
    * @return
@@ -169,4 +172,47 @@ public class RecruitController extends AbstractController {
     modelMap.addAttribute("form", param);
     return "recruit";
   }
+  /**
+   * 募集画面表示
+   * @param id
+   * @param modelMap
+   * @return
+   */
+  @GetMapping("/recruitListView")
+  public String recruitListViewG(ModelMap modelMap) {
+    
+    // セッションからログインID取得
+    if (!super.isLogin())
+      return "redirect:/";    
+    return recruitListView(modelMap);
+  
+  }
+
+  /**
+   * 募集一覧表示
+   * @param id
+   * @param modelMap
+   * @return
+   */
+  @PostMapping("/recruitListView")
+  public String recruitListView(ModelMap modelMap) {
+    
+    // セッションからログインID取得
+    if (!super.isLogin())
+      return "redirect:/";    
+    User user = super.getSessionBean();
+    int id = user.id;
+    
+    List<Recruit> recruitList  = new ArrayList<>();
+    try {
+      // 募集一覧取得
+      recruitList = recruitService.viewListRecruit(jdbcTemplate);
+    } catch (Exception e) {
+      e.printStackTrace();
+      return "error";
+    }
+    modelMap.addAttribute("recruitList", recruitList);
+    return "recruit_list";
+  }
+
 }

@@ -1,6 +1,7 @@
 package com.v2.dao;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class RecruitDao {
 			 "SELECT T1.ID, T1.RECRUIT_START_DATE, T1.RECRUIT_END_DATE, T1.MESSAGE, T1.RECRUIT_FLG, T1.STOP_FLG, T1.NOW_FLG, T1.DELETE_FLG, "
 			 + "T2.USER_NAME, T2.PRICE, T2.IMAGE_PATH "
 			 + " FROM T_RECRUIT T1 INNER JOIN T_USER T2 ON T1.ID = T2.ID AND T2.DELETE_FLG = 0 "
-			 + "WHERE T1.ID = ? AND T1.STOP_FLG = 0 AND T1.DELETE_FLG =  0 AND T1.REGIST_DATE > CURRENT_TIMESTAMP - 3600";
+			 + "WHERE T1.ID = ? AND T1.STOP_FLG = 0 AND T1.DELETE_FLG =  0 AND T1.REGIST_DATE > CURRENT_TIMESTAMP - 0.042";
 	 System.out.println(sql);
 	 List<Map<String, Object>> dataList = jdbcTemplate.queryForList(sql, id); 
    
@@ -35,6 +36,56 @@ public class RecruitDao {
    return new Recruit();
 
  }
+/**
+ * 募集一覧を取得する（今すぐ遊べる）
+ * @param id
+ * @param jdbcTemplate
+ * @return
+ * @throws Exception
+ */
+public List<Recruit> selectRecruitListOnTime(JdbcTemplate jdbcTemplate) throws Exception {
+  
+  String sql = 
+      "SELECT T1.ID, T1.RECRUIT_START_DATE, T1.RECRUIT_END_DATE, T1.MESSAGE, T1.RECRUIT_FLG, T1.STOP_FLG, T1.NOW_FLG, T1.DELETE_FLG, "
+      + "T2.USER_NAME, T2.PRICE, T2.IMAGE_PATH "
+      + " FROM T_RECRUIT T1 INNER JOIN T_USER T2 ON T1.ID = T2.ID AND T2.DELETE_FLG = 0 "
+      + "WHERE T1.STOP_FLG = 0 AND T1.DELETE_FLG = 0 AND T1.NOW_FLG = 1 AND T1.RECRUIT_START_DATE > CURRENT_TIMESTAMP - 0.042"
+      + " ORDER BY T1.RECRUIT_START_DATE DESC";
+  System.out.println(sql);
+  List<Map<String, Object>> dataList = jdbcTemplate.queryForList(sql); 
+  
+  List<Recruit> list = new ArrayList<>();
+  for (Map<String, Object> data : dataList) {
+    list.add(this.setRecruit(data));
+  }
+  return list;
+
+}
+/**
+ * 募集一覧を取得する（予約）
+ * @param id
+ * @param jdbcTemplate
+ * @return
+ * @throws Exception
+ */
+public List<Recruit> selectRecruitListReserve(JdbcTemplate jdbcTemplate) throws Exception {
+  
+  String sql = 
+      "SELECT T1.ID, T1.RECRUIT_START_DATE, T1.RECRUIT_END_DATE, T1.MESSAGE, T1.RECRUIT_FLG, T1.STOP_FLG, T1.NOW_FLG, T1.DELETE_FLG, "
+      + "T2.USER_NAME, T2.PRICE, T2.IMAGE_PATH "
+      + " FROM T_RECRUIT T1 INNER JOIN T_USER T2 ON T1.ID = T2.ID AND T2.DELETE_FLG = 0 "
+      + "WHERE T1.STOP_FLG = 0 AND T1.DELETE_FLG = 0 AND T1.NOW_FLG = 0 AND T1.RECRUIT_START_DATE > CURRENT_TIMESTAMP - 0.042"
+      + " ORDER BY T1.RECRUIT_START_DATE";
+  System.out.println(sql);
+  List<Map<String, Object>> dataList = jdbcTemplate.queryForList(sql); 
+  
+  List<Recruit> list = new ArrayList<>();
+  for (Map<String, Object> data : dataList) {
+    list.add(this.setRecruit(data));
+  }
+  return list;
+
+}
  /**
  * 募集情報が登録されているか確認する（ID指定）
  * @param id

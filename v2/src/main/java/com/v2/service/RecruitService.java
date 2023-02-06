@@ -1,5 +1,8 @@
 package com.v2.service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,7 @@ public class RecruitService {
 
   @Autowired
   RecruitDao recruitDao;
+  
   /**
    * 募集管理画面を表示する
    * @param jdbcTemplate
@@ -34,6 +38,24 @@ public class RecruitService {
   }
   
   /**
+   * 募集一覧を表示する
+   * @param jdbcTemplate
+   * @return
+   * @throws Exception
+   */
+  public List<Recruit> viewListRecruit(JdbcTemplate jdbcTemplate) throws Exception {
+    
+    // 募集一覧（今すぐ遊べる）を検索
+    List list = recruitDao.selectRecruitListOnTime(jdbcTemplate);
+  
+    // 募集一覧（予約）を検索
+    list.addAll(recruitDao.selectRecruitListReserve(jdbcTemplate));
+    
+    return list;
+
+  }
+
+  /**
    * 募集登録する
    * @param jdbcTemplate
    * @return
@@ -45,6 +67,11 @@ public class RecruitService {
     if (cnt > 0) {
       // 募集中データがあった場合は削除する
       recruitDao.updateRecruit(param, jdbcTemplate);
+    }
+    // 今すぐ遊ぶの場合は、時間を今～1時間にする
+    if (param.nowFlg == 1) {
+      param.recruitStartDate = LocalDateTime.now();
+      param.recruitEndDate = LocalDateTime.now().plusHours(1);
     }
     // 募集登録する
     recruitDao.insertRecruit(param, jdbcTemplate);
