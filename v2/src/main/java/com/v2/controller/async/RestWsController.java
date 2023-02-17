@@ -1,6 +1,5 @@
 package com.v2.controller.async;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -14,18 +13,17 @@ import com.v2.service.MessageService;
 @Controller
 public class RestWsController {
 
-	@Autowired
-	private SimpMessagingTemplate simpMessagingTemplate;
-
-	@Autowired
-	MessageService messageService;
-	
-	@Autowired
-	LoginService loginService;
-	
+	private final SimpMessagingTemplate simpMessagingTemplate;
+	private final MessageService messageService;
+	private final LoginService loginService;	
 	private final JdbcTemplate jdbcTemplate;
-	public RestWsController(JdbcTemplate jdbcTemplate) {
+	
+	public RestWsController(JdbcTemplate jdbcTemplate, SimpMessagingTemplate simpMessagingTemplate, 
+			MessageService messageService, LoginService loginService) {
 		this.jdbcTemplate = jdbcTemplate;
+		this.simpMessagingTemplate = simpMessagingTemplate;
+		this.loginService = loginService;
+		this.messageService = messageService;
 	}
 
 	/**

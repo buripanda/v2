@@ -1,6 +1,5 @@
 package com.v2.controller.sync;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -22,24 +21,19 @@ import lombok.extern.slf4j.Slf4j;
 @Scope("request")
 public class ViewController extends AbstractController {
 
-	
-	@Autowired
-	LoginService loginService;
-
-	@Autowired
-	ProfileService profileService;
-
-	@Autowired
-	MessageService chatService;
-	
-	@Autowired
-	SignupService signupService;
-
-	
+	private final LoginService loginService;
+	private final ProfileService profileService;
+	private final MessageService chatService;
+	private final SignupService signupService;	
 	private final JdbcTemplate jdbcTemplate;
 
-	public ViewController(JdbcTemplate jdbcTemplate) {
+	public ViewController(JdbcTemplate jdbcTemplate, LoginService loginService, ProfileService profileService, 
+			MessageService chatService,  SignupService signupService) {
 		this.jdbcTemplate = jdbcTemplate;
+		this.loginService = loginService;
+		this.profileService = profileService;
+		this.chatService = chatService;
+		this.signupService = signupService;
 	}
 
 

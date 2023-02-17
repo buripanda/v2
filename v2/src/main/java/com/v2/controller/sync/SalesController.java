@@ -3,7 +3,6 @@ package com.v2.controller.sync;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.v2.bean.Sales;
+import com.v2.bean.SalesHist;
 import com.v2.bean.User;
 import com.v2.controller.AbstractController;
 import com.v2.service.SalesService;
@@ -23,13 +23,10 @@ import lombok.extern.slf4j.Slf4j;
 @Scope("request")
 public class SalesController extends AbstractController {
 	
-	@Autowired
-	SalesService salesService;	
-	
-	private final JdbcTemplate jdbcTemplate;
+	private final SalesService salesService;	
 
-	public SalesController(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
+	public SalesController(JdbcTemplate jdbcTemplate, SalesService salesService) {
+		this.salesService = salesService;
 	}
 
 	/**
@@ -63,19 +60,19 @@ public class SalesController extends AbstractController {
 		User user = super.getSessionBean();
 		int id = user.id;
 		
-		List<Sales> sales = new ArrayList<>();
-		User userSalesSum = new User();
+		List<SalesHist> salesList = new ArrayList<>();
+		Sales sales = new Sales();
 		try {
 			// 売上を取得
-			userSalesSum = salesService.getSalesSum(id, jdbcTemplate);
+			sales = salesService.getSalesSum(id);
 			// 売上一覧取得
-			sales = salesService.getSalesList(id, jdbcTemplate);
+			salesList = salesService.getSalesList(id);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";
 		}
-		modelMap.addAttribute("user", userSalesSum);
-    modelMap.addAttribute("sales", sales);
+		modelMap.addAttribute("sales", sales);
+		modelMap.addAttribute("salesList", salesList);
 		return "sales";
 	} 
 }

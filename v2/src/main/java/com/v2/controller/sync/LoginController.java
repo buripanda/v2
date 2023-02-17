@@ -4,7 +4,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -23,18 +22,13 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @Scope("request")
 public class LoginController extends AbstractController {
-
 	
-	@Autowired
-	LoginService loginService;
-	
-	@Autowired
-	IndexService indexService;
-
+	private final LoginService loginService;
 	private final JdbcTemplate jdbcTemplate;
 
-	public LoginController(JdbcTemplate jdbcTemplate) {
+	public LoginController(JdbcTemplate jdbcTemplate, LoginService loginService, IndexService indexService) {
 		this.jdbcTemplate = jdbcTemplate;
+		this.loginService = loginService;
 	}
 
 

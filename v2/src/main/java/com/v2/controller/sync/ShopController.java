@@ -1,6 +1,5 @@
 package com.v2.controller.sync;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -23,16 +22,14 @@ import lombok.extern.slf4j.Slf4j;
 public class ShopController extends AbstractController {
 	
 	private final JdbcTemplate jdbcTemplate;
+	private final UserDao tUser;
+	private final ShopService shopService;
 
-	public ShopController(JdbcTemplate jdbcTemplate) {
+	public ShopController(JdbcTemplate jdbcTemplate, UserDao tUser, ShopService shopService) {
 		this.jdbcTemplate = jdbcTemplate;
+		this.tUser = tUser;
+		this.shopService = shopService;
 	}
-	
-	@Autowired
-	UserDao tUser;
-	
-	@Autowired
-	ShopService shopService;
 
 	/**
 	 *  出品ページ（表示）GET
@@ -89,7 +86,7 @@ public class ShopController extends AbstractController {
 			
   		// ログイン中か確認
   		if (!super.isLogin())
-  			return "redirect:/login";
+  			return "redirect:/";
   		//セッションからユーザID取得
   		super.getSessionBean();
   		
@@ -113,7 +110,7 @@ public class ShopController extends AbstractController {
   			return "shop";
   		}
   		// プロフィール情報更新
-  		shopService.doProfileShop(user, imageFile, jdbcTemplate);
+  		shopService.doProfileShop(param, imageFile, jdbcTemplate);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "error";

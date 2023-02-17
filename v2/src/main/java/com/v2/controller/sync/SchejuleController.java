@@ -3,7 +3,6 @@ package com.v2.controller.sync;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -23,14 +22,13 @@ import lombok.extern.slf4j.Slf4j;
 @Scope("request")
 public class SchejuleController extends AbstractController {
 	
-  @Autowired
-  ReserveService reserveService;
-	
-	private final JdbcTemplate jdbcTemplate;
+  private final ReserveService reserveService;
+  private final JdbcTemplate jdbcTemplate;
 
-	public SchejuleController(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
+  public SchejuleController(JdbcTemplate jdbcTemplate, ReserveService reserveService) {
+	  this.jdbcTemplate = jdbcTemplate;
+	  this.reserveService = reserveService;
+  }
 
 	/**
 	 * 予約一覧

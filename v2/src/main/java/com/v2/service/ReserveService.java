@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,8 +12,10 @@ import org.springframework.util.StringUtils;
 
 import com.v2.bean.PurchaseHist;
 import com.v2.bean.ReserveHist;
+import com.v2.bean.SalesHist;
 import com.v2.dao.PurchaseHistDao;
 import com.v2.dao.ReserveHistDao;
+import com.v2.dao.SalesDao;
 import com.v2.util.DateUtil;
 
 import lombok.extern.slf4j.Slf4j;
@@ -26,11 +27,14 @@ public class ReserveService {
   
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
-  @Autowired
-  ReserveHistDao reserveHistDao;
-
-  @Autowired
-  PurchaseHistDao purchaseHistDao;
+  private final ReserveHistDao reserveHistDao;
+  private final PurchaseHistDao purchaseHistDao;
+  private final SalesDao salesDao;
+  public ReserveService(ReserveHistDao reserveHistDao, PurchaseHistDao purchaseHistDao, SalesDao salesDao) {
+	  this.reserveHistDao = reserveHistDao;
+	  this.purchaseHistDao = purchaseHistDao;
+	  this.salesDao = salesDao;
+  }
 
   /**
    * 日程を予約する
@@ -74,11 +78,25 @@ public class ReserveService {
     purchase.amount = ticketCnt * price;
     System.out.println(purchase.toString());
     
-    
-
     // 購入履歴を登録する
     purchaseHistDao.insertPurchaseHist(purchase, jdbcTemplate);
 
+    // 売上シーテンス取得
+    int sseq = salesDao.getSequenceSalesId(jdbcTemplate);
+    
+    // 売上履歴登録
+    SalesHist salesHist = new SalesHist();
+    salesHist.salesId = sseq;
+    salesHist.id = pid;
+    salesHist.fromId = id;
+    salesHist.salesKbn = 1;
+    salesHist.amount = ticketCnt * price;
+    salesHist.salesContent = "オーダー（チケット代）";
+    salesDao.insertSalesHist(salesHist, jdbcTemplate);
+    
+    // 売上管理更新
+    salesDao.updateSalesSalesSum(pid, ticketCnt * price, jdbcTemplate);
+    
   }
   
   /**

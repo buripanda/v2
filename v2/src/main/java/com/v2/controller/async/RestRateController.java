@@ -2,7 +2,6 @@ package com.v2.controller.async;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,17 +20,14 @@ import lombok.extern.slf4j.Slf4j;
 @Scope("request")
 public class RestRateController extends AbstractController {
  
-  @Autowired
-  RateService rateService;
-  
-  @Autowired
-  HtmlService htmlService;
-
+	private final RateService rateService;
+	private final HtmlService htmlService;
   Logger logger = LoggerFactory.getLogger(RestMessageController.class);
-  
   private final JdbcTemplate jdbcTemplate;
-  public RestRateController(JdbcTemplate jdbcTemplate) {
+  public RestRateController(JdbcTemplate jdbcTemplate, RateService rateService, HtmlService htmlService) {
     this.jdbcTemplate = jdbcTemplate;
+    this.rateService = rateService;
+    this.htmlService = htmlService;
   }
 
   /**

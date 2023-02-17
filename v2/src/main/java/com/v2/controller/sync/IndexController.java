@@ -2,7 +2,6 @@ package com.v2.controller.sync;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +19,6 @@ import com.v2.bean.User;
 import com.v2.controller.AbstractController;
 import com.v2.service.ImageService;
 import com.v2.service.IndexService;
-import com.v2.service.MessageService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,24 +28,20 @@ import lombok.extern.slf4j.Slf4j;
 public class IndexController extends AbstractController {
 
 	private final JdbcTemplate jdbcTemplate;
-	
-	@Autowired
-	MessageService chatService;
-	
-	@Autowired
-	IndexService indexService;
-	
-	@Autowired
-	ImageService imageService;
-
+	private final IndexService indexService;
+	private final ImageService imageService;
 
 	/**
 	 * コンストラクタ
 	 * @param jdbcTemplate
 	 */
-	public IndexController(JdbcTemplate jdbcTemplate) {
+	public IndexController(JdbcTemplate jdbcTemplate, 
+			IndexService indexService, 
+			ImageService imageService) {
 
 		this.jdbcTemplate = jdbcTemplate;
+		this.indexService = indexService;
+		this.imageService = imageService;
 
 	}
 

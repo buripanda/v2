@@ -3,7 +3,6 @@ package com.v2.controller.sync;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -27,16 +26,12 @@ import lombok.extern.slf4j.Slf4j;
 @Scope("request")
 public class RecruitController extends AbstractController {
 	
-	@Autowired
-	RecruitService recruitService;	
-	
-	@Autowired
-	ProfileService profileService;
-	
+	private final RecruitService recruitService;	
 	private final JdbcTemplate jdbcTemplate;
 
-	public RecruitController(JdbcTemplate jdbcTemplate) {
+	public RecruitController(JdbcTemplate jdbcTemplate, RecruitService recruitService, ProfileService profileService) {
 		this.jdbcTemplate = jdbcTemplate;
+		this.recruitService = recruitService;
 	}
 
 	/**

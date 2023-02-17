@@ -3,7 +3,6 @@ package com.v2.controller.sync;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -26,19 +25,17 @@ import lombok.extern.slf4j.Slf4j;
 @Scope("request")
 public class MessageController extends AbstractController {
 	
-	@Autowired
-	MessageService messageService;
-	
-	@Autowired
-	ProfileService profileService;
-	
-	@Autowired
-	HtmlService htmlService;
-	
+	private final MessageService messageService;
+	private final ProfileService profileService;
+	private final HtmlService htmlService;
 	private final JdbcTemplate jdbcTemplate;
 
-	public MessageController(JdbcTemplate jdbcTemplate) {
+	public MessageController(JdbcTemplate jdbcTemplate, MessageService messageService, 
+			ProfileService profileService, HtmlService htmlService) {
 		this.jdbcTemplate = jdbcTemplate;
+		this.messageService = messageService;
+		this.profileService = profileService;
+		this.htmlService = htmlService;
 	}
 
 	/**

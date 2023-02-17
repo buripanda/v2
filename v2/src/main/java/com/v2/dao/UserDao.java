@@ -369,11 +369,13 @@ public class UserDao {
    * @return
    */
   public int updateProfileShop(User user, JdbcTemplate jdbcTemplate) throws Exception {
-  	
-		int cnt = jdbcTemplate.update(
+  		
+	  String sql = 
 				"UPDATE T_USER SET " +
 						"IMAGE_PATH=?, TITLE=?, PRICE=?, UPDATE_DATE=current_timestamp " +
-						"WHERE  ID=?",
+						"WHERE  ID=?";
+	  System.out.println(sql);
+		int cnt = jdbcTemplate.update(sql, 
 						user.imageFile, user.title, user.price, user.id);
   	return cnt;
   
@@ -387,11 +389,12 @@ public class UserDao {
    * @return
    */
   public int updateProfileShopNoImage(User user, JdbcTemplate jdbcTemplate) throws Exception {
-  	
-		int cnt = jdbcTemplate.update(
+  		String sql = 
 				"UPDATE T_USER SET " +
 						"TITLE=?, PRICE=?, UPDATE_DATE=current_timestamp " +
-						"WHERE  ID=?",
+						"WHERE  ID=?";
+  		System.out.println(sql);
+		int cnt = jdbcTemplate.update(sql, 
 						user.title, user.price, user.id);
   	return cnt;
   

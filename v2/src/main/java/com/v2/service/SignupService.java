@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.v2.bean.User;
+import com.v2.dao.SalesDao;
 import com.v2.dao.UserDao;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,9 @@ public class SignupService {
 	
 	@Autowired
 	ImageService imageService;
+	
+	@Autowired
+	SalesDao salesDao;
 	
 	/**
 	 * プロフィール新規登録
@@ -45,7 +49,9 @@ public class SignupService {
 		
 		// 自己紹介文新規登録
 		tUser.insertUserMessage(user, jdbcTemplate);
-
+		
+		// 売上管理新規登録
+		salesDao.insertSales(user.id, jdbcTemplate);
 		return user;
 
 	}
@@ -100,7 +106,7 @@ public class SignupService {
       user.errorMessage = "メールアドレスを入力してください";
 			return false;
 		}
-    if (user.email.length() < 100) {
+    if (user.email.length() > 100) {
       user.errorMessage = "メールアドレスは100文字以下で入力してください";
       return false;
     }

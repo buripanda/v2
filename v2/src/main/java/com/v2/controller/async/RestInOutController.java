@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.ui.ModelMap;
@@ -30,27 +29,22 @@ import lombok.extern.slf4j.Slf4j;
 @Scope("request")
 public class RestInOutController extends AbstractController {
 	
-	@Autowired
-	HtmlService htmlService;
-	
-	@Autowired
-	MessageService messageService;
-	
-	@Autowired
-	LoginService loginService;
-	
-	@Autowired
-	ProfileService profileService;
-	
-	@Autowired
-	SignupService signupService;
-	
+	private final HtmlService htmlService;
+	private final MessageService messageService;
+	private final LoginService loginService;
+	private final ProfileService profileService;
+	private final SignupService signupService;
 	Logger logger = LoggerFactory.getLogger(RestInOutController.class);
-	
 	private final JdbcTemplate jdbcTemplate;
 
-	public RestInOutController(JdbcTemplate jdbcTemplate) {
+	public RestInOutController(JdbcTemplate jdbcTemplate, HtmlService htmlService, MessageService messageService,
+			LoginService loginService, ProfileService profileService, SignupService signupService) {
 		this.jdbcTemplate = jdbcTemplate;
+		this.htmlService = htmlService;
+		this.messageService = messageService;
+		this.loginService = loginService;
+		this.profileService = profileService;
+		this.signupService = signupService;
 	}
 	
 	/**

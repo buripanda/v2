@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,20 +25,17 @@ import lombok.extern.slf4j.Slf4j;
 @Scope("request")
 public class RestReserveController extends AbstractController {
  
-  @Autowired
-  ReserveService reserveService;
-  
-  @Autowired
-  MessageService messageService;
-
-  @Autowired
-  HtmlService htmlService;
-
+	private final ReserveService reserveService;
+	private final MessageService messageService;
+	private final HtmlService htmlService;
   Logger logger = LoggerFactory.getLogger(RestMessageController.class);
-  
   private final JdbcTemplate jdbcTemplate;
-  public RestReserveController(JdbcTemplate jdbcTemplate) {
+  public RestReserveController(JdbcTemplate jdbcTemplate, ReserveService reserveService,
+		  MessageService messageService, HtmlService htmlService) {
     this.jdbcTemplate = jdbcTemplate;
+    this.reserveService = reserveService;
+    this.messageService = messageService;
+    this.htmlService = htmlService;
   }
 
   /**

@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <meta name="auther" content="v2.com" />
+  <meta name="copyright" content="Copyright (C) v2.com All Rights Reserved." />
+  <title>売上管理</title>
+  <link th:href="@{/css/root.css}" rel="stylesheet">
+  <link th:href="@{/css/include/header.css}" rel="stylesheet">
+  <link th:href="@{/css/schejule.css}" rel="stylesheet">
+  <link th:href="@{/css/include/sidemenu.css}" rel="stylesheet">
+  <link th:href="@{/css/include/footer.css}" rel="stylesheet">
+  <link th:href="@{/css/jquery.datetimepicker.min.css}" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
+      integrity="sha512-AIOTidJAcHBH2G/oZv9viEGXRqDNmfdPVPYOYKGy3fti0xIplnlgMHUGfuNRzC6FkzIo0iIxgFnr9RikFxK+sw=="
+      crossorigin="anonymous"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/header.js"></script>
+  <script src="https://kit.fontawesome.com/e737952f6c.js" crossorigin="anonymous"></script>
+  <script>
+  </script>
+</head>
+<body>
+<th:block th:replace="include/sidemenu::sidemenu"></th:block>
+<form method="post" name="recruitForm" enctype="multipart/form-data" action="recruitRegist">
+<div class="contents">
+  <th:block th:replace="include/header::header"></th:block>
+  <div class="schejule_contents">
+    <div class="page_title">売上管理</div>
+    <th:block th:each="sales, cnt: ${salesList}">
+      <div class="schejule_card">
+        <div class="schejule_card_inner">
+        <!-- 
+          <div class="card_name">[[${schejule.userName}]]</div>
+          <div class="card_datetime">[[${schejule.reserveTime}]]</div>
+          <div class="card_message"></div>
+          <div class="card_hope"></div>
+          <div class="card_price">[[${schejule.price}]]<span class="price_inner">/15分</span></div>
+           -->
+        </div>
+      </div>
+      <th:block th:if="${salesList.size == 0}">
+       <div class="no_user">売上管理情報はありませｎ</div>
+      </th:block>
+    </th:block>
+  </div>
+  <th:block th:replace="include/footer::footer"></th:block>
+</div>
+</form>
+</body>
+</html>

@@ -1,6 +1,5 @@
 package com.v2.controller.sync;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,17 +17,15 @@ import lombok.extern.slf4j.Slf4j;
 public class SessionController extends AbstractController {
 
 	private final JdbcTemplate jdbcTemplate;
-	
-	@Autowired
-	IndexService indexService;
-
+	private final IndexService indexService;
 
 	/**
 	 * コンストラクタ
 	 * @param jdbcTemplate
 	 */
-	public SessionController(JdbcTemplate jdbcTemplate) {
+	public SessionController(JdbcTemplate jdbcTemplate, IndexService indexService) {
 		this.jdbcTemplate = jdbcTemplate;
+		this.indexService = indexService;
 	}
 
 	/**

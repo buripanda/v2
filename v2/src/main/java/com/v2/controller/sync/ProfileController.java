@@ -3,7 +3,6 @@ package com.v2.controller.sync;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -26,16 +25,14 @@ import lombok.extern.slf4j.Slf4j;
 @Scope("request")
 public class ProfileController extends AbstractController {
 
-	@Autowired
-	ProfileService profileService;
-	
-	@Autowired
-	RateService rateService;
-
+	private final ProfileService profileService;
+	private final RateService rateService;
 	private final JdbcTemplate jdbcTemplate;
 
-	public ProfileController(JdbcTemplate jdbcTemplate) {
+	public ProfileController(JdbcTemplate jdbcTemplate, ProfileService profileService, RateService rateService) {
 		this.jdbcTemplate = jdbcTemplate;
+		this.profileService = profileService;
+		this.rateService = rateService;
 	}
 	
 	@GetMapping("/purchase")

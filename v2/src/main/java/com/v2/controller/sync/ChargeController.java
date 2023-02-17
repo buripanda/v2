@@ -1,6 +1,5 @@
 package com.v2.controller.sync;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -21,13 +20,12 @@ import lombok.extern.slf4j.Slf4j;
 @Scope("request")
 public class ChargeController extends AbstractController {
 
-	@Autowired
-	ChargeService chargeService;
-	
+	private final ChargeService chargeService;
 	private final JdbcTemplate jdbcTemplate;
 
-	public ChargeController(JdbcTemplate jdbcTemplate) {
+	public ChargeController(JdbcTemplate jdbcTemplate, ChargeService chargeService ) {
 		this.jdbcTemplate = jdbcTemplate;
+		this.chargeService = chargeService;
 	}
 
 	/**

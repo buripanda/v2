@@ -114,6 +114,7 @@ function loginMenu() {
 	document.getElementById('menu06').style.display = "block";
   document.getElementById('menu07').style.display = "block";
   document.getElementById('menu08').style.display = "block";
+  document.getElementById('menu09').style.display = "block";
 }
 // ログアウト中のメニュー
 function logoutMenu() {
@@ -131,5 +132,6 @@ function logoutMenu() {
 	document.getElementById('menu06').style.display = "none";
   document.getElementById('menu07').style.display = "none";
   document.getElementById('menu08').style.display = "none";
+  document.getElementById('menu09').style.display = "none";
 }
 
