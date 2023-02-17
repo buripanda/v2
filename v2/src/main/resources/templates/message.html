@@ -263,9 +263,17 @@
 			
 			// チャット入力欄の拡張
 			$('#textarea').on("input", function () {
-				let element = document.getElementById('textarea');
-				this.style.height = "auto";
-				this.style.height = `${element.scrollHeight}px`;
+			//	let element = document.getElementById('textarea');
+			//	console.log("変更前："+element.scrollHeight);
+				//this.style.height = "auto";
+			//	this.style.height = `${element.scrollHeight}px`;
+			//	console.log("変更後："+element.scrollHeight);
+					let value = document.getElementById('textarea').value;
+				    console.log("value:"+value);
+				    let rowsNum = value.split('\n').length;
+				    console.log("rowsNum:"+rowsNum);
+				    document.getElementById('textarea').rows = rowsNum;
+
 			});
 			
 			// 日付入力
@@ -306,6 +314,12 @@
 		if (status == "flex") {
 			document.getElementById('stamp_list').style.display = "none";			
 		}
+	}
+	function textarea_change(){
+		let value = document.getElementById('textarea').value;
+	    let rowsNum = value.split('\n').length;
+	    console.log("rowsNum:"+rowsNum);
+	    document.getElementById('textarea').rows = rowsNum;
 	}
 	</script>
 </head>
@@ -381,7 +395,7 @@
 				 		<img src="/image/very.jpg" class="stamp_button_img" >
 					</div>
 					<div class="message_comment">
-						<textarea name="message" placeholder="メッセージを入力" id="textarea" rows="1" class="message_comment_textarea"></textarea>
+						<textarea name="message" placeholder="メッセージを入力" id="textarea" rows="1" onChange="javascript:textarea_change();" class="message_comment_textarea"></textarea>
 					</div>
 					<div class="soshin" onclick="javascript:sendMessage('')">送信</div>
 				</div>
